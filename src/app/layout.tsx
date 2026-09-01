@@ -1,23 +1,9 @@
-import type { Metadata } from "next";
-import { Suspense } from "react";
-import "../index.css";
-import "../App.css";
-import "react-quill/dist/quill.snow.css";
-import Providers from "./providers";
+import "./globals.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-export const metadata: Metadata = {
-  title: "Orisia",
-  description: "Orisia online store",
-};
+export const metadata={title:"Orisia",description:"Orisia frontend skeleton"};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        <Suspense fallback={null}>
-          <Providers>{children}</Providers>
-        </Suspense>
-      </body>
-    </html>
-  );
+export default function RootLayout({children}:{children:React.ReactNode}){
+  return <html lang="en"><body><div className="site-shell"><Navbar/>{children}<Footer/></div></body></html>
 }

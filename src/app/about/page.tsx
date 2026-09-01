@@ -1,7 +1,2 @@
-"use client";
-
-import About from "../../pages/About";
-
-export default function Page() {
-  return <About />;
-}
+import EmptyPage from "../../components/EmptyPage";
+export default function Page(){return <EmptyPage title="About"/>}
