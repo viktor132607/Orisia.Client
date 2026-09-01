@@ -1,3 +1,5 @@
+import styles from "./calendar.module.css";
+
 const events = [
   { day: 5, title: "Фолклорна вечер", type: "Събитие", time: "19:00" },
   { day: 12, title: "Репетиция", type: "Репетиция", time: "18:30" },
@@ -8,39 +10,39 @@ const days = Array.from({ length: 30 }, (_, index) => index + 1);
 
 export default function CalendarPage() {
   return (
-    <main className="calendar-page">
-      <section className="calendar-hero">
+    <main className={styles.page}>
+      <section className={styles.hero}>
         <div className="container">
-          <span className="section-kicker">ОРИСИЯ · СЪБИТИЯ</span>
+          <span className={styles.kicker}>ОРИСИЯ · СЪБИТИЯ</span>
           <h1>Календар</h1>
           <p>Предстоящи участия, репетиции и фолклорни вечери.</p>
         </div>
       </section>
 
-      <section className="calendar-content">
-        <div className="container calendar-layout">
-          <div className="calendar-board">
-            <div className="calendar-board-header">
+      <section className={styles.content}>
+        <div className={`container ${styles.layout}`}>
+          <div className={styles.board}>
+            <div className={styles.boardHeader}>
               <div>
-                <span className="calendar-label">МЕСЕЦ</span>
+                <span className={styles.label}>МЕСЕЦ</span>
                 <h2>Септември 2026</h2>
               </div>
-              <span className="calendar-ornament" aria-hidden="true">✦</span>
+              <span className={styles.ornament} aria-hidden="true">✦</span>
             </div>
 
-            <div className="calendar-weekdays" aria-hidden="true">
+            <div className={styles.weekdays} aria-hidden="true">
               <span>ПОН</span><span>ВТО</span><span>СРЯ</span><span>ЧЕТ</span><span>ПЕТ</span><span>СЪБ</span><span>НЕД</span>
             </div>
 
-            <div className="calendar-grid">
-              <div className="calendar-cell calendar-cell-empty" />
+            <div className={styles.grid}>
+              <div className={`${styles.cell} ${styles.empty}`} />
               {days.map((day) => {
                 const event = events.find((item) => item.day === day);
                 return (
-                  <article key={day} className={`calendar-cell ${event ? "calendar-cell-event" : ""}`}>
-                    <span className="calendar-day">{day}</span>
+                  <article key={day} className={`${styles.cell} ${event ? styles.eventCell : ""}`}>
+                    <span className={styles.day}>{day}</span>
                     {event && (
-                      <div className="calendar-event-chip">
+                      <div className={styles.eventChip}>
                         <strong>{event.title}</strong>
                         <span>{event.time}</span>
                       </div>
@@ -48,24 +50,24 @@ export default function CalendarPage() {
                   </article>
                 );
               })}
-              <div className="calendar-cell calendar-cell-empty" />
-              <div className="calendar-cell calendar-cell-empty" />
-              <div className="calendar-cell calendar-cell-empty" />
-              <div className="calendar-cell calendar-cell-empty" />
+              <div className={`${styles.cell} ${styles.empty}`} />
+              <div className={`${styles.cell} ${styles.empty}`} />
+              <div className={`${styles.cell} ${styles.empty}`} />
+              <div className={`${styles.cell} ${styles.empty}`} />
             </div>
           </div>
 
-          <aside className="events-panel">
-            <span className="calendar-label">ПРЕДСТОЯЩИ</span>
+          <aside className={styles.panel}>
+            <span className={styles.label}>ПРЕДСТОЯЩИ</span>
             <h2>Събития</h2>
-            <div className="events-list">
+            <div className={styles.list}>
               {events.map((event) => (
-                <article className="event-card" key={`${event.day}-${event.title}`}>
-                  <div className="event-date-box">
+                <article className={styles.card} key={`${event.day}-${event.title}`}>
+                  <div className={styles.dateBox}>
                     <strong>{event.day}</strong>
                     <span>СЕП</span>
                   </div>
-                  <div className="event-card-copy">
+                  <div className={styles.cardCopy}>
                     <span>{event.type} · {event.time}</span>
                     <h3>{event.title}</h3>
                   </div>
