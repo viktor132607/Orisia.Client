@@ -1,7 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import AdminPanel from "../../../pages/admin/AdminPanel";
-import AdminProducts from "../../../pages/admin/Products";
+
+const AdminProducts = dynamic(() => import("../../../views/admin/Products"), {
+  ssr: false,
+});
 
 export default function Page() {
   return (
