@@ -1,6 +1,10 @@
 "use client";
 
-import ProductDetails from "../../pages/ProductDetails";
+import dynamic from "next/dynamic";
+
+const ProductDetails = dynamic(() => import("../../views/ProductDetails"), {
+  ssr: false,
+});
 
 export default function Page() {
   return <ProductDetails />;
