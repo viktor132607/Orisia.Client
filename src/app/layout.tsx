@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import DevVariantMenu from "../components/DevVariantMenu";
 
 export const metadata = {
   title: "ОРИСИЯ",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="site-shell">
           <Navbar />
+          <DevVariantMenu />
           {children}
           <Footer />
         </div>
