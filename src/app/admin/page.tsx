@@ -4,7 +4,7 @@ import styles from "./admin.module.css";
 const cards = [
   { title: "Събития", value: "3", text: "Управление на календара и предстоящите участия.", href: "/calendar" },
   { title: "Потребители", value: "—", text: "Потребителски профили и достъп до сайта.", href: "/account" },
-  { title: "Магазин", value: "—", text: "Продукти, наличности и съдържание на магазина.", href: "/shop" },
+  { title: "Контактни запитвания", value: "—", text: "Преглед и управление на съобщенията от контактната форма.", href: "/contact" },
 ];
 
 export default function AdminPage() {
@@ -43,7 +43,7 @@ export default function AdminPage() {
             <div>
               <span className={styles.label}>БЪРЗИ ДЕЙСТВИЯ</span>
               <h2>Управление на съдържанието</h2>
-              <p>Тук може да влязат редактор за събития, настройки на началната страница, галерия и потребителски роли.</p>
+              <p>Тук може да влязат редактор за събития, настройки на началната страница, галерия, контактни запитвания и потребителски роли.</p>
             </div>
             <div className={styles.actions}>
               <button type="button">Добави събитие</button>
