@@ -8,6 +8,15 @@ const LANGUAGE_KEY = "orisia-language";
 type Theme = "dark" | "light";
 type Language = "bg" | "en";
 
+function applyLanguage(language: Language) {
+  document.documentElement.lang = language;
+  document.title = language === "bg" ? "ОРИСИЯ" : "ORISIA";
+  const description = document.querySelector('meta[name="description"]');
+  if (description) {
+    description.setAttribute("content", language === "bg" ? "ОРИСИЯ — български фолклор, танц и традиция" : "ORISIA — Bulgarian folklore, dance and tradition");
+  }
+}
+
 export default function SitePreferences() {
   const [theme, setTheme] = useState<Theme>("dark");
   const [language, setLanguage] = useState<Language>("bg");
@@ -18,7 +27,7 @@ export default function SitePreferences() {
     setTheme(savedTheme);
     setLanguage(savedLanguage);
     document.documentElement.dataset.theme = savedTheme;
-    document.documentElement.lang = savedLanguage;
+    applyLanguage(savedLanguage);
   }, []);
 
   const changeTheme = (nextTheme: Theme) => {
@@ -31,7 +40,7 @@ export default function SitePreferences() {
   const changeLanguage = (nextLanguage: Language) => {
     setLanguage(nextLanguage);
     window.localStorage.setItem(LANGUAGE_KEY, nextLanguage);
-    document.documentElement.lang = nextLanguage;
+    applyLanguage(nextLanguage);
     window.dispatchEvent(new CustomEvent("orisia-language-change", { detail: { language: nextLanguage } }));
   };
 
