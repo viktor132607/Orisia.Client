@@ -54,13 +54,9 @@ export default function Navbar() {
 
     const handleVariantChange = (event: Event) => {
       const customEvent = event as CustomEvent<{ role?: AuthRole; loggedIn?: boolean; isAdmin?: boolean }>;
-      if (customEvent.detail?.role) {
-        setRole(customEvent.detail.role);
-      } else if (customEvent.detail?.isAdmin) {
-        setRole("admin");
-      } else {
-        setRole(customEvent.detail?.loggedIn ? "user" : "guest");
-      }
+      if (customEvent.detail?.role) setRole(customEvent.detail.role);
+      else if (customEvent.detail?.isAdmin) setRole("admin");
+      else setRole(customEvent.detail?.loggedIn ? "user" : "guest");
     };
 
     const handleStorage = (event: StorageEvent) => {
@@ -95,13 +91,14 @@ export default function Navbar() {
   const text = labels[language];
   const loggedIn = role !== "guest";
   const isAdmin = role === "admin";
+  const isBg = language === "bg";
 
   return (
     <header className="navbar">
       <div className="container nav-inner">
-        <Link href="/" className="brand">ОРИСИЯ</Link>
+        <Link href="/" className="brand">{isBg ? "ОРИСИЯ" : "ORISIA"}</Link>
         <div className="nav-right">
-          <nav className="nav-links" aria-label="Основна навигация">
+          <nav className="nav-links" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
             <Link href="/">{text.home}</Link>
             <Link href="/calendar">{text.calendar}</Link>
             <Link href="/gallery">{text.gallery}</Link>
