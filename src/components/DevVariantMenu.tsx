@@ -4,24 +4,40 @@ import { useEffect, useState } from "react";
 import styles from "./DevVariantMenu.module.css";
 
 const AUTH_KEY = "orisia-dev-auth";
+type AuthRole = "guest" | "user" | "admin";
 
-function setAuthVariant(loggedIn: boolean) {
-  window.localStorage.setItem(AUTH_KEY, loggedIn ? "logged-in" : "logged-out");
-  window.dispatchEvent(new CustomEvent("orisia-auth-change", { detail: { loggedIn } }));
+function readRole(value: string | null): AuthRole {
+  if (value === "admin") return "admin";
+  if (value === "logged-in" || value === "user") return "user";
+  return "guest";
+}
+
+function setAuthVariant(role: AuthRole) {
+  const storageValue = role === "guest" ? "logged-out" : role;
+  window.localStorage.setItem(AUTH_KEY, storageValue);
+  window.dispatchEvent(new CustomEvent("orisia-auth-change", {
+    detail: {
+      role,
+      loggedIn: role !== "guest",
+      isAdmin: role === "admin",
+    },
+  }));
 }
 
 export default function DevVariantMenu() {
   const [open, setOpen] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [role, setRole] = useState<AuthRole>("guest");
 
   useEffect(() => {
-    setLoggedIn(window.localStorage.getItem(AUTH_KEY) === "logged-in");
+    setRole(readRole(window.localStorage.getItem(AUTH_KEY)));
   }, []);
 
-  const changeVariant = (next: boolean) => {
-    setLoggedIn(next);
+  const changeVariant = (next: AuthRole) => {
+    setRole(next);
     setAuthVariant(next);
   };
+
+  const status = role === "admin" ? "Администратор" : role === "user" ? "Логнат потребител" : "Гост / излогнат";
 
   return (
     <div className={`${styles.shell} ${open ? styles.open : styles.closed}`}>
@@ -43,27 +59,34 @@ export default function DevVariantMenu() {
 
         <div className={styles.status}>
           <span>Текущо състояние</span>
-          <strong>{loggedIn ? "Логнат потребител" : "Гост / излогнат"}</strong>
+          <strong>{status}</strong>
         </div>
 
         <div className={styles.options}>
           <button
             type="button"
-            className={!loggedIn ? styles.active : ""}
-            onClick={() => changeVariant(false)}
+            className={role === "guest" ? styles.active : ""}
+            onClick={() => changeVariant("guest")}
           >
             Не съм логнат
           </button>
           <button
             type="button"
-            className={loggedIn ? styles.active : ""}
-            onClick={() => changeVariant(true)}
+            className={role === "user" ? styles.active : ""}
+            onClick={() => changeVariant("user")}
           >
-            Логнат съм
+            Логнат потребител
+          </button>
+          <button
+            type="button"
+            className={role === "admin" ? styles.active : ""}
+            onClick={() => changeVariant("admin")}
+          >
+            Администратор
           </button>
         </div>
 
-        <p>Временно меню само за визуално тестване на двата варианта.</p>
+        <p>Профилът на нормален потребител е отделен от администраторския достъп.</p>
       </aside>
     </div>
   );
