@@ -47,13 +47,22 @@ export const defaultFeedPosts: FeedPost[] = [
   },
 ];
 
+function migratePosts(posts: FeedPost[]) {
+  return posts.map((post) => post.id === "birthday-2026" ? { ...post, type: "event" as FeedType } : post);
+}
+
 export function readFeedPosts(): FeedPost[] {
   if (typeof window === "undefined") return defaultFeedPosts;
   const stored = window.localStorage.getItem(FEED_KEY);
   if (!stored) return defaultFeedPosts;
   try {
     const parsed = JSON.parse(stored) as FeedPost[];
-    return Array.isArray(parsed) ? parsed : defaultFeedPosts;
+    if (!Array.isArray(parsed)) return defaultFeedPosts;
+    const migrated = migratePosts(parsed);
+    if (JSON.stringify(migrated) !== JSON.stringify(parsed)) {
+      window.localStorage.setItem(FEED_KEY, JSON.stringify(migrated));
+    }
+    return migrated;
   } catch {
     return defaultFeedPosts;
   }
