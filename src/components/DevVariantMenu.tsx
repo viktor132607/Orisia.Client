@@ -49,16 +49,6 @@ export default function DevVariantMenu() {
 
   return (
     <div className={`${styles.shell} ${open ? styles.open : styles.closed}`}>
-      <button
-        type="button"
-        className={styles.toggle}
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-label={open ? (isBg ? "Скрий временното меню" : "Hide temporary menu") : (isBg ? "Покажи временното меню" : "Show temporary menu")}
-      >
-        {open ? "‹" : "›"}
-      </button>
-
       <aside className={styles.panel} aria-hidden={!open}>
         <div className={styles.header}>
           <span>DEV MENU</span>
@@ -84,6 +74,16 @@ export default function DevVariantMenu() {
 
         <p>{isBg ? "Профилът на нормален потребител е отделен от администраторския достъп." : "A regular user profile is separate from administrator access."}</p>
       </aside>
+
+      <button
+        type="button"
+        className={styles.toggle}
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-label={open ? (isBg ? "Скрий временното меню" : "Hide temporary menu") : (isBg ? "Покажи временното меню" : "Show temporary menu")}
+      >
+        {open ? "‹" : "›"}
+      </button>
     </div>
   );
 }
