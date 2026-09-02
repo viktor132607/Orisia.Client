@@ -15,6 +15,7 @@ export default function Footer() {
           <nav className={styles.links} aria-label="Навигация във футъра">
             <Link href="/">Начало</Link>
             <Link href="/calendar">Календар</Link>
+            <Link href="/gallery">Галерия</Link>
             <Link href="/about">За ОРИСИЯ</Link>
             <Link href="/contact">Контакти</Link>
           </nav>
@@ -30,7 +31,9 @@ export default function Footer() {
       <div className={styles.bottom}>
         <div className={`container ${styles.bottomInner}`}>
           <span>© 2026 ОРИСИЯ. Всички права запазени.</span>
-          <span className={styles.creator}>Site created by <strong>Viktor Iliev</strong></span>
+          <span className={styles.creator}>
+            Site created by <a href="https://viktor-iliev.site/portfolio/" target="_blank" rel="noreferrer"><strong>Viktor Iliev</strong></a>
+          </span>
         </div>
       </div>
     </footer>
