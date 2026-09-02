@@ -44,7 +44,7 @@ export default function HorotekaAdminPage() {
                 </div>
                 <div className={styles.field}>
                   <label htmlFor="dance-rhythm">{isBg ? "Размер / ритъм" : "Meter / rhythm"}</label>
-                  <input id="dance-rhythm" name="rhythm" type="text" placeholder="E.g. 7/8" />
+                  <input id="dance-rhythm" name="rhythm" type="text" placeholder={isBg ? "Напр. 7/8" : "E.g. 7/8"} />
                 </div>
               </div>
               <div className={styles.field}>
