@@ -3,6 +3,7 @@
 import Link from "next/link";
 import birthdayStyles from "./HomeGateBirthday.module.css";
 import useLanguage from "./useLanguage";
+import HomeFeed from "./HomeFeed";
 
 export default function HomeGate() {
   const language = useLanguage();
@@ -17,7 +18,7 @@ export default function HomeGate() {
           <h1>{isBg ? <>Добре дошли<br />в механата на танца</> : <>Welcome<br />to the tavern of dance</>}</h1>
           <p>{isBg ? "Отвори вратата към фолклора." : "Open the door to folklore."}</p>
           <div className="hero-actions">
-            <Link href="#programa" className="hero-btn hero-btn-primary">{isBg ? "Виж програмата" : "See the program"}</Link>
+            <Link href="#programa" className="hero-btn hero-btn-primary">{isBg ? "Виж новините" : "See updates"}</Link>
             <Link href="/about" className="hero-btn hero-btn-secondary">{isBg ? "За ОРИСИЯ" : "About ORISIA"}</Link>
           </div>
         </div>
@@ -41,18 +42,7 @@ export default function HomeGate() {
         </div>
       </section>
 
-      <section className="tavern-section" id="programa">
-        <div className="container tavern-section-inner">
-          <span className="section-kicker">{isBg ? "КОНЦЕПЦИЯ" : "CONCEPT"}</span>
-          <h2>{isBg ? "Сайт като вход към българска вечер" : "A website as an entrance to a Bulgarian evening"}</h2>
-          <p className="section-lead">{isBg ? "Традиция, събор, механа и празник — поднесени като една обща атмосфера още от първия екран." : "Tradition, folklore gatherings, tavern atmosphere and celebration — brought together from the very first screen."}</p>
-          <div className="tavern-cards">
-            <article className="tavern-card"><span>01</span><h3>{isBg ? "Традиция" : "Tradition"}</h3><p>{isBg ? "Фолклорният характер води визията, типографията и декоративните детайли." : "The folklore character guides the visual style, typography and decorative details."}</p></article>
-            <article className="tavern-card"><span>02</span><h3>{isBg ? "Програма" : "Program"}</h3><p>{isBg ? "Място за предстоящи участия, събития и вечери на ОРИСИЯ." : "A place for upcoming performances, events and ORISIA evenings."}</p></article>
-            <article className="tavern-card"><span>03</span><h3>{isBg ? "Механа" : "Tavern"}</h3><p>{isBg ? "Топла дървена палитра, златни акценти и усещане за вход към стара българска механа." : "A warm wooden palette, golden accents and the feeling of entering an old Bulgarian tavern."}</p></article>
-          </div>
-        </div>
-      </section>
+      <HomeFeed />
     </main>
   );
 }
