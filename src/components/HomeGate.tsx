@@ -1,28 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import birthdayStyles from "./HomeGateBirthday.module.css";
 import useLanguage from "./useLanguage";
 
 export default function HomeGate() {
-  const [open, setOpen] = useState(false);
   const language = useLanguage();
   const isBg = language === "bg";
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setOpen(true), 650);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.dataset.gates = open ? "open" : "closed";
-    window.dispatchEvent(new CustomEvent("orisia-gates-change", { detail: { open } }));
-  }, [open]);
-
   return (
     <main className="home-page">
-      <section className={`gate-stage ${open ? "gates-open" : ""}`} aria-label={isBg ? "Вход към ОРИСИЯ" : "Entrance to ORISIA"}>
+      <section className="gate-stage gates-open" aria-label={isBg ? "Начална страница на ОРИСИЯ" : "ORISIA homepage"}>
         <div className="tavern-glow" aria-hidden="true" />
         <div className="tavern-copy">
           <span className="hero-kicker">{isBg ? "ОРИСИЯ · БЪЛГАРСКИ ФОЛКЛОР" : "ORISIA · BULGARIAN FOLKLORE"}</span>
@@ -33,26 +21,6 @@ export default function HomeGate() {
             <Link href="/about" className="hero-btn hero-btn-secondary">{isBg ? "За ОРИСИЯ" : "About ORISIA"}</Link>
           </div>
         </div>
-
-        <div className="gate-arch" aria-hidden="true" />
-        <div className="gate-doors" aria-hidden="true">
-          <div className="gate-door gate-door-left">
-            <span className="door-brace door-brace-top" />
-            <span className="door-brace door-brace-bottom" />
-            <span className="door-handle door-handle-left" />
-          </div>
-          <div className="gate-door gate-door-right">
-            <span className="door-brace door-brace-top" />
-            <span className="door-brace door-brace-bottom" />
-            <span className="door-handle door-handle-right" />
-          </div>
-        </div>
-
-        {!open && (
-          <button className="gate-open-button" type="button" onClick={() => setOpen(true)}>
-            {isBg ? "Отвори портите" : "Open the gates"}
-          </button>
-        )}
       </section>
 
       <section className={birthdayStyles.section} aria-label={isBg ? "Трети рожден ден на ОРИСИЯ" : "ORISIA third birthday"}>
