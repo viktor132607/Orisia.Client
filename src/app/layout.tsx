@@ -2,6 +2,7 @@ import "./globals.css";
 import "./site-controls.css";
 import "./preferences-compact.css";
 import "./mobile.css";
+import "./navbar-overrides.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
