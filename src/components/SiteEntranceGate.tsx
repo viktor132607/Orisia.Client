@@ -12,6 +12,7 @@ export default function SiteEntranceGate() {
   const isBg = language === "bg";
   const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
+  const openingRef = useRef(false);
   const closingTimer = useRef<number | null>(null);
 
   const finishEntrance = useCallback(() => {
@@ -22,11 +23,12 @@ export default function SiteEntranceGate() {
   }, []);
 
   const openGates = useCallback(() => {
-    if (open) return;
+    if (openingRef.current) return;
+    openingRef.current = true;
     setOpen(true);
     window.localStorage.setItem(ENTERED_KEY, "true");
     closingTimer.current = window.setTimeout(finishEntrance, ANIMATION_TIME);
-  }, [finishEntrance, open]);
+  }, [finishEntrance]);
 
   useEffect(() => {
     const entered = window.localStorage.getItem(ENTERED_KEY) === "true";
