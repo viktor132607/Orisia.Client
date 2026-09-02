@@ -46,6 +46,7 @@ export default function Navbar() {
           <Link href="/">Начало</Link>
           <Link href="/calendar">Календар</Link>
           <Link href="/gallery">Галерия</Link>
+          <Link href="/horoteka">Хоротека</Link>
           <Link href="/about">За ОРИСИЯ</Link>
           <Link href="/contact">Контакти</Link>
           <Link href="/admin" className="login-link">Админ</Link>
