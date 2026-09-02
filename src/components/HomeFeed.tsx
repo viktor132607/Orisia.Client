@@ -13,6 +13,7 @@ const typeLabels: Record<FeedType, { bg: string; en: string }> = {
   blog: { bg: "Блог", en: "Blog" },
   group: { bg: "Група", en: "Group update" },
   schedule: { bg: "График", en: "Schedule" },
+  event: { bg: "Събитие", en: "Event" },
 };
 
 function formatDate(date: string, isBg: boolean) {
@@ -66,7 +67,7 @@ export default function HomeFeed() {
             <span className={styles.kicker}>{isBg ? "ОРИСИЯ · FEED" : "ORISIA · FEED"}</span>
             <h2>{isBg ? "Какво се случва" : "What is happening"}</h2>
           </div>
-          <p>{isBg ? "Новини, отчети, снимки, графици, блогове и важни ъпдейти от живота на ОРИСИЯ." : "News, reports, photos, schedules, blog posts and important updates from ORISIA."}</p>
+          <p>{isBg ? "Събития, новини, отчети, снимки, графици, блогове и важни ъпдейти от живота на ОРИСИЯ." : "Events, news, reports, photos, schedules, blog posts and important updates from ORISIA."}</p>
         </div>
 
         <div className={styles.layout}>
