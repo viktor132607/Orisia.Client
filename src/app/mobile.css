@@ -35,6 +35,18 @@ html,body{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}button,
   .tavern-card{min-height:auto!important;padding:22px!important}
   .tavern-card h3{margin-top:16px!important;font-size:25px!important}
 
+  main *{box-sizing:border-box}
+  main:not(.home-page)>section:first-child{padding:44px 0 34px!important}
+  main:not(.home-page)>section:first-child h1{font-size:clamp(38px,11vw,46px)!important;line-height:1.03!important;overflow-wrap:anywhere}
+  main:not(.home-page)>section:first-child p{font-size:15px!important;line-height:1.55!important}
+  main:not(.home-page)>section:not(:first-child){padding-top:34px!important;padding-bottom:54px!important}
+  main:not(.home-page) h2{font-size:clamp(28px,8vw,36px);overflow-wrap:anywhere}
+  main:not(.home-page) h3{overflow-wrap:anywhere}
+  main:not(.home-page) form,main:not(.home-page) article,main:not(.home-page) aside{max-width:100%}
+  main:not(.home-page) input,main:not(.home-page) textarea,main:not(.home-page) select{max-width:100%;font-size:16px!important}
+  main:not(.home-page) textarea{min-height:120px}
+  main:not(.home-page) button,main:not(.home-page) a{max-width:100%}
+
   .page{padding:30px 0!important}
   .auth-wrap{max-width:100%}
   .auth-card{padding:22px!important}
@@ -73,6 +85,8 @@ html,body{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}button,
   .preference-switch-label{font-size:8.5px;padding:0 5px}
   .tavern-copy h1{font-size:clamp(37px,11.5vw,50px)!important}
   .tavern-copy{padding-top:78px!important}
+  main:not(.home-page)>section:first-child{padding:38px 0 30px!important}
+  main:not(.home-page)>section:not(:first-child){padding-top:30px!important;padding-bottom:46px!important}
   .cookie-actions{grid-template-columns:1fr}
 }
 
@@ -87,6 +101,7 @@ html,body{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}button,
   .tavern-copy{width:calc(100% - 24px)!important;padding-left:4px!important;padding-right:4px!important}
   .tavern-copy h1{font-size:38px!important}
   .hero-btn{width:100%!important}
+  main:not(.home-page)>section:first-child h1{font-size:36px!important}
 }
 
 @supports(padding:max(0px)){
