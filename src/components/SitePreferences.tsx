@@ -13,7 +13,12 @@ function applyLanguage(language: Language) {
   document.title = language === "bg" ? "ОРИСИЯ" : "ORISIA";
   const description = document.querySelector('meta[name="description"]');
   if (description) {
-    description.setAttribute("content", language === "bg" ? "ОРИСИЯ — български фолклор, танц и традиция" : "ORISIA — Bulgarian folklore, dance and tradition");
+    description.setAttribute(
+      "content",
+      language === "bg"
+        ? "ОРИСИЯ — български фолклор, танц и традиция"
+        : "ORISIA — Bulgarian folklore, dance and tradition"
+    );
   }
 }
 
@@ -30,14 +35,16 @@ export default function SitePreferences() {
     applyLanguage(savedLanguage);
   }, []);
 
-  const changeTheme = (nextTheme: Theme) => {
+  const toggleTheme = () => {
+    const nextTheme: Theme = theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
     window.localStorage.setItem(THEME_KEY, nextTheme);
     document.documentElement.dataset.theme = nextTheme;
     window.dispatchEvent(new CustomEvent("orisia-theme-change", { detail: { theme: nextTheme } }));
   };
 
-  const changeLanguage = (nextLanguage: Language) => {
+  const toggleLanguage = () => {
+    const nextLanguage: Language = language === "bg" ? "en" : "bg";
     setLanguage(nextLanguage);
     window.localStorage.setItem(LANGUAGE_KEY, nextLanguage);
     applyLanguage(nextLanguage);
@@ -45,17 +52,34 @@ export default function SitePreferences() {
   };
 
   const isBg = language === "bg";
+  const isLight = theme === "light";
+  const isEnglish = language === "en";
 
   return (
     <div className="site-preferences" aria-label={isBg ? "Настройки на сайта" : "Site settings"}>
-      <div className="preference-group" aria-label={isBg ? "Тема" : "Theme"}>
-        <button type="button" className={theme === "dark" ? "preference-btn active" : "preference-btn"} onClick={() => changeTheme("dark")} aria-pressed={theme === "dark"}>{isBg ? "Тъмна" : "Dark"}</button>
-        <button type="button" className={theme === "light" ? "preference-btn active" : "preference-btn"} onClick={() => changeTheme("light")} aria-pressed={theme === "light"}>{isBg ? "Светла" : "Light"}</button>
-      </div>
-      <div className="preference-group" aria-label={isBg ? "Език" : "Language"}>
-        <button type="button" className={language === "bg" ? "preference-btn active" : "preference-btn"} onClick={() => changeLanguage("bg")} aria-pressed={language === "bg"}>BG</button>
-        <button type="button" className={language === "en" ? "preference-btn active" : "preference-btn"} onClick={() => changeLanguage("en")} aria-pressed={language === "en"}>EN</button>
-      </div>
+      <button
+        type="button"
+        className={`preference-switch ${isLight ? "is-right" : ""}`}
+        onClick={toggleTheme}
+        aria-label={isBg ? "Смени тъмна и светла тема" : "Toggle dark and light theme"}
+        aria-pressed={isLight}
+      >
+        <span className="preference-switch-label">{isBg ? "Тъмна" : "Dark"}</span>
+        <span className="preference-switch-label">{isBg ? "Светла" : "Light"}</span>
+        <span className="preference-switch-thumb" aria-hidden="true" />
+      </button>
+
+      <button
+        type="button"
+        className={`preference-switch preference-switch-language ${isEnglish ? "is-right" : ""}`}
+        onClick={toggleLanguage}
+        aria-label={isBg ? "Смени езика между български и английски" : "Toggle Bulgarian and English"}
+        aria-pressed={isEnglish}
+      >
+        <span className="preference-switch-label">BG</span>
+        <span className="preference-switch-label">EN</span>
+        <span className="preference-switch-thumb" aria-hidden="true" />
+      </button>
     </div>
   );
 }
