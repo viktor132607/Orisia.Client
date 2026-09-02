@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
+import CookieBanner from "../components/CookieBanner";
 
 export const metadata = {
   title: "ОРИСИЯ",
@@ -10,13 +11,14 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="bg">
+    <html lang="bg" data-theme="dark">
       <body>
         <div className="site-shell">
           <Navbar />
           <DevVariantMenu />
           {children}
           <Footer />
+          <CookieBanner />
         </div>
       </body>
     </html>
