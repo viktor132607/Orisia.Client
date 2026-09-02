@@ -1,4 +1,4 @@
-export type FeedType = "report" | "news" | "photos" | "blog" | "group" | "schedule";
+export type FeedType = "report" | "news" | "photos" | "blog" | "group" | "schedule" | "event";
 
 export type FeedPost = {
   id: string;
@@ -18,7 +18,7 @@ export const FEED_EVENT = "orisia-home-feed-change";
 export const defaultFeedPosts: FeedPost[] = [
   {
     id: "birthday-2026",
-    type: "news",
+    type: "event",
     titleBg: "3 години ОРИСИЯ",
     titleEn: "3 years of ORISIA",
     bodyBg: "На 18.09.2026 празнуваме три години танц, приятелства и български фолклор.",
