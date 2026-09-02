@@ -14,7 +14,7 @@ export default function GalleryPage() {
     { title: isBg ? "Събори" : "Folklore gatherings", subtitle: isBg ? "Български празници" : "Bulgarian celebrations", size: "small" },
     { title: isBg ? "Зад кулисите" : "Behind the scenes", subtitle: isBg ? "Моменти от подготовката" : "Moments from the preparation", size: "small" },
     { title: isBg ? "Специални събития" : "Special events", subtitle: isBg ? "Гостувания и участия" : "Guest appearances and performances", size: "wide" },
-    { title: "ОРИСИЯ", subtitle: isBg ? "Хората зад танца" : "The people behind the dance", size: "small" },
+    { title: isBg ? "ОРИСИЯ" : "ORISIA", subtitle: isBg ? "Хората зад танца" : "The people behind the dance", size: "small" },
   ];
 
   return (
