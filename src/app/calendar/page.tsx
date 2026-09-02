@@ -1,21 +1,29 @@
-import styles from "./calendar.module.css";
+"use client";
 
-const events = [
-  { day: 5, title: "Фолклорна вечер", type: "Събитие", time: "19:00" },
-  { day: 12, title: "Репетиция", type: "Репетиция", time: "18:30" },
-  { day: 19, title: "Участие на ОРИСИЯ", type: "Участие", time: "20:00" },
-];
+import styles from "./calendar.module.css";
+import useLanguage from "../../components/useLanguage";
 
 const days = Array.from({ length: 30 }, (_, index) => index + 1);
 
 export default function CalendarPage() {
+  const language = useLanguage();
+  const isBg = language === "bg";
+
+  const events = [
+    { day: 5, title: isBg ? "Фолклорна вечер" : "Folklore evening", type: isBg ? "Събитие" : "Event", time: "19:00" },
+    { day: 12, title: isBg ? "Репетиция" : "Rehearsal", type: isBg ? "Репетиция" : "Rehearsal", time: "18:30" },
+    { day: 19, title: isBg ? "Участие на ОРИСИЯ" : "ORISIA performance", type: isBg ? "Участие" : "Performance", time: "20:00" },
+  ];
+
+  const weekdays = isBg ? ["ПОН", "ВТО", "СРЯ", "ЧЕТ", "ПЕТ", "СЪБ", "НЕД"] : ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
         <div className="container">
-          <span className={styles.kicker}>ОРИСИЯ · СЪБИТИЯ</span>
-          <h1>Календар</h1>
-          <p>Предстоящи участия, репетиции и фолклорни вечери.</p>
+          <span className={styles.kicker}>{isBg ? "ОРИСИЯ · СЪБИТИЯ" : "ORISIA · EVENTS"}</span>
+          <h1>{isBg ? "Календар" : "Calendar"}</h1>
+          <p>{isBg ? "Предстоящи участия, репетиции и фолклорни вечери." : "Upcoming performances, rehearsals and folklore evenings."}</p>
         </div>
       </section>
 
@@ -24,14 +32,14 @@ export default function CalendarPage() {
           <div className={styles.board}>
             <div className={styles.boardHeader}>
               <div>
-                <span className={styles.label}>МЕСЕЦ</span>
-                <h2>Септември 2026</h2>
+                <span className={styles.label}>{isBg ? "МЕСЕЦ" : "MONTH"}</span>
+                <h2>{isBg ? "Септември 2026" : "September 2026"}</h2>
               </div>
               <span className={styles.ornament} aria-hidden="true">✦</span>
             </div>
 
             <div className={styles.weekdays} aria-hidden="true">
-              <span>ПОН</span><span>ВТО</span><span>СРЯ</span><span>ЧЕТ</span><span>ПЕТ</span><span>СЪБ</span><span>НЕД</span>
+              {weekdays.map((day) => <span key={day}>{day}</span>)}
             </div>
 
             <div className={styles.grid}>
@@ -58,14 +66,14 @@ export default function CalendarPage() {
           </div>
 
           <aside className={styles.panel}>
-            <span className={styles.label}>ПРЕДСТОЯЩИ</span>
-            <h2>Събития</h2>
+            <span className={styles.label}>{isBg ? "ПРЕДСТОЯЩИ" : "UPCOMING"}</span>
+            <h2>{isBg ? "Събития" : "Events"}</h2>
             <div className={styles.list}>
               {events.map((event) => (
                 <article className={styles.card} key={`${event.day}-${event.title}`}>
                   <div className={styles.dateBox}>
                     <strong>{event.day}</strong>
-                    <span>СЕП</span>
+                    <span>{isBg ? "СЕП" : "SEP"}</span>
                   </div>
                   <div className={styles.cardCopy}>
                     <span>{event.type} · {event.time}</span>
