@@ -1,5 +1,5 @@
-import AdminSectionPlaceholder from "../../../components/AdminSectionPlaceholder";
+import AdminHomeFeed from "../../../components/AdminHomeFeed";
 
 export default function AdminHomePage() {
-  return <AdminSectionPlaceholder title="Начална страница" description="Управление на основните текстове, секции и акценти на началната страница." titleEn="Homepage" descriptionEn="Manage the main homepage texts, sections and highlights." />;
+  return <AdminHomeFeed />;
 }
