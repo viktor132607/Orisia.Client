@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./site-controls.css";
+import "./preferences-compact.css";
 import "./mobile.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
