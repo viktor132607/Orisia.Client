@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.main}`}>
         <div className={styles.brandBlock}>
-          <Link href="/" className={styles.brand}>ОРИСИЯ</Link>
+          <Link href="/" className={styles.brand}>{isBg ? "ОРИСИЯ" : "ORISIA"}</Link>
           <p className={styles.description}>{isBg ? "Български фолклор – танц, традиция и събития с характер." : "Bulgarian folklore – dance, tradition and events with character."}</p>
         </div>
 
@@ -38,7 +38,7 @@ export default function Footer() {
         <div className={`container ${styles.bottomInner}`}>
           <span>{isBg ? "© 2026 ОРИСИЯ. Всички права запазени." : "© 2026 ORISIA. All rights reserved."}</span>
           <span className={styles.creator}>
-            Site created by <a href="https://viktor-iliev.site/portfolio/" target="_blank" rel="noreferrer"><strong>Viktor Iliev</strong></a>
+            {isBg ? "Сайтът е създаден от " : "Site created by "}<a href="https://viktor-iliev.site/portfolio/" target="_blank" rel="noreferrer"><strong>Viktor Iliev</strong></a>
           </span>
         </div>
       </div>
