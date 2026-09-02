@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import birthdayStyles from "./HomeGateBirthday.module.css";
 
 export default function HomeGate() {
   const [open, setOpen] = useState(false);
@@ -46,18 +47,18 @@ export default function HomeGate() {
         )}
       </section>
 
-      <section className="birthday-section" aria-label="Трети рожден ден на ОРИСИЯ">
-        <div className="container birthday-inner">
-          <div className="birthday-date">
+      <section className={birthdayStyles.section} aria-label="Трети рожден ден на ОРИСИЯ">
+        <div className={`container ${birthdayStyles.inner}`}>
+          <div className={birthdayStyles.date}>
             <span>18.09</span>
             <strong>2026</strong>
           </div>
-          <div className="birthday-copy">
-            <span className="section-kicker">СПЕЦИАЛЕН ПОВОД</span>
+          <div className={birthdayStyles.copy}>
+            <span>СПЕЦИАЛЕН ПОВОД</span>
             <h2>3 години ОРИСИЯ</h2>
             <p>Три години танц, хора, приятелства и споделени български вечери. На 18 септември празнуваме рождения ден на ОРИСИЯ.</p>
           </div>
-          <div className="birthday-badge">
+          <div className={birthdayStyles.badge}>
             <strong>3</strong>
             <span>ГОДИНИ</span>
           </div>
