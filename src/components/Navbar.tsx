@@ -108,10 +108,10 @@ export default function Navbar() {
           <Link href="/about">{text.about}</Link>
           <Link href="/contact">{text.contacts}</Link>
           {isAdmin && <Link href="/admin">{text.admin}</Link>}
-          {loggedIn && <Link href="/account">{text.profile}</Link>}
         </nav>
 
         <div className="nav-actions">
+          {loggedIn && <Link href="/account" className="nav-profile-link">{text.profile}</Link>}
           {loggedIn ? (
             <Link href="/" className="login-link nav-auth-button" onClick={logout}>{text.logout}</Link>
           ) : (
