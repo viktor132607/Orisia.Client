@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./site-controls.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
