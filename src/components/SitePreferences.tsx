@@ -35,13 +35,15 @@ export default function SitePreferences() {
     window.dispatchEvent(new CustomEvent("orisia-language-change", { detail: { language: nextLanguage } }));
   };
 
+  const isBg = language === "bg";
+
   return (
-    <div className="site-preferences" aria-label="Настройки на сайта">
-      <div className="preference-group" aria-label="Тема">
-        <button type="button" className={theme === "dark" ? "preference-btn active" : "preference-btn"} onClick={() => changeTheme("dark")} aria-pressed={theme === "dark"}>Тъмна</button>
-        <button type="button" className={theme === "light" ? "preference-btn active" : "preference-btn"} onClick={() => changeTheme("light")} aria-pressed={theme === "light"}>Светла</button>
+    <div className="site-preferences" aria-label={isBg ? "Настройки на сайта" : "Site settings"}>
+      <div className="preference-group" aria-label={isBg ? "Тема" : "Theme"}>
+        <button type="button" className={theme === "dark" ? "preference-btn active" : "preference-btn"} onClick={() => changeTheme("dark")} aria-pressed={theme === "dark"}>{isBg ? "Тъмна" : "Dark"}</button>
+        <button type="button" className={theme === "light" ? "preference-btn active" : "preference-btn"} onClick={() => changeTheme("light")} aria-pressed={theme === "light"}>{isBg ? "Светла" : "Light"}</button>
       </div>
-      <div className="preference-group" aria-label="Език">
+      <div className="preference-group" aria-label={isBg ? "Език" : "Language"}>
         <button type="button" className={language === "bg" ? "preference-btn active" : "preference-btn"} onClick={() => changeLanguage("bg")} aria-pressed={language === "bg"}>BG</button>
         <button type="button" className={language === "en" ? "preference-btn active" : "preference-btn"} onClick={() => changeLanguage("en")} aria-pressed={language === "en"}>EN</button>
       </div>
