@@ -21,6 +21,10 @@ export default function ContactPage() {
             <p>Опишете накратко какво ви интересува и оставете удобен начин за обратна връзка.</p>
             <div className={styles.introItems}>
               <div className={styles.introItem}>
+                <strong>Адрес</strong>
+                <span>гр. Русе, ул. Родина 80 (на гърба на боулинг залата), Русе, България, 7000</span>
+              </div>
+              <div className={styles.introItem}>
                 <strong>Участия и събития</strong>
                 <span>Покани, програма и организация на участия.</span>
               </div>
