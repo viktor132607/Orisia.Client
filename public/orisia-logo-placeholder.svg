@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="56" viewBox="0 0 180 56" role="img" aria-labelledby="title desc">
+  <title id="title">ORISIA logo placeholder</title>
+  <desc id="desc">Temporary placeholder image for the future ORISIA logo.</desc>
+  <rect x="1" y="1" width="178" height="54" rx="6" fill="#24140c" stroke="#9b6b38" stroke-width="2"/>
+  <rect x="8" y="8" width="42" height="40" rx="4" fill="#3d2414" stroke="#b77c39"/>
+  <path d="M18 36l8-9 6 6 7-10 6 13H18z" fill="#d7aa66" opacity=".9"/>
+  <circle cx="38" cy="19" r="4" fill="#d7aa66"/>
+  <text x="61" y="25" font-family="Georgia, serif" font-size="15" font-weight="700" letter-spacing="2" fill="#f0d29a">LOGO</text>
+  <text x="61" y="40" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1.5" fill="#a98963">PLACEHOLDER</text>
+</svg>
