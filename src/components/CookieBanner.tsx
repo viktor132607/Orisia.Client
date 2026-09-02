@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const COOKIE_KEY = "orisia-cookie-consent";
 const LANGUAGE_KEY = "orisia-language";
+const ENTERED_KEY = "orisia-site-entered";
 
 type Language = "bg" | "en";
 
@@ -24,17 +24,15 @@ const copy = {
 };
 
 export default function CookieBanner() {
-  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [language, setLanguage] = useState<Language>("bg");
 
   useEffect(() => {
     const hasConsent = Boolean(window.localStorage.getItem(COOKIE_KEY));
-    const isHome = pathname === "/";
-    const gatesOpen = document.documentElement.dataset.gates === "open";
+    const hasEntered = window.localStorage.getItem(ENTERED_KEY) === "true";
 
     setLanguage(window.localStorage.getItem(LANGUAGE_KEY) === "en" ? "en" : "bg");
-    setVisible(!hasConsent && (!isHome || gatesOpen));
+    setVisible(!hasConsent && hasEntered && document.documentElement.dataset.gates === "open");
 
     const handleLanguage = (event: Event) => {
       const detail = (event as CustomEvent<{ language?: Language }>).detail;
@@ -42,7 +40,7 @@ export default function CookieBanner() {
     };
 
     const handleGates = (event: Event) => {
-      if (pathname !== "/" || window.localStorage.getItem(COOKIE_KEY)) return;
+      if (window.localStorage.getItem(COOKIE_KEY)) return;
       const detail = (event as CustomEvent<{ open?: boolean }>).detail;
       setVisible(Boolean(detail?.open));
     };
@@ -54,7 +52,7 @@ export default function CookieBanner() {
       window.removeEventListener("orisia-language-change", handleLanguage);
       window.removeEventListener("orisia-gates-change", handleGates);
     };
-  }, [pathname]);
+  }, []);
 
   const saveConsent = (value: "necessary" | "all") => {
     window.localStorage.setItem(COOKIE_KEY, value);
