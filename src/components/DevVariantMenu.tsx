@@ -33,6 +33,7 @@ export default function DevVariantMenu() {
 
   useEffect(() => {
     setRole(readRole(window.localStorage.getItem(AUTH_KEY)));
+    if (window.matchMedia("(max-width: 760px)").matches) setOpen(false);
   }, []);
 
   const changeVariant = (next: AuthRole) => {
