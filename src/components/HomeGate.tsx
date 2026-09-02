@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import birthdayStyles from "./HomeGateBirthday.module.css";
 import useLanguage from "./useLanguage";
 import HomeFeed from "./HomeFeed";
@@ -11,19 +10,6 @@ export default function HomeGate() {
 
   return (
     <main className="home-page">
-      <section className="gate-stage gates-open" aria-label={isBg ? "Начална страница на ОРИСИЯ" : "ORISIA homepage"}>
-        <div className="tavern-glow" aria-hidden="true" />
-        <div className="tavern-copy">
-          <span className="hero-kicker">{isBg ? "ОРИСИЯ · БЪЛГАРСКИ ФОЛКЛОР" : "ORISIA · BULGARIAN FOLKLORE"}</span>
-          <h1>{isBg ? <>Добре дошли<br />в механата на танца</> : <>Welcome<br />to the tavern of dance</>}</h1>
-          <p>{isBg ? "Отвори вратата към фолклора." : "Open the door to folklore."}</p>
-          <div className="hero-actions">
-            <Link href="#programa" className="hero-btn hero-btn-primary">{isBg ? "Виж новините" : "See updates"}</Link>
-            <Link href="/about" className="hero-btn hero-btn-secondary">{isBg ? "За ОРИСИЯ" : "About ORISIA"}</Link>
-          </div>
-        </div>
-      </section>
-
       <section className={birthdayStyles.section} aria-label={isBg ? "Трети рожден ден на ОРИСИЯ" : "ORISIA third birthday"}>
         <div className={`container ${birthdayStyles.inner}`}>
           <div className={birthdayStyles.date}>
