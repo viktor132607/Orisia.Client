@@ -112,12 +112,16 @@ export default function Navbar() {
 
         <div className="nav-actions">
           <SitePreferences />
-          {loggedIn && <Link href="/account" className="nav-profile-link">{text.profile}</Link>}
-          {loggedIn ? (
-            <Link href="/" className="login-link nav-auth-button" onClick={logout}>{text.logout}</Link>
-          ) : (
-            <Link href="/login" className="login-link nav-auth-button">{text.login}</Link>
-          )}
+          <span className="nav-profile-slot">
+            {loggedIn ? <Link href="/account" className="nav-profile-link">{text.profile}</Link> : null}
+          </span>
+          <span className="nav-auth-slot">
+            {loggedIn ? (
+              <Link href="/" className="login-link nav-auth-button" onClick={logout}>{text.logout}</Link>
+            ) : (
+              <Link href="/login" className="login-link nav-auth-button">{text.login}</Link>
+            )}
+          </span>
         </div>
       </div>
     </header>
