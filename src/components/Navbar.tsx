@@ -99,24 +99,24 @@ export default function Navbar() {
         <Link href="/" className="brand brand-logo-link" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
           <img className="brand-logo-image" src="/orisia-logo-placeholder.svg" alt={isBg ? "Placeholder за логото на ОРИСИЯ" : "ORISIA logo placeholder"} />
         </Link>
-        <div className="nav-right">
-          <nav className="nav-links" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
-            <Link href="/">{text.home}</Link>
-            <Link href="/calendar">{text.calendar}</Link>
-            <Link href="/gallery">{text.gallery}</Link>
-            <Link href="/horoteka">{text.horoteka}</Link>
-            <Link href="/about">{text.about}</Link>
-            <Link href="/contact">{text.contacts}</Link>
-            {isAdmin && <Link href="/admin" className="login-link">{text.admin}</Link>}
-            {loggedIn ? (
-              <>
-                <Link href="/account">{text.profile}</Link>
-                <Link href="/" className="login-link" onClick={logout}>{text.logout}</Link>
-              </>
-            ) : (
-              <Link href="/login" className="login-link">{text.login}</Link>
-            )}
-          </nav>
+
+        <nav className="nav-links nav-main-links" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
+          <Link href="/">{text.home}</Link>
+          <Link href="/calendar">{text.calendar}</Link>
+          <Link href="/gallery">{text.gallery}</Link>
+          <Link href="/horoteka">{text.horoteka}</Link>
+          <Link href="/about">{text.about}</Link>
+          <Link href="/contact">{text.contacts}</Link>
+          {isAdmin && <Link href="/admin">{text.admin}</Link>}
+          {loggedIn && <Link href="/account">{text.profile}</Link>}
+        </nav>
+
+        <div className="nav-actions">
+          {loggedIn ? (
+            <Link href="/" className="login-link nav-auth-button" onClick={logout}>{text.logout}</Link>
+          ) : (
+            <Link href="/login" className="login-link nav-auth-button">{text.login}</Link>
+          )}
           <SitePreferences />
         </div>
       </div>
