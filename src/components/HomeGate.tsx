@@ -15,6 +15,11 @@ export default function HomeGate() {
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    document.documentElement.dataset.gates = open ? "open" : "closed";
+    window.dispatchEvent(new CustomEvent("orisia-gates-change", { detail: { open } }));
+  }, [open]);
+
   return (
     <main className="home-page">
       <section className={`gate-stage ${open ? "gates-open" : ""}`} aria-label={isBg ? "Вход към ОРИСИЯ" : "Entrance to ORISIA"}>
