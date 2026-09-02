@@ -23,7 +23,7 @@ export default function Footer() {
 
         <div>
           <span className={styles.heading}>Контакти</span>
-          <p className={styles.contactText}>За участия, партньорства и въпроси използвайте контактната форма.</p>
+          <p className={styles.contactText}>гр. Русе, ул. Родина 80 (на гърба на боулинг залата), Русе, България, 7000</p>
           <Link href="/contact" className={styles.contactLink}>Изпрати запитване</Link>
         </div>
       </div>
