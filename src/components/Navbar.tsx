@@ -8,6 +8,7 @@ const AUTH_KEY = "orisia-dev-auth";
 const LANGUAGE_KEY = "orisia-language";
 
 type Language = "bg" | "en";
+type AuthRole = "guest" | "user" | "admin";
 
 const labels = {
   bg: {
@@ -36,18 +37,30 @@ const labels = {
   },
 };
 
+function getRole(value: string | null): AuthRole {
+  if (value === "admin") return "admin";
+  if (value === "logged-in" || value === "user") return "user";
+  return "guest";
+}
+
 export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [role, setRole] = useState<AuthRole>("guest");
   const [language, setLanguage] = useState<Language>("bg");
 
   useEffect(() => {
     const readVariant = () => {
-      setLoggedIn(window.localStorage.getItem(AUTH_KEY) === "logged-in");
+      setRole(getRole(window.localStorage.getItem(AUTH_KEY)));
     };
 
     const handleVariantChange = (event: Event) => {
-      const customEvent = event as CustomEvent<{ loggedIn?: boolean }>;
-      setLoggedIn(Boolean(customEvent.detail?.loggedIn));
+      const customEvent = event as CustomEvent<{ role?: AuthRole; loggedIn?: boolean; isAdmin?: boolean }>;
+      if (customEvent.detail?.role) {
+        setRole(customEvent.detail.role);
+      } else if (customEvent.detail?.isAdmin) {
+        setRole("admin");
+      } else {
+        setRole(customEvent.detail?.loggedIn ? "user" : "guest");
+      }
     };
 
     const handleStorage = (event: StorageEvent) => {
@@ -75,11 +88,13 @@ export default function Navbar() {
 
   const logout = () => {
     window.localStorage.setItem(AUTH_KEY, "logged-out");
-    setLoggedIn(false);
-    window.dispatchEvent(new CustomEvent("orisia-auth-change", { detail: { loggedIn: false } }));
+    setRole("guest");
+    window.dispatchEvent(new CustomEvent("orisia-auth-change", { detail: { role: "guest", loggedIn: false, isAdmin: false } }));
   };
 
   const text = labels[language];
+  const loggedIn = role !== "guest";
+  const isAdmin = role === "admin";
 
   return (
     <header className="navbar">
@@ -93,7 +108,7 @@ export default function Navbar() {
             <Link href="/horoteka">{text.horoteka}</Link>
             <Link href="/about">{text.about}</Link>
             <Link href="/contact">{text.contacts}</Link>
-            <Link href="/admin" className="login-link">{text.admin}</Link>
+            {isAdmin && <Link href="/admin" className="login-link">{text.admin}</Link>}
             {loggedIn ? (
               <>
                 <Link href="/account">{text.profile}</Link>
