@@ -4,6 +4,7 @@ import "./preferences-compact.css";
 import "./mobile.css";
 import "./navbar-overrides.css";
 import "./entrance-gate.css";
+import "./flat-theme.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
