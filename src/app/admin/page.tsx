@@ -3,6 +3,7 @@ import styles from "./admin.module.css";
 
 const cards = [
   { title: "Събития", value: "3", text: "Управление на календара и предстоящите участия.", href: "/calendar" },
+  { title: "Хоротека", value: "—", text: "Кратки клипове и информация за български хора.", href: "/admin/horoteka" },
   { title: "Потребители", value: "—", text: "Потребителски профили и достъп до сайта.", href: "/account" },
   { title: "Контактни запитвания", value: "—", text: "Преглед и управление на съобщенията от контактната форма.", href: "/contact" },
 ];
@@ -43,10 +44,11 @@ export default function AdminPage() {
             <div>
               <span className={styles.label}>БЪРЗИ ДЕЙСТВИЯ</span>
               <h2>Управление на съдържанието</h2>
-              <p>Тук може да влязат редактор за събития, настройки на началната страница, галерия, контактни запитвания и потребителски роли.</p>
+              <p>Тук може да влязат редактор за събития, хоротека, настройки на началната страница, галерия, контактни запитвания и потребителски роли.</p>
             </div>
             <div className={styles.actions}>
               <button type="button">Добави събитие</button>
+              <Link href="/admin/horoteka">Добави хоро</Link>
               <button type="button">Редактирай начална страница</button>
               <button type="button">Управление на потребители</button>
             </div>
