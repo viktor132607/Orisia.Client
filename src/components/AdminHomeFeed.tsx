@@ -6,6 +6,7 @@ import useLanguage from "./useLanguage";
 import { FeedPost, FeedType, readFeedPosts, writeFeedPosts } from "./homeFeedStore";
 
 const typeOptions: Array<{ value: FeedType; bg: string; en: string }> = [
+  { value: "event", bg: "Събитие", en: "Event" },
   { value: "report", bg: "Отчет", en: "Report" },
   { value: "news", bg: "Новина", en: "News" },
   { value: "photos", bg: "Снимки", en: "Photos" },
@@ -102,7 +103,7 @@ export default function AdminHomeFeed() {
             <span className={styles.kicker}>{isBg ? "ОРИСИЯ · НАЧАЛНА СТРАНИЦА" : "ORISIA · HOMEPAGE"}</span>
             <h1>{isBg ? "Feed и публикации" : "Feed and posts"}</h1>
           </div>
-          <p>{isBg ? "Публикувай отчети, новини, снимки, блогове, групови ъпдейти и графици. Маркираните като важни влизат в slideshow-а." : "Publish reports, news, photos, blog posts, group updates and schedules. Featured posts appear in the slideshow."}</p>
+          <p>{isBg ? "Публикувай събития, отчети, новини, снимки, блогове, групови ъпдейти и графици. Маркираните като важни влизат в slideshow-а." : "Publish events, reports, news, photos, blog posts, group updates and schedules. Featured posts appear in the slideshow."}</p>
         </div>
 
         <div className={styles.layout}>
