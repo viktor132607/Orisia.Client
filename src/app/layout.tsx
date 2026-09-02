@@ -3,10 +3,12 @@ import "./site-controls.css";
 import "./preferences-compact.css";
 import "./mobile.css";
 import "./navbar-overrides.css";
+import "./entrance-gate.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
 import CookieBanner from "../components/CookieBanner";
+import SiteEntranceGate from "../components/SiteEntranceGate";
 
 export const metadata = {
   title: "ОРИСИЯ",
@@ -17,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="bg" data-theme="dark">
       <body>
+        <SiteEntranceGate />
         <div className="site-shell">
           <Navbar />
           <DevVariantMenu />
