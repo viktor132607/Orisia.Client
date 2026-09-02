@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./DevVariantMenu.module.css";
+import useLanguage from "./useLanguage";
 
 const AUTH_KEY = "orisia-dev-auth";
 type AuthRole = "guest" | "user" | "admin";
@@ -27,6 +28,8 @@ function setAuthVariant(role: AuthRole) {
 export default function DevVariantMenu() {
   const [open, setOpen] = useState(true);
   const [role, setRole] = useState<AuthRole>("guest");
+  const language = useLanguage();
+  const isBg = language === "bg";
 
   useEffect(() => {
     setRole(readRole(window.localStorage.getItem(AUTH_KEY)));
@@ -37,7 +40,11 @@ export default function DevVariantMenu() {
     setAuthVariant(next);
   };
 
-  const status = role === "admin" ? "Администратор" : role === "user" ? "Логнат потребител" : "Гост / излогнат";
+  const status = role === "admin"
+    ? (isBg ? "Администратор" : "Administrator")
+    : role === "user"
+      ? (isBg ? "Логнат потребител" : "Logged-in user")
+      : (isBg ? "Гост / излогнат" : "Guest / logged out");
 
   return (
     <div className={`${styles.shell} ${open ? styles.open : styles.closed}`}>
@@ -46,7 +53,7 @@ export default function DevVariantMenu() {
         className={styles.toggle}
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        aria-label={open ? "Скрий временното меню" : "Покажи временното меню"}
+        aria-label={open ? (isBg ? "Скрий временното меню" : "Hide temporary menu") : (isBg ? "Покажи временното меню" : "Show temporary menu")}
       >
         {open ? "‹" : "›"}
       </button>
@@ -54,39 +61,27 @@ export default function DevVariantMenu() {
       <aside className={styles.panel} aria-hidden={!open}>
         <div className={styles.header}>
           <span>DEV MENU</span>
-          <strong>Вариант на сайта</strong>
+          <strong>{isBg ? "Вариант на сайта" : "Site variant"}</strong>
         </div>
 
         <div className={styles.status}>
-          <span>Текущо състояние</span>
+          <span>{isBg ? "Текущо състояние" : "Current state"}</span>
           <strong>{status}</strong>
         </div>
 
         <div className={styles.options}>
-          <button
-            type="button"
-            className={role === "guest" ? styles.active : ""}
-            onClick={() => changeVariant("guest")}
-          >
-            Не съм логнат
+          <button type="button" className={role === "guest" ? styles.active : ""} onClick={() => changeVariant("guest")}>
+            {isBg ? "Не съм логнат" : "Logged out"}
           </button>
-          <button
-            type="button"
-            className={role === "user" ? styles.active : ""}
-            onClick={() => changeVariant("user")}
-          >
-            Логнат потребител
+          <button type="button" className={role === "user" ? styles.active : ""} onClick={() => changeVariant("user")}>
+            {isBg ? "Логнат потребител" : "Logged-in user"}
           </button>
-          <button
-            type="button"
-            className={role === "admin" ? styles.active : ""}
-            onClick={() => changeVariant("admin")}
-          >
-            Администратор
+          <button type="button" className={role === "admin" ? styles.active : ""} onClick={() => changeVariant("admin")}>
+            {isBg ? "Администратор" : "Administrator"}
           </button>
         </div>
 
-        <p>Профилът на нормален потребител е отделен от администраторския достъп.</p>
+        <p>{isBg ? "Профилът на нормален потребител е отделен от администраторския достъп." : "A regular user profile is separate from administrator access."}</p>
       </aside>
     </div>
   );
