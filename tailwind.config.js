@@ -22,6 +22,7 @@ export default {
       fontFamily: {
         serif: ["Georgia", "Times New Roman", "serif"],
         sans: ["Arial", "Helvetica", "sans-serif"],
+        condensed: ["Roboto Condensed", "Arial Narrow", "Arial", "sans-serif"],
       },
       boxShadow: {
         soft: "0 12px 28px rgba(0,0,0,.16)",
