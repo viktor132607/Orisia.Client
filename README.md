@@ -2,6 +2,16 @@
 
 Static Next.js export client configured to connect to the matching ASP.NET Core Web API backend.
 
+## Frontend styling rule
+
+**Tailwind CSS is mandatory for all frontend styling in this repository.**
+
+- Use Tailwind utility classes for components, pages, layouts, responsive behavior, light/dark themes and state styling.
+- Do not add CSS Modules or page/component-specific `.css` files.
+- Do not add `styled-jsx`, CSS-in-JS, or React inline style objects for normal UI styling.
+- `src/app/globals.css` is reserved only for Tailwind directives and minimal global/base utilities that cannot reasonably live in component class names.
+- New UI work and refactors must preserve this Tailwind-only rule.
+
 ## Local run
 
 ```bash
