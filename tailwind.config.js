@@ -1,31 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  darkMode: "class",
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: "#effefb",
-          100: "#ccfbf1",
-          200: "#99f6e4",
-          300: "#5eead4",
-          400: "#2dd4bf",
-          500: "#14b8a6",
-          600: "#0d9488",
-          700: "#0f766e",
-          800: "#115e59",
-          900: "#134e4a",
-          950: "#042f2e",
+        orisia: {
+          ink: "#1B191A",
+          cream: "#efe3d1",
+          paper: "#fffaf2",
+          brown: "#4b2e1b",
+          gold: "#c5894d",
+          goldDark: "#8e5b32",
+          line: "#c9a578",
+          dark: "#140c08",
+          panel: "#1d110b",
+          muted: "#a98c69",
+          light: "#f3e9df",
         },
       },
       fontFamily: {
-        display: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["Georgia", "Times New Roman", "serif"],
+        sans: ["Arial", "Helvetica", "sans-serif"],
+      },
+      boxShadow: {
+        soft: "0 12px 28px rgba(0,0,0,.16)",
       },
     },
   },

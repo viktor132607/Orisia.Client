@@ -1,10 +1,4 @@
 import "./globals.css";
-import "./site-controls.css";
-import "./preferences-compact.css";
-import "./mobile.css";
-import "./navbar-overrides.css";
-import "./entrance-gate.css";
-import "./flat-theme.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
@@ -23,10 +17,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="bg" data-theme="dark">
+    <html lang="bg" className="dark" data-theme="dark" suppressHydrationWarning>
       <body>
         <SiteEntranceGate />
-        <div className="site-shell">
+        <div className="min-h-screen pt-20 bg-orisia-cream dark:bg-orisia-dark">
           <Navbar />
           <DevVariantMenu />
           {children}

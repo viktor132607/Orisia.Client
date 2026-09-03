@@ -1,66 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./admin.module.css";
 import useLanguage from "../../components/useLanguage";
 
 export default function AdminPage() {
-  const language = useLanguage();
-  const isBg = language === "bg";
-
-  const cards = [
-    { title: isBg ? "Събития" : "Events", value: "3", text: isBg ? "Управление на календара и предстоящите участия." : "Manage the calendar and upcoming performances.", href: "/admin/events" },
-    { title: isBg ? "Хоротека" : "Dance Library", value: "—", text: isBg ? "Кратки клипове и информация за български хора." : "Short clips and information about Bulgarian horo dances.", href: "/admin/horoteka" },
-    { title: isBg ? "Потребители" : "Users", value: "—", text: isBg ? "Потребителски профили и достъп до сайта." : "User profiles and access to the site.", href: "/admin/users" },
-    { title: isBg ? "Контактни запитвания" : "Contact inquiries", value: "—", text: isBg ? "Преглед и управление на съобщенията от контактната форма." : "Review and manage messages from the contact form.", href: "/admin/messages" },
-  ];
-
-  return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className="container">
-          <span className={styles.kicker}>{isBg ? "ОРИСИЯ · УПРАВЛЕНИЕ" : "ORISIA · MANAGEMENT"}</span>
-          <div className={styles.heroRow}>
-            <div>
-              <h1>{isBg ? "Админ панел" : "Admin panel"}</h1>
-              <p>{isBg ? "Временна начална структура за управление на съдържанието." : "Temporary starting structure for content management."}</p>
-            </div>
-            <Link href="/" className={styles.backButton}>{isBg ? "Към сайта" : "Back to site"}</Link>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.content}>
-        <div className="container">
-          <div className={styles.notice}>{isBg ? "DEV версия · контролите все още не са свързани с backend." : "DEV version · controls are not yet connected to the backend."}</div>
-          <div className={styles.grid}>
-            {cards.map((card) => (
-              <article className={styles.card} key={card.title}>
-                <div className={styles.cardTop}>
-                  <span>{card.title}</span>
-                  <strong>{card.value}</strong>
-                </div>
-                <p>{card.text}</p>
-                <Link href={card.href}>{isBg ? "Отвори" : "Open"}</Link>
-              </article>
-            ))}
-          </div>
-
-          <div className={styles.workspace}>
-            <div>
-              <span className={styles.label}>{isBg ? "БЪРЗИ ДЕЙСТВИЯ" : "QUICK ACTIONS"}</span>
-              <h2>{isBg ? "Управление на съдържанието" : "Content management"}</h2>
-              <p>{isBg ? "Тук може да влязат редактор за събития, хоротека, настройки на началната страница, галерия, контактни запитвания и потребителски роли." : "This area can include an event editor, dance library, homepage settings, gallery, contact inquiries and user roles."}</p>
-            </div>
-            <div className={styles.actions}>
-              <Link href="/admin/events">{isBg ? "Добави събитие" : "Add event"}</Link>
-              <Link href="/admin/horoteka">{isBg ? "Добави хоро" : "Add dance"}</Link>
-              <Link href="/admin/home">{isBg ? "Редактирай начална страница" : "Edit homepage"}</Link>
-              <Link href="/admin/users">{isBg ? "Управление на потребители" : "Manage users"}</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+  const language=useLanguage(); const isBg=language==="bg";
+  const cards=[{title:isBg?"Събития":"Events",value:"3",text:isBg?"Управление на календара и предстоящите участия.":"Manage the calendar and upcoming performances.",href:"/admin/events"},{title:isBg?"Хоротека":"Dance Library",value:"—",text:isBg?"Кратки клипове и информация за български хора.":"Short clips and information about Bulgarian horo dances.",href:"/admin/horoteka"},{title:isBg?"Потребители":"Users",value:"—",text:isBg?"Потребителски профили и достъп до сайта.":"User profiles and access to the site.",href:"/admin/users"},{title:isBg?"Контактни запитвания":"Contact inquiries",value:"—",text:isBg?"Преглед и управление на съобщенията от контактната форма.":"Review and manage messages from the contact form.",href:"/admin/messages"}];
+  return <main className="bg-orisia-cream dark:bg-orisia-dark"><section className="border-b border-orisia-line bg-[#e8d5bb] py-12 dark:border-[#574333] dark:bg-[#1a100a]"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><span className="font-sans text-[10px] font-black uppercase tracking-[.2em] text-orisia-goldDark">{isBg?"ОРИСИЯ · УПРАВЛЕНИЕ":"ORISIA · MANAGEMENT"}</span><div className="mt-2 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div><h1 className="text-4xl font-bold sm:text-5xl">{isBg?"Админ панел":"Admin panel"}</h1><p className="mt-2 font-sans text-sm text-[#725b47] dark:text-[#a98c69]">{isBg?"Временна начална структура за управление на съдържанието.":"Temporary starting structure for content management."}</p></div><Link href="/" className="border border-orisia-goldDark px-4 py-2 font-sans text-xs font-bold uppercase tracking-wide text-orisia-goldDark hover:bg-orisia-gold hover:text-white">{isBg?"Към сайта":"Back to site"}</Link></div></div></section><section className="py-10"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><div className="mb-5 border border-orisia-line bg-[#f1dfc4] px-4 py-3 font-sans text-xs text-[#684a32] dark:border-[#604a39] dark:bg-[#28180f] dark:text-[#c8ad83]">{isBg?"DEV версия · контролите все още не са свързани с backend.":"DEV version · controls are not yet connected to the backend."}</div><div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">{cards.map(card=><article className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel" key={card.title}><div className="flex items-start justify-between gap-3"><span className="font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark">{card.title}</span><strong className="text-3xl">{card.value}</strong></div><p className="mt-4 min-h-12 font-sans text-sm leading-6 text-[#725b47] dark:text-[#a98c69]">{card.text}</p><Link className="mt-5 inline-block font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark hover:underline" href={card.href}>{isBg?"Отвори":"Open"}</Link></article>)}</div><div className="mt-6 grid gap-6 border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel lg:grid-cols-[1fr_auto]"><div><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg?"БЪРЗИ ДЕЙСТВИЯ":"QUICK ACTIONS"}</span><h2 className="mt-2 text-3xl font-bold">{isBg?"Управление на съдържанието":"Content management"}</h2><p className="mt-3 max-w-3xl font-sans text-sm leading-6 text-[#725b47] dark:text-[#a98c69]">{isBg?"Тук може да влязат редактор за събития, хоротека, настройки на началната страница, галерия, контактни запитвания и потребителски роли.":"This area can include an event editor, dance library, homepage settings, gallery, contact inquiries and user roles."}</p></div><div className="grid gap-2 sm:grid-cols-2 lg:w-[360px]">{[["/admin/events",isBg?"Добави събитие":"Add event"],["/admin/horoteka",isBg?"Добави хоро":"Add dance"],["/admin/home",isBg?"Редактирай начална страница":"Edit homepage"],["/admin/users",isBg?"Управление на потребители":"Manage users"]].map(([href,label])=><Link className="flex items-center justify-center border border-orisia-line px-3 py-3 text-center font-sans text-xs font-bold dark:border-[#604a39]" href={href} key={href}>{label}</Link>)}</div></div></div></section></main>;
 }

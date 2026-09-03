@@ -32,19 +32,15 @@ export default function SiteEntranceGate() {
 
   useEffect(() => {
     const entered = window.localStorage.getItem(ENTERED_KEY) === "true";
-
     if (entered) {
       document.documentElement.dataset.gates = "open";
       window.dispatchEvent(new CustomEvent("orisia-gates-change", { detail: { open: true } }));
       return;
     }
-
     document.documentElement.dataset.gates = "closed";
     document.body.classList.add("entrance-locked");
     setVisible(true);
-
     const autoOpen = window.setTimeout(openGates, OPEN_DELAY);
-
     return () => {
       window.clearTimeout(autoOpen);
       if (closingTimer.current) window.clearTimeout(closingTimer.current);
@@ -55,27 +51,20 @@ export default function SiteEntranceGate() {
   if (!visible) return null;
 
   return (
-    <div className={`site-entrance-gate ${open ? "gates-open entrance-open" : ""}`} aria-label={isBg ? "Вход към ОРИСИЯ" : "Entrance to ORISIA"}>
-      <div className="entrance-gate-stage">
-        <div className="gate-arch" aria-hidden="true" />
-        <div className="gate-doors" aria-hidden="true">
-          <div className="gate-door gate-door-left">
-            <span className="door-brace door-brace-top" />
-            <span className="door-brace door-brace-bottom" />
-            <span className="door-handle door-handle-left" />
-          </div>
-          <div className="gate-door gate-door-right">
-            <span className="door-brace door-brace-top" />
-            <span className="door-brace door-brace-bottom" />
-            <span className="door-handle door-handle-right" />
-          </div>
+    <div className="fixed inset-0 z-[10000] overflow-hidden bg-[#0c0704]" aria-label={isBg ? "Вход към ОРИСИЯ" : "Entrance to ORISIA"}>
+      <div className="relative h-full w-full overflow-hidden border-[6px] border-[#6f4929]">
+        <div className="pointer-events-none absolute inset-x-[10%] top-0 z-20 h-20 border-x-2 border-b-2 border-[#9b6b38] bg-[#1b100a]" aria-hidden="true" />
+        <div className={`absolute inset-y-0 left-0 z-10 w-1/2 origin-left border-r border-[#9b6b38] bg-[#64391e] transition-transform duration-[1650ms] ease-in-out ${open ? "-translate-x-[105%]" : "translate-x-0"}`} aria-hidden="true">
+          <span className="absolute left-[8%] right-[2%] top-[27%] h-4 -rotate-6 bg-[#272323] shadow-soft" />
+          <span className="absolute bottom-[23%] left-[8%] right-[2%] h-4 rotate-[-8deg] bg-[#272323] shadow-soft" />
+          <span className="absolute right-2 top-1/2 h-7 w-2 -translate-y-1/2 rounded-full border border-[#d5a35a]" />
         </div>
-
-        {!open && (
-          <button className="gate-open-button entrance-open-button" type="button" onClick={openGates}>
-            {isBg ? "Отвори портите" : "Open the gates"}
-          </button>
-        )}
+        <div className={`absolute inset-y-0 right-0 z-10 w-1/2 origin-right border-l border-[#9b6b38] bg-[#64391e] transition-transform duration-[1650ms] ease-in-out ${open ? "translate-x-[105%]" : "translate-x-0"}`} aria-hidden="true">
+          <span className="absolute left-[2%] right-[8%] top-[27%] h-4 rotate-6 bg-[#272323] shadow-soft" />
+          <span className="absolute bottom-[23%] left-[2%] right-[8%] h-4 rotate-[8deg] bg-[#272323] shadow-soft" />
+          <span className="absolute left-2 top-1/2 h-7 w-2 -translate-y-1/2 rounded-full border border-[#d5a35a]" />
+        </div>
+        {!open && <button className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 border border-[#b77c39] bg-[#8e5b32] px-6 py-3 font-sans text-xs font-black uppercase tracking-wider text-white shadow-soft hover:bg-[#a96b38]" type="button" onClick={openGates}>{isBg ? "Отвори портите" : "Open the gates"}</button>}
       </div>
     </div>
   );

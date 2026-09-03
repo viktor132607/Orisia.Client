@@ -1,65 +1,16 @@
 "use client";
 
-import styles from "./about.module.css";
 import useLanguage from "../../components/useLanguage";
-
 const lecturers = [0, 1, 2];
 
 export default function AboutPage() {
-  const language = useLanguage();
-  const isBg = language === "bg";
-
-  return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className="container">
-          <span className={styles.kicker}>{isBg ? "ОРИСИЯ · ЗА НАС" : "ORISIA · ABOUT US"}</span>
-          <h1>{isBg ? "За ОРИСИЯ" : "About ORISIA"}</h1>
-          <p>{isBg ? "Място за български фолклор, танц и хора, които искат да пазят традицията жива и да я споделят заедно." : "A place for Bulgarian folklore, dance and people who want to keep tradition alive and share it together."}</p>
-        </div>
-      </section>
-
-      <section className={styles.story}>
-        <div className={`container ${styles.storyGrid}`}>
-          <article className={styles.panel}>
-            <span className={styles.sectionLabel}>{isBg ? "КОИ СМЕ НИЕ" : "WHO WE ARE"}</span>
-            <h2>{isBg ? "Танц, традиция и общност" : "Dance, tradition and community"}</h2>
-            <p>{isBg ? "ОРИСИЯ събира хора около българските народни танци, репетициите, участията и фолклорните събития. Тази страница ще се развива с историята, целите и важните моменти на клуба." : "ORISIA brings people together around Bulgarian folk dances, rehearsals, performances and folklore events. This page will grow with the club's history, goals and important moments."}</p>
-          </article>
-          <article className={styles.panel}>
-            <span className={styles.sectionLabel}>{isBg ? "КЪДЕ СМЕ" : "WHERE WE ARE"}</span>
-            <h2>{isBg ? "Русе" : "Ruse"}</h2>
-            <p>{isBg ? "гр. Русе, ул. Родина 80, на гърба на боулинг залата. Тук се срещаме, репетираме и подготвяме следващите си участия." : "80 Rodina St., behind the bowling hall, Ruse. This is where we meet, rehearse and prepare for our next performances."}</p>
-          </article>
-        </div>
-      </section>
-
-      <section className={styles.lecturers}>
-        <div className="container">
-          <div className={styles.sectionHead}>
-            <div>
-              <span className={styles.sectionLabel}>{isBg ? "ЕКИП" : "TEAM"}</span>
-              <h2>{isBg ? "Нашите лектори" : "Our instructors"}</h2>
-            </div>
-            <p>{isBg ? "Хората, които водят заниманията, показват стъпките и предават характера на българските хора." : "The people who lead the sessions, teach the steps and pass on the character of Bulgarian horo dances."}</p>
-          </div>
-
-          <div className={styles.grid}>
-            {lecturers.map((index) => (
-              <article className={styles.card} key={index}>
-                <div className={styles.portrait}>{isBg ? "Снимка на лектор" : "Instructor photo"}</div>
-                <div className={styles.cardBody}>
-                  <span>{isBg ? "Лектор" : "Instructor"}</span>
-                  <h3>{isBg ? "Име на лектор" : "Instructor name"}</h3>
-                  <p>{isBg ? "Кратко представяне на лектора, опита му и фолклорните области или хора, с които работи." : "A short introduction to the instructor, their experience and the folklore regions or dances they work with."}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className={styles.note}>{isBg ? "Имената, снимките и точните представяния са оставени като placeholder-и, защото в проекта няма записани данни за лекторите." : "Names, photos and exact bios are left as placeholders because the project does not yet contain instructor details."}</div>
-        </div>
-      </section>
-    </main>
-  );
+  const language = useLanguage(); const isBg = language === "bg";
+  return <main className="bg-orisia-cream text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light">
+    <section className="border-b border-orisia-line bg-[#e8d5bb] py-16 dark:border-[#574333] dark:bg-[#1a100a]"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ОРИСИЯ · ЗА НАС" : "ORISIA · ABOUT US"}</span><h1 className="mt-3 text-5xl font-bold sm:text-7xl">{isBg ? "За ОРИСИЯ" : "About ORISIA"}</h1><p className="mt-4 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#c6a77d]">{isBg ? "Място за български фолклор, танц и хора, които искат да пазят традицията жива и да я споделят заедно." : "A place for Bulgarian folklore, dance and people who want to keep tradition alive and share it together."}</p></div></section>
+    <section className="py-14"><div className="mx-auto grid w-full max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">{[
+      [isBg ? "КОИ СМЕ НИЕ" : "WHO WE ARE", isBg ? "Танц, традиция и общност" : "Dance, tradition and community", isBg ? "ОРИСИЯ събира хора около българските народни танци, репетициите, участията и фолклорните събития. Тази страница ще се развива с историята, целите и важните моменти на клуба." : "ORISIA brings people together around Bulgarian folk dances, rehearsals, performances and folklore events. This page will grow with the club's history, goals and important moments."],
+      [isBg ? "КЪДЕ СМЕ" : "WHERE WE ARE", isBg ? "Русе" : "Ruse", isBg ? "гр. Русе, ул. Родина 80, на гърба на боулинг залата. Тук се срещаме, репетираме и подготвяме следващите си участия." : "80 Rodina St., behind the bowling hall, Ruse. This is where we meet, rehearse and prepare for our next performances."]
+    ].map(([label,title,text]) => <article key={label} className="border border-orisia-line bg-orisia-paper p-8 shadow-sm dark:border-[#604a39] dark:bg-orisia-panel"><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark dark:text-[#c79551]">{label}</span><h2 className="mt-3 text-3xl font-bold">{title}</h2><p className="mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]">{text}</p></article>)}</div></section>
+    <section className="pb-20"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ЕКИП" : "TEAM"}</span><h2 className="mt-2 text-4xl font-bold sm:text-5xl">{isBg ? "Нашите лектори" : "Our instructors"}</h2></div><p className="max-w-xl font-sans text-sm leading-6 text-[#725b47] dark:text-[#a98c69]">{isBg ? "Хората, които водят заниманията, показват стъпките и предават характера на българските хора." : "The people who lead the sessions, teach the steps and pass on the character of Bulgarian horo dances."}</p></div><div className="grid gap-5 md:grid-cols-3">{lecturers.map((index) => <article className="overflow-hidden border border-orisia-line bg-orisia-paper dark:border-[#604a39] dark:bg-orisia-panel" key={index}><div className="grid aspect-[4/3] place-items-center border-b border-orisia-line bg-[#e5d2b7] font-sans text-xs font-bold uppercase tracking-wide text-[#8a6c4c] dark:border-[#604a39] dark:bg-[#28180f]">{isBg ? "Снимка на лектор" : "Instructor photo"}</div><div className="p-6"><span className="font-sans text-[10px] font-black uppercase tracking-[.15em] text-orisia-goldDark">{isBg ? "Лектор" : "Instructor"}</span><h3 className="mt-2 text-2xl font-bold">{isBg ? "Име на лектор" : "Instructor name"}</h3><p className="mt-2 font-sans text-sm leading-6 text-[#725b47] dark:text-[#ab906c]">{isBg ? "Кратко представяне на лектора, опита му и фолклорните области или хора, с които работи." : "A short introduction to the instructor, their experience and the folklore regions or dances they work with."}</p></div></article>)}</div><div className="mt-5 border border-dashed border-orisia-line p-4 font-sans text-xs text-[#806a55] dark:border-[#604a39] dark:text-[#8f7658]">{isBg ? "Имената, снимките и точните представяния са оставени като placeholder-и, защото в проекта няма записани данни за лекторите." : "Names, photos and exact bios are left as placeholders because the project does not yet contain instructor details."}</div></div></section>
+  </main>;
 }

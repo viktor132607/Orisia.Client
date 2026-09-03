@@ -1,80 +1,9 @@
 "use client";
 
-import styles from "./contact.module.css";
 import useLanguage from "../../components/useLanguage";
 
 export default function ContactPage() {
-  const language = useLanguage();
-  const isBg = language === "bg";
-
-  return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className="container">
-          <span className={styles.kicker}>{isBg ? "ОРИСИЯ · КОНТАКТИ" : "ORISIA · CONTACTS"}</span>
-          <h1>{isBg ? "Свържете се с нас" : "Contact us"}</h1>
-          <p>{isBg ? "За участия, събития, партньорства или друг въпрос изпратете запитване чрез формата." : "For performances, events, partnerships or any other question, send us an inquiry through the form."}</p>
-        </div>
-      </section>
-
-      <section className={styles.content}>
-        <div className={`container ${styles.layout}`}>
-          <aside className={styles.intro}>
-            <span className={styles.label}>{isBg ? "КОНТАКТ" : "CONTACT"}</span>
-            <h2>{isBg ? "Нека поговорим" : "Let's talk"}</h2>
-            <p>{isBg ? "Опишете накратко какво ви интересува и оставете удобен начин за обратна връзка." : "Briefly tell us what you are interested in and leave a convenient way for us to get back to you."}</p>
-            <div className={styles.introItems}>
-              <div className={styles.introItem}>
-                <strong>{isBg ? "Адрес" : "Address"}</strong>
-                <span>{isBg ? "гр. Русе, ул. Родина 80 (на гърба на боулинг залата), Русе, България, 7000" : "80 Rodina St. (behind the bowling hall), Ruse, Bulgaria, 7000"}</span>
-              </div>
-              <div className={styles.introItem}>
-                <strong>{isBg ? "Участия и събития" : "Performances and events"}</strong>
-                <span>{isBg ? "Покани, програма и организация на участия." : "Invitations, schedules and event organization."}</span>
-              </div>
-              <div className={styles.introItem}>
-                <strong>{isBg ? "Партньорства" : "Partnerships"}</strong>
-                <span>{isBg ? "Идеи за съвместни инициативи и фолклорни проекти." : "Ideas for joint initiatives and folklore projects."}</span>
-              </div>
-              <div className={styles.introItem}>
-                <strong>{isBg ? "Общи въпроси" : "General questions"}</strong>
-                <span>{isBg ? "Информация за ОРИСИЯ, дейността и предстоящите събития." : "Information about ORISIA, our activities and upcoming events."}</span>
-              </div>
-            </div>
-          </aside>
-
-          <div className={styles.formCard}>
-            <span className={styles.label}>{isBg ? "ФОРМА ЗА КОНТАКТ" : "CONTACT FORM"}</span>
-            <h2>{isBg ? "Изпратете запитване" : "Send an inquiry"}</h2>
-            <form onSubmit={(event) => event.preventDefault()}>
-              <div className={styles.formGrid}>
-                <div className={styles.field}>
-                  <label htmlFor="contact-name">{isBg ? "Име *" : "Name *"}</label>
-                  <input id="contact-name" name="name" type="text" placeholder={isBg ? "Вашето име" : "Your name"} required />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="contact-email">{isBg ? "Имейл *" : "Email *"}</label>
-                  <input id="contact-email" name="email" type="email" placeholder={isBg ? "Вашият имейл" : "Your email"} required />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="contact-phone">{isBg ? "Телефон *" : "Phone *"}</label>
-                  <input id="contact-phone" name="phone" type="tel" placeholder={isBg ? "Вашият телефон" : "Your phone"} required />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="contact-subject">{isBg ? "Тема" : "Subject"}</label>
-                  <input id="contact-subject" name="subject" type="text" placeholder={isBg ? "Тема на запитването" : "Inquiry subject"} />
-                </div>
-                <div className={`${styles.field} ${styles.fieldFull}`}>
-                  <label htmlFor="contact-message">{isBg ? "Съобщение *" : "Message *"}</label>
-                  <textarea id="contact-message" name="message" placeholder={isBg ? "Напишете вашето съобщение" : "Write your message"} required />
-                </div>
-              </div>
-              <button className={styles.submit} type="submit">{isBg ? "Изпрати запитване" : "Send inquiry"}</button>
-              <p className={styles.note}>{isBg ? "Формата е добавена като frontend интерфейс и ще бъде свързана с изпращането на съобщения при backend интеграцията." : "The form currently works as a frontend interface and will be connected to message delivery during backend integration."}</p>
-            </form>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+  const language = useLanguage(); const isBg = language === "bg";
+  const inputClass = "min-h-12 w-full border border-orisia-line bg-white px-3 font-sans text-sm text-orisia-brown outline-none focus:border-orisia-goldDark dark:border-[#604a39] dark:bg-[#130b07] dark:text-orisia-light";
+  return <main className="bg-orisia-cream dark:bg-orisia-dark"><section className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><span className="font-sans text-[10px] font-black uppercase tracking-[.2em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ОРИСИЯ · КОНТАКТИ" : "ORISIA · CONTACTS"}</span><h1 className="mt-2 text-5xl font-bold sm:text-7xl">{isBg ? "Свържете се с нас" : "Contact us"}</h1><p className="mt-3 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#c6a77d]">{isBg ? "За участия, събития, партньорства или друг въпрос изпратете запитване чрез формата." : "For performances, events, partnerships or any other question, send us an inquiry through the form."}</p></div></section><section className="py-12"><div className="mx-auto grid w-full max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-8"><aside className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel"><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg ? "КОНТАКТ" : "CONTACT"}</span><h2 className="mt-2 text-3xl font-bold">{isBg ? "Нека поговорим" : "Let's talk"}</h2><p className="mt-3 font-sans text-sm leading-6 text-[#725b47] dark:text-[#b19873]">{isBg ? "Опишете накратко какво ви интересува и оставете удобен начин за обратна връзка." : "Briefly tell us what you are interested in and leave a convenient way for us to get back to you."}</p><div className="mt-6 grid gap-3">{[[isBg?"Адрес":"Address",isBg?"гр. Русе, ул. Родина 80 (на гърба на боулинг залата), Русе, България, 7000":"80 Rodina St. (behind the bowling hall), Ruse, Bulgaria, 7000"],[isBg?"Участия и събития":"Performances and events",isBg?"Покани, програма и организация на участия.":"Invitations, schedules and event organization."],[isBg?"Партньорства":"Partnerships",isBg?"Идеи за съвместни инициативи и фолклорни проекти.":"Ideas for joint initiatives and folklore projects."],[isBg?"Общи въпроси":"General questions",isBg?"Информация за ОРИСИЯ, дейността и предстоящите събития.":"Information about ORISIA, our activities and upcoming events."]].map(([title,text])=><div className="border-l-2 border-orisia-goldDark bg-[#f8ecda] p-4 dark:bg-[#160d08]" key={title}><strong className="block text-lg">{title}</strong><span className="mt-1 block font-sans text-xs leading-5 text-[#725b47] dark:text-[#a98c69]">{text}</span></div>)}</div></aside><div className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel"><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg ? "ФОРМА ЗА КОНТАКТ" : "CONTACT FORM"}</span><h2 className="mt-2 text-3xl font-bold">{isBg ? "Изпратете запитване" : "Send an inquiry"}</h2><form className="mt-6" onSubmit={(event)=>event.preventDefault()}><div className="grid gap-4 sm:grid-cols-2">{[["contact-name",isBg?"Име *":"Name *","text",isBg?"Вашето име":"Your name"],["contact-email",isBg?"Имейл *":"Email *","email",isBg?"Вашият имейл":"Your email"],["contact-phone",isBg?"Телефон *":"Phone *","tel",isBg?"Вашият телефон":"Your phone"],["contact-subject",isBg?"Тема":"Subject","text",isBg?"Тема на запитването":"Inquiry subject"]].map(([id,label,type,placeholder],i)=><div className="grid gap-2" key={id}><label className="font-sans text-xs font-bold" htmlFor={id}>{label}</label><input className={inputClass} id={id} name={id.replace("contact-","")} type={type} placeholder={placeholder} required={i<3}/></div>)}<div className="grid gap-2 sm:col-span-2"><label className="font-sans text-xs font-bold" htmlFor="contact-message">{isBg?"Съобщение *":"Message *"}</label><textarea className={`${inputClass} min-h-36 py-3`} id="contact-message" name="message" placeholder={isBg?"Напишете вашето съобщение":"Write your message"} required /></div></div><button className="mt-5 border border-orisia-goldDark bg-orisia-gold px-5 py-3 font-sans text-xs font-black uppercase tracking-wide text-white hover:bg-orisia-goldDark" type="submit">{isBg?"Изпрати запитване":"Send inquiry"}</button><p className="mt-4 font-sans text-[11px] leading-5 text-[#806a55] dark:text-[#8f7658]">{isBg?"Формата е добавена като frontend интерфейс и ще бъде свързана с изпращането на съобщения при backend интеграцията.":"The form currently works as a frontend interface and will be connected to message delivery during backend integration."}</p></form></div></div></section></main>;
 }

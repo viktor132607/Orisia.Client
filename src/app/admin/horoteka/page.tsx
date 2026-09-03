@@ -1,72 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./horoteka-admin.module.css";
 import useLanguage from "../../../components/useLanguage";
 
 export default function HorotekaAdminPage() {
-  const language = useLanguage();
-  const isBg = language === "bg";
-
-  return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className="container">
-          <span className={styles.kicker}>{isBg ? "ОРИСИЯ · АДМИН · ХОРОТЕКА" : "ORISIA · ADMIN · DANCE LIBRARY"}</span>
-          <div className={styles.heroRow}>
-            <div>
-              <h1>{isBg ? "Хоротека" : "Dance Library"}</h1>
-              <p>{isBg ? "Добавяне и управление на кратки видеа и информация за хора." : "Add and manage short videos and information about Bulgarian horo dances."}</p>
-            </div>
-            <Link href="/admin" className={styles.back}>{isBg ? "Назад към админ" : "Back to admin"}</Link>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.content}>
-        <div className={`container ${styles.layout}`}>
-          <div className={styles.formCard}>
-            <span className={styles.label}>{isBg ? "НОВО ХОРО" : "NEW DANCE"}</span>
-            <h2>{isBg ? "Качи клип и информация" : "Upload clip and information"}</h2>
-            <form onSubmit={(event) => event.preventDefault()}>
-              <div className={styles.field}>
-                <label htmlFor="dance-video">{isBg ? "Кратък клип" : "Short clip"}</label>
-                <input id="dance-video" name="video" type="file" accept="video/*" />
-              </div>
-              <div className={styles.field}>
-                <label htmlFor="dance-title">{isBg ? "Име на хорото *" : "Dance name *"}</label>
-                <input id="dance-title" name="title" type="text" placeholder={isBg ? "Напр. Право хоро" : "E.g. Pravo Horo"} required />
-              </div>
-              <div className={styles.row}>
-                <div className={styles.field}>
-                  <label htmlFor="dance-region">{isBg ? "Фолклорна област" : "Folklore region"}</label>
-                  <input id="dance-region" name="region" type="text" placeholder={isBg ? "Напр. Северняшка" : "E.g. Northern Bulgaria"} />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="dance-rhythm">{isBg ? "Размер / ритъм" : "Meter / rhythm"}</label>
-                  <input id="dance-rhythm" name="rhythm" type="text" placeholder={isBg ? "Напр. 7/8" : "E.g. 7/8"} />
-                </div>
-              </div>
-              <div className={styles.field}>
-                <label htmlFor="dance-description">{isBg ? "Кратка информация *" : "Short description *"}</label>
-                <textarea id="dance-description" name="description" placeholder={isBg ? "Кратко описание на хорото, стъпките или характера му" : "Short description of the dance, its steps or character"} required />
-              </div>
-              <button type="submit" className={styles.submit}>{isBg ? "Добави в хоротеката" : "Add to Dance Library"}</button>
-            </form>
-          </div>
-
-          <aside className={styles.side}>
-            <span className={styles.label}>{isBg ? "УПРАВЛЕНИЕ" : "MANAGEMENT"}</span>
-            <h2>{isBg ? "Публикувани хора" : "Published dances"}</h2>
-            <p>{isBg ? "Тук ще се показват записите от хоротеката с опции за редакция, подмяна на клипа и изтриване." : "Dance Library entries will appear here with options to edit, replace the clip and delete them."}</p>
-            <div className={styles.placeholderList}>
-              <div><strong>{isBg ? "Право хоро" : "Pravo Horo"}</strong><span>{isBg ? "Редакция · Изтриване" : "Edit · Delete"}</span></div>
-              <div><strong>{isBg ? "Дунавско хоро" : "Danube Horo"}</strong><span>{isBg ? "Редакция · Изтриване" : "Edit · Delete"}</span></div>
-            </div>
-            <div className={styles.notice}>{isBg ? "Frontend версия · качването и записът в база данни ще се активират при backend интеграцията." : "Frontend version · uploading and database storage will be activated during backend integration."}</div>
-          </aside>
-        </div>
-      </section>
-    </main>
-  );
+  const language=useLanguage(); const isBg=language==="bg";
+  const inputClass="min-h-12 w-full border border-orisia-line bg-white px-3 font-sans text-sm text-orisia-brown outline-none focus:border-orisia-goldDark dark:border-[#604a39] dark:bg-[#130b07] dark:text-orisia-light";
+  return <main className="bg-orisia-cream dark:bg-orisia-dark"><section className="border-b border-orisia-line bg-[#e8d5bb] py-10 dark:border-[#574333] dark:bg-[#1a100a]"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><span className="font-sans text-[10px] font-black uppercase tracking-[.2em] text-orisia-goldDark">{isBg?"ОРИСИЯ · АДМИН · ХОРОТЕКА":"ORISIA · ADMIN · DANCE LIBRARY"}</span><div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><h1 className="text-4xl font-bold sm:text-5xl">{isBg?"Хоротека":"Dance Library"}</h1><p className="mt-2 font-sans text-sm text-[#725b47] dark:text-[#a98c69]">{isBg?"Добавяне и управление на кратки видеа и информация за хора.":"Add and manage short videos and information about Bulgarian horo dances."}</p></div><Link href="/admin" className="border border-orisia-goldDark px-4 py-2 font-sans text-xs font-bold uppercase tracking-wide text-orisia-goldDark hover:bg-orisia-gold hover:text-white">{isBg?"Назад към админ":"Back to admin"}</Link></div></div></section><section className="py-10"><div className="mx-auto grid w-full max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.2fr_.8fr] lg:px-8"><div className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel"><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg?"НОВО ХОРО":"NEW DANCE"}</span><h2 className="mt-2 text-3xl font-bold">{isBg?"Качи клип и информация":"Upload clip and information"}</h2><form className="mt-6 grid gap-4" onSubmit={(event)=>event.preventDefault()}><div className="grid gap-2"><label className="font-sans text-xs font-bold" htmlFor="dance-video">{isBg?"Кратък клип":"Short clip"}</label><input className="w-full border border-orisia-line bg-white p-3 font-sans text-xs dark:border-[#604a39] dark:bg-[#130b07]" id="dance-video" name="video" type="file" accept="video/*" /></div><div className="grid gap-2"><label className="font-sans text-xs font-bold" htmlFor="dance-title">{isBg?"Име на хорото *":"Dance name *"}</label><input className={inputClass} id="dance-title" name="title" type="text" placeholder={isBg?"Напр. Право хоро":"E.g. Pravo Horo"} required /></div><div className="grid gap-4 sm:grid-cols-2"><div className="grid gap-2"><label className="font-sans text-xs font-bold" htmlFor="dance-region">{isBg?"Фолклорна област":"Folklore region"}</label><input className={inputClass} id="dance-region" name="region" type="text" placeholder={isBg?"Напр. Северняшка":"E.g. Northern Bulgaria"} /></div><div className="grid gap-2"><label className="font-sans text-xs font-bold" htmlFor="dance-rhythm">{isBg?"Размер / ритъм":"Meter / rhythm"}</label><input className={inputClass} id="dance-rhythm" name="rhythm" type="text" placeholder="7/8" /></div></div><div className="grid gap-2"><label className="font-sans text-xs font-bold" htmlFor="dance-description">{isBg?"Кратка информация *":"Short description *"}</label><textarea className={`${inputClass} min-h-36 py-3`} id="dance-description" name="description" placeholder={isBg?"Кратко описание на хорото, стъпките или характера му":"Short description of the dance, its steps or character"} required /></div><button type="submit" className="justify-self-start border border-orisia-goldDark bg-orisia-gold px-5 py-3 font-sans text-xs font-black uppercase tracking-wide text-white hover:bg-orisia-goldDark">{isBg?"Добави в хоротеката":"Add to Dance Library"}</button></form></div><aside className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel"><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg?"УПРАВЛЕНИЕ":"MANAGEMENT"}</span><h2 className="mt-2 text-3xl font-bold">{isBg?"Публикувани хора":"Published dances"}</h2><p className="mt-3 font-sans text-sm leading-6 text-[#725b47] dark:text-[#a98c69]">{isBg?"Тук ще се показват записите от хоротеката с опции за редакция, подмяна на клипа и изтриване.":"Dance Library entries will appear here with options to edit, replace the clip and delete them."}</p><div className="mt-5 grid gap-3">{[isBg?"Право хоро":"Pravo Horo",isBg?"Дунавско хоро":"Danube Horo"].map(title=><div className="flex items-center justify-between gap-3 border border-orisia-line p-4 dark:border-[#604a39]" key={title}><strong>{title}</strong><span className="font-sans text-[10px] text-orisia-goldDark">{isBg?"Редакция · Изтриване":"Edit · Delete"}</span></div>)}</div><div className="mt-5 border border-dashed border-orisia-line p-4 font-sans text-[11px] leading-5 text-[#806a55] dark:border-[#604a39] dark:text-[#8f7658]">{isBg?"Frontend версия · качването и записът в база данни ще се активират при backend интеграцията.":"Frontend version · uploading and database storage will be activated during backend integration."}</div></aside></div></section></main>;
 }

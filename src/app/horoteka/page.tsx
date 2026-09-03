@@ -1,57 +1,9 @@
 "use client";
 
-import styles from "./horoteka.module.css";
 import useLanguage from "../../components/useLanguage";
 
 export default function HorotekaPage() {
-  const language = useLanguage();
-  const isBg = language === "bg";
-
-  const dances = [
-    { title: isBg ? "Право хоро" : "Pravo Horo", region: isBg ? "Широко разпространено" : "Widely spread", rhythm: "2/4", description: isBg ? "Базово право хоро с равномерна стъпка и лесен ритъм за проследяване." : "A basic pravo horo with an even step and an easy rhythm to follow." },
-    { title: isBg ? "Дунавско хоро" : "Danube Horo", region: isBg ? "Северна България" : "Northern Bulgaria", rhythm: "2/4", description: isBg ? "Енергично българско хоро с характерна последователност и ясно изразен ритъм." : "An energetic Bulgarian horo with a characteristic sequence and a clearly defined rhythm." },
-    { title: isBg ? "Еленино хоро" : "Elenino Horo", region: isBg ? "Северна България" : "Northern Bulgaria", rhythm: "7/8", description: isBg ? "Хоро с неравноделен размер и отличима стъпкова структура." : "A horo in an asymmetric meter with a distinctive step structure." },
-    { title: isBg ? "Пайдушко хоро" : "Paidushko Horo", region: isBg ? "Различни фолклорни области" : "Various folklore regions", rhythm: "5/8", description: isBg ? "Живо хоро в неравноделен ритъм, разпознаваемо по характерното редуване на стъпките." : "A lively horo in an asymmetric rhythm, recognizable by its characteristic alternating steps." },
-  ];
-
-  return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className="container">
-          <span className={styles.kicker}>{isBg ? "ОРИСИЯ · ХОРОТЕКА" : "ORISIA · DANCE LIBRARY"}</span>
-          <h1>{isBg ? "Хоротека" : "Dance Library"}</h1>
-          <p>{isBg ? "Кратки клипове и бърза информация за български хора, стъпки и ритми." : "Short clips and quick information about Bulgarian horo dances, steps and rhythms."}</p>
-        </div>
-      </section>
-
-      <section className={styles.content}>
-        <div className="container">
-          <div className={styles.intro}>
-            <div>
-              <span className={styles.label}>{isBg ? "НАУЧИ ХОРОТО" : "LEARN THE DANCE"}</span>
-              <h2>{isBg ? "Гледай. Разпознай. Запомни." : "Watch. Recognize. Remember."}</h2>
-            </div>
-            <p>{isBg ? "Всеки запис е предвиден за кратко видео, име на хорото, област, ритъм и кратко описание." : "Each entry is designed to include a short video, dance name, folklore region, rhythm and a short description."}</p>
-          </div>
-
-          <div className={styles.grid}>
-            {dances.map((dance, index) => (
-              <article className={styles.card} key={dance.title}>
-                <div className={styles.videoPlaceholder}>
-                  <span className={styles.play}>▶</span>
-                  <strong>{isBg ? `Кратък клип ${index + 1}` : `Short clip ${index + 1}`}</strong>
-                  <small>{isBg ? "видео ще бъде добавено от админ панела" : "video will be added from the admin panel"}</small>
-                </div>
-                <div className={styles.cardBody}>
-                  <span className={styles.meta}>{dance.region} · {dance.rhythm}</span>
-                  <h3>{dance.title}</h3>
-                  <p>{dance.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+  const language=useLanguage(); const isBg=language==="bg";
+  const dances=[{title:isBg?"Право хоро":"Pravo Horo",region:isBg?"Широко разпространено":"Widely spread",rhythm:"2/4",description:isBg?"Базово право хоро с равномерна стъпка и лесен ритъм за проследяване.":"A basic pravo horo with an even step and an easy rhythm to follow."},{title:isBg?"Дунавско хоро":"Danube Horo",region:isBg?"Северна България":"Northern Bulgaria",rhythm:"2/4",description:isBg?"Енергично българско хоро с характерна последователност и ясно изразен ритъм.":"An energetic Bulgarian horo with a characteristic sequence and a clearly defined rhythm."},{title:isBg?"Еленино хоро":"Elenino Horo",region:isBg?"Северна България":"Northern Bulgaria",rhythm:"7/8",description:isBg?"Хоро с неравноделен размер и отличима стъпкова структура.":"A horo in an asymmetric meter with a distinctive step structure."},{title:isBg?"Пайдушко хоро":"Paidushko Horo",region:isBg?"Различни фолклорни области":"Various folklore regions",rhythm:"5/8",description:isBg?"Живо хоро в неравноделен ритъм, разпознаваемо по характерното редуване на стъпките.":"A lively horo in an asymmetric rhythm, recognizable by its characteristic alternating steps."}];
+  return <main className="bg-orisia-cream dark:bg-orisia-dark"><section className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><span className="font-sans text-[10px] font-black uppercase tracking-[.2em] text-orisia-goldDark">{isBg?"ОРИСИЯ · ХОРОТЕКА":"ORISIA · DANCE LIBRARY"}</span><h1 className="mt-2 text-5xl font-bold sm:text-7xl">{isBg?"Хоротека":"Dance Library"}</h1><p className="mt-3 font-sans text-base text-[#725b47] dark:text-[#c6a77d]">{isBg?"Кратки клипове и бърза информация за български хора, стъпки и ритми.":"Short clips and quick information about Bulgarian horo dances, steps and rhythms."}</p></div></section><section className="py-12"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg?"НАУЧИ ХОРОТО":"LEARN THE DANCE"}</span><h2 className="mt-2 text-4xl font-bold">{isBg?"Гледай. Разпознай. Запомни.":"Watch. Recognize. Remember."}</h2></div><p className="max-w-xl font-sans text-sm leading-6 text-[#725b47] dark:text-[#a98c69]">{isBg?"Всеки запис е предвиден за кратко видео, име на хорото, област, ритъм и кратко описание.":"Each entry is designed to include a short video, dance name, folklore region, rhythm and a short description."}</p></div><div className="grid gap-5 md:grid-cols-2">{dances.map((dance,index)=><article className="overflow-hidden border border-orisia-line bg-orisia-paper dark:border-[#604a39] dark:bg-orisia-panel" key={dance.title}><div className="grid aspect-video place-items-center bg-[#ead7ba] text-center dark:bg-[#28180f]"><div><span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-orisia-goldDark text-xl text-orisia-goldDark">▶</span><strong className="mt-3 block text-lg">{isBg?`Кратък клип ${index+1}`:`Short clip ${index+1}`}</strong><small className="mt-1 block font-sans text-[10px] text-[#806a55] dark:text-[#a58d71]">{isBg?"видео ще бъде добавено от админ панела":"video will be added from the admin panel"}</small></div></div><div className="p-6"><span className="font-sans text-[10px] font-black uppercase tracking-wide text-orisia-goldDark">{dance.region} · {dance.rhythm}</span><h3 className="mt-2 text-2xl font-bold">{dance.title}</h3><p className="mt-2 font-sans text-sm leading-6 text-[#725b47] dark:text-[#ab906c]">{dance.description}</p></div></article>)}</div></div></section></main>;
 }
