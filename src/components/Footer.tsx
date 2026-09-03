@@ -25,6 +25,8 @@ export default function Footer() {
           <strong className="mb-4 block text-sm font-bold text-[#3f2b1d] dark:text-orisia-light">{isBg ? "Страници" : "Pages"}</strong>
           <nav className="flex flex-col items-start gap-3" aria-label={isBg ? "Страници във футъра" : "Footer pages"}>
             <Link className={linkClass} href="/">{isBg ? "Начало" : "Home"}</Link>
+            <Link className={linkClass} href="/news">{isBg ? "Новини" : "News"}</Link>
+            <Link className={linkClass} href="/events">{isBg ? "Събития" : "Events"}</Link>
             <Link className={linkClass} href="/about">{isBg ? "За нас" : "About us"}</Link>
             <Link className={linkClass} href="/gallery">{isBg ? "Галерия" : "Gallery"}</Link>
             <Link className={linkClass} href="/horoteka">{isBg ? "Хоротека" : "Dance Library"}</Link>
