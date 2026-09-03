@@ -68,22 +68,24 @@ export default function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-orisia-ink text-orisia-light shadow-sm">
-      <div className="mx-auto flex h-full w-full items-center gap-3 px-3 sm:px-4 lg:gap-6 lg:px-6">
-        <Link href="/" className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
-          <img className="h-11 w-11 rounded object-cover sm:h-12 sm:w-12 lg:h-[54px] lg:w-[54px]" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
-        </Link>
+      <div className="mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
+        <div className="flex min-w-0 items-center gap-4 lg:gap-6">
+          <Link href="/" className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
+            <img className="h-11 w-11 rounded object-cover sm:h-12 sm:w-12 lg:h-[54px] lg:w-[54px]" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
+          </Link>
 
-        <nav className="scrollbar-none flex min-w-0 flex-1 items-center justify-start gap-3 overflow-x-auto whitespace-nowrap px-1 lg:justify-center lg:gap-5" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
-          <Link className={navLink} href="/">{text.home}</Link>
-          <Link className={navLink} href="/calendar">{text.calendar}</Link>
-          <Link className={navLink} href="/gallery">{text.gallery}</Link>
-          <Link className={navLink} href="/horoteka">{text.horoteka}</Link>
-          <Link className={navLink} href="/about">{text.about}</Link>
-          <Link className={navLink} href="/contact">{text.contacts}</Link>
-          {isAdmin && <Link className={navLink} href="/admin">{text.admin}</Link>}
-        </nav>
+          <nav className="scrollbar-none flex min-w-0 items-center justify-start gap-3 overflow-x-auto whitespace-nowrap lg:gap-5" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
+            <Link className={navLink} href="/">{text.home}</Link>
+            <Link className={navLink} href="/calendar">{text.calendar}</Link>
+            <Link className={navLink} href="/gallery">{text.gallery}</Link>
+            <Link className={navLink} href="/horoteka">{text.horoteka}</Link>
+            <Link className={navLink} href="/about">{text.about}</Link>
+            <Link className={navLink} href="/contact">{text.contacts}</Link>
+            {isAdmin && <Link className={navLink} href="/admin">{text.admin}</Link>}
+          </nav>
+        </div>
 
-        <div className="grid w-[196px] flex-none grid-cols-[70px_60px_56px] items-center gap-1.5 whitespace-nowrap sm:w-[230px] sm:grid-cols-[82px_72px_64px] lg:w-[300px] lg:grid-cols-[90px_96px_96px] lg:gap-2">
+        <div className="ml-auto grid w-[196px] flex-none grid-cols-[70px_60px_56px] items-center gap-1.5 whitespace-nowrap pl-3 sm:w-[230px] sm:grid-cols-[82px_72px_64px] lg:w-[300px] lg:grid-cols-[90px_96px_96px] lg:gap-2 lg:pl-6">
           <SitePreferences />
           <span className="flex w-full items-center justify-center">
             {loggedIn ? <Link href="/account" className="flex min-h-9 w-full items-center justify-center px-1 font-sans text-[9px] font-extrabold uppercase tracking-[.06em] text-orisia-light hover:text-white sm:text-[10px] lg:text-[12px]">{text.profile}</Link> : null}
