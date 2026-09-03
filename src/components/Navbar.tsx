@@ -83,7 +83,7 @@ export default function Navbar() {
   if (isAdmin) navItems.push({ href: "/admin", label: text.admin });
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-orisia-ink text-orisia-light shadow-sm">
+    <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-[#1B191A] text-orisia-light shadow-sm">
       <div className="relative mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
         <Link href="/" className="flex-none leading-none xl:hidden" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
           <img className="h-12 w-12 rounded object-cover sm:h-[54px] sm:w-[54px]" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
@@ -136,7 +136,7 @@ export default function Navbar() {
 
       <aside
         id="mobile-navigation"
-        className={`${menuOpen ? "translate-x-0" : "translate-x-full"} fixed bottom-0 right-0 top-20 z-[9999] flex w-[min(88vw,360px)] flex-col border-l border-[#554b47] bg-orisia-ink shadow-2xl transition-transform duration-300 xl:hidden`}
+        className={`${menuOpen ? "translate-x-0" : "translate-x-full"} fixed bottom-0 right-0 top-20 z-[9999] flex w-[min(88vw,360px)] flex-col border-l border-[#554b47] bg-[#1B191A] shadow-2xl transition-transform duration-300 xl:hidden`}
         aria-label={text.menu}
       >
         <nav className="min-h-0 flex-1 overflow-y-auto" aria-label={isBg ? "Мобилна навигация" : "Mobile navigation"}>
