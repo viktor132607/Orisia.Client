@@ -66,7 +66,7 @@ export default function Navbar() {
   const loggedIn = role !== "guest";
   const isAdmin = role === "admin";
   const isBg = language === "bg";
-  const navLink = "flex-none font-sans text-[10px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:text-[12px]";
+  const navLink = "inline-flex h-12 flex-none items-center justify-center px-2.5 font-sans text-[10px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:px-3 2xl:text-[12px]";
   const mobileLink = "flex min-h-14 items-center border-b border-[#403a38] px-7 font-sans text-[15px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:bg-[#272324] hover:text-white";
 
   const navItems = [
@@ -94,7 +94,7 @@ export default function Navbar() {
             <img className="h-[54px] w-[54px] rounded object-cover" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
           </Link>
 
-          <nav className="flex items-center justify-center gap-3 whitespace-nowrap 2xl:gap-5" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
+          <nav className="flex items-center justify-center gap-1 whitespace-nowrap 2xl:gap-2" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
             {navItems.map((item) => <Link key={item.href} className={navLink} href={item.href}>{item.label}</Link>)}
           </nav>
         </div>
@@ -102,13 +102,13 @@ export default function Navbar() {
         <div className="ml-auto hidden w-[300px] flex-none grid-cols-[90px_96px_96px] items-center gap-2 whitespace-nowrap pl-6 xl:grid">
           <SitePreferences />
           <span className="flex w-full items-center justify-center">
-            {loggedIn ? <Link href="/account" className="flex min-h-9 w-full items-center justify-center px-1 font-sans text-[10px] font-extrabold uppercase tracking-[.06em] text-orisia-light hover:text-white 2xl:text-[12px]">{text.profile}</Link> : null}
+            {loggedIn ? <Link href="/account" className="flex min-h-11 w-full items-center justify-center px-2 font-sans text-[10px] font-extrabold uppercase tracking-[.06em] text-orisia-light hover:text-white 2xl:text-[12px]">{text.profile}</Link> : null}
           </span>
           <span className="flex w-full items-center justify-center">
             {loggedIn ? (
-              <Link href="/" className="flex min-h-9 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-1 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]" onClick={logout}>{text.logout}</Link>
+              <Link href="/" className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]" onClick={logout}>{text.logout}</Link>
             ) : (
-              <Link href="/login" className="flex min-h-9 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-1 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]">{text.login}</Link>
+              <Link href="/login" className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]">{text.login}</Link>
             )}
           </span>
         </div>
