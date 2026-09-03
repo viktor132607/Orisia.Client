@@ -45,7 +45,7 @@ export default function Footer() {
 
         <div>
           <strong className="mb-4 block text-sm font-bold text-[#3f2b1d] dark:text-orisia-light">{isBg ? "Контакти" : "Contacts"}</strong>
-          <div className="flex items-start gap-3 text-sm leading-6 text-[#765f4b] dark:text-[#b9a184]"><span aria-hidden="true">⌖</span><span>{isBg ? "гр. Русе, ул. Родина 80, 7000" : "80 Rodina St., Ruse, Bulgaria, 7000"}</span></div>
+          <div className="flex items-start gap-3 text-sm leading-6 text-[#765f4b] dark:text-[#b9a184]"><span aria-hidden="true">⌖</span><span>{isBg ? "гр. Русе, ул. Родина 80 (на гърба на боулинг залата), Русе, България, 7000" : "80 Rodina St. (behind the bowling hall), Ruse, Bulgaria, 7000"}</span></div>
           <Link href="/contact" className="mt-4 flex items-center gap-3 text-sm text-[#765f4b] transition hover:text-orisia-goldDark dark:text-[#b9a184] dark:hover:text-orisia-light"><span aria-hidden="true">✉</span><span>{isBg ? "Изпрати запитване" : "Send an inquiry"}</span></Link>
         </div>
       </div>
