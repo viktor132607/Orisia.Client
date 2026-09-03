@@ -66,7 +66,7 @@ export default function Navbar() {
   const loggedIn = role !== "guest";
   const isAdmin = role === "admin";
   const isBg = language === "bg";
-  const navLink = "flex-none font-sans text-[11px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:text-[12px]";
+  const navLink = "flex-none font-sans text-[10px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:text-[12px]";
   const mobileLink = "flex min-h-14 items-center border-b border-[#403a38] px-7 font-sans text-[15px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:bg-[#272324] hover:text-white";
 
   const navItems = [
@@ -84,12 +84,12 @@ export default function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-orisia-ink text-orisia-light shadow-sm">
-      <div className="mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
+      <div className="relative mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
         <Link href="/" className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
           <img className="h-12 w-12 rounded object-cover sm:h-[54px] sm:w-[54px]" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
         </Link>
 
-        <nav className="ml-6 hidden min-w-0 flex-1 items-center justify-start gap-4 whitespace-nowrap xl:flex 2xl:gap-6" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center gap-3 whitespace-nowrap xl:flex 2xl:gap-5" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
           {navItems.map((item) => <Link key={item.href} className={navLink} href={item.href}>{item.label}</Link>)}
         </nav>
 
