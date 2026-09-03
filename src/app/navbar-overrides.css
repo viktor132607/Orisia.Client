@@ -11,3 +11,10 @@
 .site-shell{padding-top:76px}
 @media(max-width:1080px){.site-shell{padding-top:68px}}
 @media(max-width:760px){.site-shell{padding-top:72px}}
+
+/* Navbar uses the exact background sampled from the ORISIA logo in both themes. */
+.navbar,html[data-theme="light"] .navbar,html[data-theme="dark"] .navbar{background:#1B191A!important;border-bottom-color:#3a3436!important}
+.navbar .nav-main-links a,.navbar .nav-profile-link,.navbar .login-link,html[data-theme="light"] .navbar .nav-main-links a,html[data-theme="light"] .navbar .nav-profile-link,html[data-theme="light"] .navbar .login-link{color:#F3E9DF!important}
+.navbar .nav-main-links a:hover,.navbar .nav-profile-link:hover,.navbar .login-link:hover{color:#FFFFFF!important}
+.navbar .preference-pill,.navbar .theme-icon-button,html[data-theme="light"] .navbar .preference-pill,html[data-theme="light"] .navbar .theme-icon-button{background:#292526!important;color:#F3E9DF!important;border-color:#5a5154!important}
+.navbar .preference-pill:hover,.navbar .theme-icon-button:hover,html[data-theme="light"] .navbar .preference-pill:hover,html[data-theme="light"] .navbar .theme-icon-button:hover{background:#373133!important;color:#FFFFFF!important;border-color:#7b6f73!important}
