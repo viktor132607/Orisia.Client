@@ -48,7 +48,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto h-px w-[calc(100%-3rem)] max-w-7xl bg-[#d5c4ae] dark:bg-[#4a3d34]" />
+      <div className="mx-auto h-px w-[calc(100%_-_3rem)] max-w-7xl bg-[#d5c4ae] dark:bg-[#4a3d34]" />
       <div className="mx-auto flex min-h-16 w-full max-w-7xl flex-col justify-center gap-2 px-6 py-4 text-xs text-[#7b6857] sm:flex-row sm:items-center sm:justify-between lg:px-8 dark:text-[#8f7b66]">
         <span>{isBg ? "© 2026 ОРИСИЯ. Всички права запазени." : "© 2026 ORISIA. All rights reserved."}</span>
         <span>Site created by <a className="font-bold text-[#4c3929] hover:underline dark:text-[#c9b08f]" href="https://viktor-iliev.site/portfolio/" target="_blank" rel="noreferrer">Viktor Iliev</a></span>
