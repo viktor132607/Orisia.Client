@@ -85,13 +85,19 @@ export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-orisia-ink text-orisia-light shadow-sm">
       <div className="relative mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
-        <Link href="/" className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
+        <Link href="/" className="flex-none leading-none xl:hidden" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
           <img className="h-12 w-12 rounded object-cover sm:h-[54px] sm:w-[54px]" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
         </Link>
 
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center gap-3 whitespace-nowrap xl:flex 2xl:gap-5" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
-          {navItems.map((item) => <Link key={item.href} className={navLink} href={item.href}>{item.label}</Link>)}
-        </nav>
+        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-4 whitespace-nowrap xl:flex 2xl:gap-6">
+          <Link href="/" className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
+            <img className="h-[54px] w-[54px] rounded object-cover" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
+          </Link>
+
+          <nav className="flex items-center justify-center gap-3 whitespace-nowrap 2xl:gap-5" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
+            {navItems.map((item) => <Link key={item.href} className={navLink} href={item.href}>{item.label}</Link>)}
+          </nav>
+        </div>
 
         <div className="ml-auto hidden w-[300px] flex-none grid-cols-[90px_96px_96px] items-center gap-2 whitespace-nowrap pl-6 xl:grid">
           <SitePreferences />
