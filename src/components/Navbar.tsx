@@ -11,8 +11,8 @@ type Language = "bg" | "en";
 type AuthRole = "guest" | "user" | "admin";
 
 const labels = {
-  bg: { home: "Начало", calendar: "Календар", gallery: "Галерия", horoteka: "Хоротека", about: "За ОРИСИЯ", contacts: "Контакти", admin: "Админ", profile: "Профил", logout: "Изход", login: "Вход" },
-  en: { home: "Home", calendar: "Calendar", gallery: "Gallery", horoteka: "Dance Library", about: "About ORISIA", contacts: "Contacts", admin: "Admin", profile: "Profile", logout: "Logout", login: "Login" },
+  bg: { home: "Начало", news: "Новини", events: "Събития", calendar: "Календар", gallery: "Галерия", horoteka: "Хоротека", about: "За ОРИСИЯ", contacts: "Контакти", admin: "Админ", profile: "Профил", logout: "Изход", login: "Вход" },
+  en: { home: "Home", news: "News", events: "Events", calendar: "Calendar", gallery: "Gallery", horoteka: "Dance Library", about: "About ORISIA", contacts: "Contacts", admin: "Admin", profile: "Profile", logout: "Logout", login: "Login" },
 };
 
 function getRole(value: string | null): AuthRole {
@@ -76,6 +76,8 @@ export default function Navbar() {
 
           <nav className="scrollbar-none flex min-w-0 items-center justify-start gap-3 overflow-x-auto whitespace-nowrap lg:gap-5" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
             <Link className={navLink} href="/">{text.home}</Link>
+            <Link className={navLink} href="/news">{text.news}</Link>
+            <Link className={navLink} href="/events">{text.events}</Link>
             <Link className={navLink} href="/calendar">{text.calendar}</Link>
             <Link className={navLink} href="/gallery">{text.gallery}</Link>
             <Link className={navLink} href="/horoteka">{text.horoteka}</Link>
