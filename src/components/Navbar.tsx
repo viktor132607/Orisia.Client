@@ -97,7 +97,7 @@ export default function Navbar() {
     <header className="navbar">
       <div className="container nav-inner">
         <Link href="/" className="brand brand-logo-link" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
-          <img className="brand-logo-image" src="/orisia-logo-placeholder.svg" alt={isBg ? "Placeholder за логото на ОРИСИЯ" : "ORISIA logo placeholder"} />
+          <img className="brand-logo-image" src="/orisia-logo.svg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
         </Link>
 
         <nav className="nav-links nav-main-links" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
