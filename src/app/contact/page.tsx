@@ -2,8 +2,139 @@
 
 import useLanguage from "../../components/useLanguage";
 
+const pinIcon = (
+  <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" fill="currentColor" />
+    <circle cx="12" cy="10" r="2.2" fill="#6b3218" />
+  </svg>
+);
+
+const messageIcon = (
+  <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 5h16v14H4z" fill="none" stroke="currentColor" strokeWidth="2" />
+    <path d="m5 7 7 6 7-6" fill="none" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
+
+const landmarkIcon = (
+  <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 10h16M6 10v8m4-8v8m4-8v8m4-8v8M3 18h18M12 3l9 5H3l9-5Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+  </svg>
+);
+
 export default function ContactPage() {
-  const language = useLanguage(); const isBg = language === "bg";
-  const inputClass = "min-h-12 w-full border border-orisia-line bg-white px-3 font-sans text-sm text-orisia-brown outline-none focus:border-orisia-goldDark dark:border-[#604a39] dark:bg-[#130b07] dark:text-orisia-light";
-  return <main className="bg-orisia-cream dark:bg-orisia-dark"><section className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]"><div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><span className="font-sans text-[10px] font-black uppercase tracking-[.2em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ОРИСИЯ · КОНТАКТИ" : "ORISIA · CONTACTS"}</span><h1 className="mt-2 text-5xl font-bold sm:text-7xl">{isBg ? "Свържете се с нас" : "Contact us"}</h1><p className="mt-3 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#c6a77d]">{isBg ? "За участия, събития, партньорства или друг въпрос изпратете запитване чрез формата." : "For performances, events, partnerships or any other question, send us an inquiry through the form."}</p></div></section><section className="py-12"><div className="mx-auto grid w-full max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[.8fr_1.2fr] lg:px-8"><aside className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel"><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg ? "КОНТАКТ" : "CONTACT"}</span><h2 className="mt-2 text-3xl font-bold">{isBg ? "Нека поговорим" : "Let's talk"}</h2><p className="mt-3 font-sans text-sm leading-6 text-[#725b47] dark:text-[#b19873]">{isBg ? "Опишете накратко какво ви интересува и оставете удобен начин за обратна връзка." : "Briefly tell us what you are interested in and leave a convenient way for us to get back to you."}</p><div className="mt-6 grid gap-3">{[[isBg?"Адрес":"Address",isBg?"гр. Русе, ул. Родина 80 (на гърба на боулинг залата), Русе, България, 7000":"80 Rodina St. (behind the bowling hall), Ruse, Bulgaria, 7000"],[isBg?"Участия и събития":"Performances and events",isBg?"Покани, програма и организация на участия.":"Invitations, schedules and event organization."],[isBg?"Партньорства":"Partnerships",isBg?"Идеи за съвместни инициативи и фолклорни проекти.":"Ideas for joint initiatives and folklore projects."],[isBg?"Общи въпроси":"General questions",isBg?"Информация за ОРИСИЯ, дейността и предстоящите събития.":"Information about ORISIA, our activities and upcoming events."]].map(([title,text])=><div className="border-l-2 border-orisia-goldDark bg-[#f8ecda] p-4 dark:bg-[#160d08]" key={title}><strong className="block text-lg">{title}</strong><span className="mt-1 block font-sans text-xs leading-5 text-[#725b47] dark:text-[#a98c69]">{text}</span></div>)}</div></aside><div className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel"><span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg ? "ФОРМА ЗА КОНТАКТ" : "CONTACT FORM"}</span><h2 className="mt-2 text-3xl font-bold">{isBg ? "Изпратете запитване" : "Send an inquiry"}</h2><form className="mt-6" onSubmit={(event)=>event.preventDefault()}><div className="grid gap-4 sm:grid-cols-2">{[["contact-name",isBg?"Име *":"Name *","text",isBg?"Вашето име":"Your name"],["contact-email",isBg?"Имейл *":"Email *","email",isBg?"Вашият имейл":"Your email"],["contact-phone",isBg?"Телефон *":"Phone *","tel",isBg?"Вашият телефон":"Your phone"],["contact-subject",isBg?"Тема":"Subject","text",isBg?"Тема на запитването":"Inquiry subject"]].map(([id,label,type,placeholder],i)=><div className="grid gap-2" key={id}><label className="font-sans text-xs font-bold" htmlFor={id}>{label}</label><input className={inputClass} id={id} name={id.replace("contact-","")} type={type} placeholder={placeholder} required={i<3}/></div>)}<div className="grid gap-2 sm:col-span-2"><label className="font-sans text-xs font-bold" htmlFor="contact-message">{isBg?"Съобщение *":"Message *"}</label><textarea className={`${inputClass} min-h-36 py-3`} id="contact-message" name="message" placeholder={isBg?"Напишете вашето съобщение":"Write your message"} required /></div></div><button className="mt-5 border border-orisia-goldDark bg-orisia-gold px-5 py-3 font-sans text-xs font-black uppercase tracking-wide text-white hover:bg-orisia-goldDark" type="submit">{isBg?"Изпрати запитване":"Send inquiry"}</button><p className="mt-4 font-sans text-[11px] leading-5 text-[#806a55] dark:text-[#8f7658]">{isBg?"Формата е добавена като frontend интерфейс и ще бъде свързана с изпращането на съобщения при backend интеграцията.":"The form currently works as a frontend interface and will be connected to message delivery during backend integration."}</p></form></div></div></section></main>;
+  const language = useLanguage();
+  const isBg = language === "bg";
+
+  const inputClass = "min-h-12 w-full rounded-md border border-white/15 bg-white/10 px-4 text-[15px] text-white outline-none placeholder:text-white/45 focus:border-[#f0a65e]";
+
+  return (
+    <main className="min-h-screen bg-[#6b3218] font-condensed text-white dark:bg-[#140c08]">
+      <section className="px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pb-28 lg:pt-28">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="text-center">
+            <h1 className="text-5xl font-bold uppercase tracking-[.02em] sm:text-6xl lg:text-7xl">
+              {isBg ? "Контакти" : "Contacts"}
+            </h1>
+            <p className="mt-5 text-lg text-white/80 sm:text-xl">
+              {isBg ? "Свържете се с нас" : "Get in touch with us"}
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-8 lg:grid-cols-2 lg:items-stretch">
+            <aside className="rounded-2xl bg-white/[.07] p-7 shadow-soft backdrop-blur-[1px] sm:p-9 lg:p-10">
+              <h2 className="text-2xl font-bold text-[#f0a65e] sm:text-3xl">
+                {isBg ? "Информация за контакт" : "Contact information"}
+              </h2>
+
+              <div className="mt-9 space-y-8">
+                <div className="flex items-start gap-5">
+                  <span className="grid h-12 w-12 flex-none place-items-center rounded-full bg-white/10 text-[#f0a65e]">{pinIcon}</span>
+                  <div>
+                    <h3 className="text-lg font-bold">{isBg ? "Адрес" : "Address"}</h3>
+                    <p className="mt-1 max-w-md text-base leading-7 text-white/80">
+                      {isBg
+                        ? "гр. Русе, ул. Родина 80, на гърба на боулинг залата, Русе, България, 7000"
+                        : "80 Rodina St., behind the bowling hall, Ruse, Bulgaria, 7000"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-5">
+                  <span className="grid h-12 w-12 flex-none place-items-center rounded-full bg-white/10 text-[#f0a65e]">{messageIcon}</span>
+                  <div>
+                    <h3 className="text-lg font-bold">{isBg ? "Запитвания" : "Inquiries"}</h3>
+                    <p className="mt-1 max-w-md text-base leading-7 text-white/80">
+                      {isBg
+                        ? "За участия, събития, партньорства и общи въпроси използвайте формата за контакт по-долу."
+                        : "For performances, events, partnerships and general questions, use the contact form below."}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-5">
+                  <span className="grid h-12 w-12 flex-none place-items-center rounded-full bg-white/10 text-[#f0a65e]">{landmarkIcon}</span>
+                  <div>
+                    <h3 className="text-lg font-bold">{isBg ? "Ориентир" : "Landmark"}</h3>
+                    <p className="mt-1 text-base leading-7 text-white/80">
+                      {isBg ? "На гърба на боулинг залата." : "Behind the bowling hall."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <a
+                href="#contact-form"
+                className="mt-10 inline-flex min-h-12 items-center justify-center rounded-full bg-[#f0a65e] px-7 text-sm font-bold uppercase tracking-[.08em] text-[#32170c] transition hover:bg-[#ffc17e]"
+              >
+                {isBg ? "Изпрати запитване" : "Send an inquiry"}
+              </a>
+            </aside>
+
+            <div className="min-h-[420px] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-soft lg:min-h-full">
+              <iframe
+                className="h-full min-h-[420px] w-full border-0 lg:min-h-[500px]"
+                title={isBg ? "Карта до ОРИСИЯ в Русе" : "Map to ORISIA in Ruse"}
+                src="https://www.google.com/maps?q=%D0%B3%D1%80.%20%D0%A0%D1%83%D1%81%D0%B5%2C%20%D1%83%D0%BB.%20%D0%A0%D0%BE%D0%B4%D0%B8%D0%BD%D0%B0%2080%2C%20%D0%A0%D1%83%D1%81%D0%B5%2C%20%D0%91%D1%8A%D0%BB%D0%B3%D0%B0%D1%80%D0%B8%D1%8F%207000&output=embed"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          </div>
+
+          <section id="contact-form" className="mx-auto mt-16 max-w-4xl scroll-mt-28 rounded-2xl bg-white/[.07] p-7 shadow-soft sm:p-9 lg:p-10">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold uppercase sm:text-4xl">
+                {isBg ? "Изпратете запитване" : "Send an inquiry"}
+              </h2>
+              <p className="mt-3 text-base text-white/70">
+                {isBg ? "Оставете данни за контакт и кратко съобщение." : "Leave your contact details and a short message."}
+              </p>
+            </div>
+
+            <form className="mt-8" onSubmit={(event) => event.preventDefault()}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input className={inputClass} type="text" name="name" placeholder={isBg ? "Име *" : "Name *"} required />
+                <input className={inputClass} type="email" name="email" placeholder={isBg ? "Имейл *" : "Email *"} required />
+                <input className={inputClass} type="tel" name="phone" placeholder={isBg ? "Телефон *" : "Phone *"} required />
+                <input className={inputClass} type="text" name="subject" placeholder={isBg ? "Тема" : "Subject"} />
+                <textarea className={`${inputClass} min-h-36 py-4 sm:col-span-2`} name="message" placeholder={isBg ? "Съобщение *" : "Message *"} required />
+              </div>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <button className="min-h-12 rounded-full bg-[#f0a65e] px-8 text-sm font-bold uppercase tracking-[.08em] text-[#32170c] transition hover:bg-[#ffc17e]" type="submit">
+                  {isBg ? "Изпрати" : "Send"}
+                </button>
+                <p className="max-w-lg text-xs leading-5 text-white/55">
+                  {isBg
+                    ? "Формата е frontend интерфейс и ще изпраща съобщения след backend интеграцията."
+                    : "The form is currently a frontend interface and will send messages after backend integration."}
+                </p>
+              </div>
+            </form>
+          </section>
+        </div>
+      </section>
+    </main>
+  );
 }
