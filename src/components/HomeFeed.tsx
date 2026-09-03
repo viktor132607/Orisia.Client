@@ -44,6 +44,7 @@ export default function HomeFeed() {
   }, []);
 
   const orderedPosts = useMemo(() => [...posts].sort((a, b) => b.date.localeCompare(a.date)), [posts]);
+  const latestPosts = useMemo(() => orderedPosts.slice(0, 3), [orderedPosts]);
   const featured = useMemo(() => orderedPosts.filter((post) => post.featured), [orderedPosts]);
   const slides = featured.length ? featured : orderedPosts.slice(0, 3);
 
@@ -62,7 +63,32 @@ export default function HomeFeed() {
   return (
     <section className={styles.section} id="programa">
       <div className="container">
-        <div className={styles.head}>
+        <section className={styles.latestNews} aria-labelledby="latest-news-title">
+          <div className={styles.latestNewsHead}>
+            <div>
+              <span className={styles.latestNewsKicker}>{isBg ? "ОРИСИЯ" : "ORISIA"}</span>
+              <h2 id="latest-news-title">{isBg ? "Последни новини" : "Latest news"}</h2>
+            </div>
+            <a href="#orisia-feed-all" className={styles.latestNewsAll}>{isBg ? "Виж всички" : "View all"}</a>
+          </div>
+
+          <div className={styles.latestNewsGrid}>
+            {latestPosts.length ? latestPosts.map((post) => (
+              <article className={styles.latestNewsItem} key={`latest-${post.id}`}>
+                <div className={styles.latestNewsMeta}>
+                  <span>{typeLabels[post.type][language]}</span>
+                  <time dateTime={post.date}>{formatDate(post.date, isBg)}</time>
+                </div>
+                <h3>{isBg ? post.titleBg : post.titleEn || post.titleBg}</h3>
+                <p>{isBg ? post.bodyBg : post.bodyEn || post.bodyBg}</p>
+              </article>
+            )) : (
+              <div className={styles.latestNewsEmpty}>{isBg ? "Все още няма публикувани новини." : "There are no published updates yet."}</div>
+            )}
+          </div>
+        </section>
+
+        <div className={styles.head} id="orisia-feed-all">
           <div>
             <span className={styles.kicker}>{isBg ? "ОРИСИЯ · FEED" : "ORISIA · FEED"}</span>
             <h2>{isBg ? "Какво се случва" : "What is happening"}</h2>
