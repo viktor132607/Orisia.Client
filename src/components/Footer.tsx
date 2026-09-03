@@ -36,11 +36,11 @@ export default function Footer() {
 
         <div>
           <strong className="mb-4 block text-sm font-bold text-[#3f2b1d] dark:text-orisia-light">{isBg ? "Информация" : "Information"}</strong>
-          <div className="flex flex-col gap-3">
-            <span className={linkClass}>{isBg ? "Политика за поверителност" : "Privacy policy"}</span>
-            <span className={linkClass}>{isBg ? "Общи условия" : "Terms and conditions"}</span>
-            <span className={linkClass}>{isBg ? "Бисквитки" : "Cookies"}</span>
-          </div>
+          <nav className="flex flex-col items-start gap-3" aria-label={isBg ? "Правна информация" : "Legal information"}>
+            <Link className={linkClass} href="/privacy">{isBg ? "Политика за поверителност" : "Privacy policy"}</Link>
+            <Link className={linkClass} href="/terms">{isBg ? "Общи условия" : "Terms and conditions"}</Link>
+            <Link className={linkClass} href="/cookies">{isBg ? "Бисквитки" : "Cookies"}</Link>
+          </nav>
         </div>
 
         <div>
