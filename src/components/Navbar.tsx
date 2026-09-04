@@ -6,6 +6,7 @@ import SitePreferences from "./SitePreferences";
 
 const AUTH_KEY = "orisia-dev-auth";
 const LANGUAGE_KEY = "orisia-language";
+const LOGO_SRC = "/orisia-logo.png?v=20260904-2";
 
 type Language = "bg" | "en";
 type AuthRole = "guest" | "user" | "admin";
@@ -86,12 +87,12 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-[#1B191A] text-orisia-light shadow-sm">
       <div className="relative mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
         <Link href="/" className="flex-none leading-none xl:hidden" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
-          <img className="h-12 w-12 object-contain sm:h-[54px] sm:w-[54px]" src="/orisia-logo.png" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
+          <img className="h-12 w-12 object-contain sm:h-[54px] sm:w-[54px]" src={LOGO_SRC} alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
         </Link>
 
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-4 whitespace-nowrap xl:flex 2xl:gap-6">
           <Link href="/" className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
-            <img className="h-[54px] w-[54px] object-contain" src="/orisia-logo.png" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
+            <img className="h-[54px] w-[54px] object-contain" src={LOGO_SRC} alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} />
           </Link>
 
           <nav className="flex items-center justify-center gap-1 whitespace-nowrap 2xl:gap-2" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
