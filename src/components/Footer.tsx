@@ -13,7 +13,7 @@ export default function Footer() {
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-12 md:grid-cols-2 lg:grid-cols-[1.4fr_.8fr_.9fr_1.1fr] lg:px-8">
         <div>
           <Link href="/" className="inline-block" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
-            <img src="/orisia-logo.png" alt={isBg ? "ОРИСИЯ" : "ORISIA"} className="h-16 w-16 object-contain" />
+            <img src="/orisia-logo.jpg" alt={isBg ? "ОРИСИЯ" : "ORISIA"} className="h-16 w-16 object-contain" />
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-[#b9a184]">
             {isBg ? "Български фолклор, танц, традиция и общност с характер." : "Bulgarian folklore, dance, tradition and community with character."}
