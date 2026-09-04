@@ -9,9 +9,9 @@ export const metadata = {
   title: "ОРИСИЯ",
   description: "ОРИСИЯ — български фолклор, танц и традиция",
   icons: {
-    icon: "/orisia-logo.png",
-    shortcut: "/orisia-logo.png",
-    apple: "/orisia-logo.png",
+    icon: "/orisia-logo.jpg",
+    shortcut: "/orisia-logo.jpg",
+    apple: "/orisia-logo.jpg",
   },
 };
 
