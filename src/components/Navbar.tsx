@@ -6,7 +6,7 @@ import SitePreferences from "./SitePreferences";
 
 const AUTH_KEY = "orisia-dev-auth";
 const LANGUAGE_KEY = "orisia-language";
-const LOGO_SRC = "/orisia-logo.png?v=20260904-2";
+const LOGO_SRC = "/orisia-logo.jpg";
 
 type Language = "bg" | "en";
 type AuthRole = "guest" | "user" | "admin";
