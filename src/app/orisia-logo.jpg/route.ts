@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-export const runtime = "nodejs";
+export const dynamic = "force-static";
 
-export async function GET() {
+export function GET() {
   const base64 = Array.from({ length: 7 }, (_, index) => {
     const part = `part${String(index).padStart(2, "0")}.txt`;
     return readFileSync(path.join(process.cwd(), "logo_parts", part), "utf8").trim();
