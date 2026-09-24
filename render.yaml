@@ -5,5 +5,7 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: out
     envVars:
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://orisia-client.onrender.com
       - key: NEXT_PUBLIC_API_URL
         value: https://orisia-api.onrender.com/api

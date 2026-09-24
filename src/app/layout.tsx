@@ -1,19 +1,13 @@
+import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
 import CookieBanner from "../components/CookieBanner";
 import SiteEntranceGate from "../components/SiteEntranceGate";
+import { defaultMetadata } from "../lib/seo";
 
-export const metadata = {
-  title: "ОРИСИЯ",
-  description: "ОРИСИЯ — български фолклор, танц и традиция",
-  icons: {
-    icon: "/orisia-logo.jpg",
-    shortcut: "/orisia-logo.jpg",
-    apple: "/orisia-logo.jpg",
-  },
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
