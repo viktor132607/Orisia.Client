@@ -63,6 +63,36 @@ export default function HomeFeed() {
   return (
     <section className="bg-orisia-cream py-12 text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light" id="programa">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <header className="mb-12 border-b border-orisia-line pb-10 dark:border-[#574333]">
+          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c28a48]">
+            {isBg ? "БЪЛГАРСКИ ФОЛКЛОР · РУСЕ" : "BULGARIAN FOLKLORE · RUSE"}
+          </span>
+          <h1 className="mt-3 max-w-5xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+            {isBg
+              ? "ОРИСИЯ — народни танци и български фолклор в Русе"
+              : "ORISIA — Bulgarian folk dances and folklore in Ruse"}
+          </h1>
+          <p className="mt-5 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#b19873]">
+            {isBg
+              ? "ОРИСИЯ събира хора с интерес към българските народни танци, хората и фолклорните традиции в Русе. Тук ще откриете информация за нашите дейности, събития, хоротека и начини за контакт."
+              : "ORISIA brings together people interested in Bulgarian folk dances, horo dances and folklore traditions in Ruse. Here you can find information about our activities, events, dance library and contact details."}
+          </p>
+          <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-3" aria-label={isBg ? "Основни раздели на ОРИСИЯ" : "Main ORISIA sections"}>
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/about">
+              {isBg ? "За ОРИСИЯ" : "About ORISIA"}
+            </Link>
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/horoteka">
+              {isBg ? "Хоротека" : "Dance library"}
+            </Link>
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/events">
+              {isBg ? "Събития" : "Events"}
+            </Link>
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/contact">
+              {isBg ? "Контакти" : "Contacts"}
+            </Link>
+          </nav>
+        </header>
+
         <section className="border-b border-orisia-line pb-10 dark:border-[#574333]" aria-labelledby="latest-news-title">
           <div className="mb-7 flex items-end justify-between gap-5">
             <div>
