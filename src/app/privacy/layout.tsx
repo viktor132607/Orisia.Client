@@ -1,3 +1,4 @@
+import { buildLanguageAlternates } from "../../lib/i18n";
 import type { Metadata } from "next";
 import PublicPageStructuredData from "../../components/PublicPageStructuredData";
 import { buildSocialMetadata } from "../../lib/seo";
@@ -9,9 +10,7 @@ const pageDescription =
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
-  alternates: {
-    canonical: "/privacy/",
-  },
+  alternates: buildLanguageAlternates("/privacy/"),
   ...buildSocialMetadata({
     path: "/privacy/",
     title: pageTitle,

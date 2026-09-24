@@ -1,3 +1,4 @@
+import { buildLanguageAlternates } from "../../../lib/i18n";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FeedDetailClient from "../../../components/FeedDetailClient";
@@ -42,9 +43,7 @@ export async function generateMetadata({
     title: post.titleBg,
     description,
     keywords: [post.titleBg, "фолклорни събития Русе", ...localSeoKeywords],
-    alternates: {
-      canonical: path,
-    },
+    alternates: buildLanguageAlternates(path),
     ...buildSocialMetadata({
       path,
       title: post.titleBg,

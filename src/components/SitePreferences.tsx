@@ -29,7 +29,8 @@ function applyTheme(theme: Theme) {
 export default function SitePreferences() {
   const pathname = usePathname();
   const router = useRouter();
-  const routeLocale = getLocaleFromPathname(pathname);
+  const currentPathname = pathname ?? "/";
+  const routeLocale = getLocaleFromPathname(currentPathname);
   const [theme, setTheme] = useState<Theme>("dark");
   const [language, setLanguage] = useState<Language>(routeLocale ?? "bg");
 
@@ -58,8 +59,8 @@ export default function SitePreferences() {
     applyLanguage(nextLanguage);
     window.dispatchEvent(new CustomEvent("orisia-language-change", { detail: { language: nextLanguage } }));
 
-    if (isPublicPath(pathname)) {
-      router.push(localizePath(stripLocale(pathname), nextLanguage));
+    if (isPublicPath(currentPathname)) {
+      router.push(localizePath(stripLocale(currentPathname), nextLanguage));
     }
   };
 

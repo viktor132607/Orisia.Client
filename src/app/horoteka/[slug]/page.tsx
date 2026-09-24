@@ -1,3 +1,4 @@
+import { buildLanguageAlternates } from "../../../lib/i18n";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import JsonLd from "../../../components/JsonLd";
@@ -46,9 +47,7 @@ export async function generateMetadata({
       `${dance.titleBg} ритъм`,
       ...localSeoKeywords,
     ],
-    alternates: {
-      canonical: path,
-    },
+    alternates: buildLanguageAlternates(path),
     ...buildSocialMetadata({
       path,
       title,

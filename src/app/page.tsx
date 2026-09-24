@@ -1,3 +1,4 @@
+import { buildLanguageAlternates } from "../lib/i18n";
 import type { Metadata } from "next";
 import HomeGate from "../components/HomeGate";
 import PublicPageStructuredData from "../components/PublicPageStructuredData";
@@ -14,9 +15,7 @@ export const metadata: Metadata = {
   },
   description: defaultDescription,
   keywords: localSeoKeywords,
-  alternates: {
-    canonical: "/",
-  },
+  alternates: buildLanguageAlternates("/"),
   ...buildSocialMetadata({
     path: "/",
     title: defaultTitle,

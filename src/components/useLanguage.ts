@@ -13,7 +13,7 @@ export const LANGUAGE_KEY = "orisia-language";
 
 export default function useLanguage() {
   const pathname = usePathname();
-  const routeLocale = getLocaleFromPathname(pathname);
+  const routeLocale = getLocaleFromPathname(pathname ?? "/");
   const [language, setLanguage] = useState<Language>("bg");
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function useLanguage() {
 
 export function useLocalizedPath() {
   const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname);
+  const locale = getLocaleFromPathname(pathname ?? "/");
 
   return (path: string) => (locale ? localizePath(path, locale) : path);
 }

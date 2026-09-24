@@ -58,3 +58,15 @@ export function localizePath(path: string, locale: Locale) {
   const withSlash = normalized.endsWith("/") ? normalized : `${normalized}/`;
   return `/${locale}${withSlash}${suffix}`;
 }
+
+
+export function buildLanguageAlternates(path: string) {
+  return {
+    canonical: path,
+    languages: {
+      bg: localizePath(path, "bg"),
+      en: localizePath(path, "en"),
+      "x-default": path,
+    },
+  };
+}

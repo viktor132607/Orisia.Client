@@ -1,3 +1,4 @@
+import { buildLanguageAlternates } from "../../lib/i18n";
 import type { Metadata } from "next";
 import PublicPageStructuredData from "../../components/PublicPageStructuredData";
 import { buildSocialMetadata, localSeoKeywords } from "../../lib/seo";
@@ -10,9 +11,7 @@ export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: localSeoKeywords,
-  alternates: {
-    canonical: "/calendar/",
-  },
+  alternates: buildLanguageAlternates("/calendar/"),
   ...buildSocialMetadata({
     path: "/calendar/",
     title: pageTitle,

@@ -157,7 +157,7 @@ export function buildSectionItemBreadcrumbStructuredData({
         "@type": "ListItem",
         position: 1,
         name: siteName,
-        item: absoluteUrl(homePath),
+        item: absoluteUrl("/"),
       },
       {
         "@type": "ListItem",

@@ -29,7 +29,7 @@ export default function Navbar() {
   const [language, setLanguage] = useState<Language>("bg");
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const routeLocale = getLocaleFromPathname(pathname);
+  const routeLocale = getLocaleFromPathname(pathname ?? "/");
   const publicHref = (path: string) => routeLocale ? localizePath(path, routeLocale) : path;
 
   useEffect(() => {
@@ -171,7 +171,7 @@ export default function Navbar() {
           {loggedIn ? (
             <div className="grid gap-3">
               <Link href="/account" className="flex min-h-12 items-center justify-center rounded-sm border border-[#5f5550] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-orisia-light" onClick={() => setMenuOpen(false)}>{text.profile}</Link>
-              <Link href="/" className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={logout}>{text.logout}</Link>
+              <Link href={publicHref("/")} className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={logout}>{text.logout}</Link>
             </div>
           ) : (
             <Link href="/login" className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={() => setMenuOpen(false)}>{text.login}</Link>
