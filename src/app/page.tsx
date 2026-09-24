@@ -7,6 +7,9 @@ export const metadata: Metadata = {
     absolute: defaultTitle,
   },
   description: defaultDescription,
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function Page() {
