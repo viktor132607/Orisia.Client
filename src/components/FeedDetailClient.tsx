@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import useLanguage from "../../../components/useLanguage";
-import type { FeedPost } from "../../../components/homeFeedStore";
+import useLanguage from "./useLanguage";
+import type { FeedPost } from "./homeFeedStore";
 
 function formatDate(date: string, isBg: boolean) {
   const value = new Date(`${date}T12:00:00`);
