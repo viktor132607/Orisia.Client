@@ -59,8 +59,21 @@ export default function FeedDetailClient({
         {post.image && (
           <img
             src={post.image}
-            alt={title}
-            className="mt-8 max-h-[560px] w-full object-cover"
+            alt={
+              kind === "event"
+                ? isBg
+                  ? `Събитие „${title}“ — ОРИСИЯ, Русе`
+                  : `ORISIA event “${title}” in Ruse`
+                : isBg
+                  ? `Публикация „${title}“ — ОРИСИЯ, Русе`
+                  : `ORISIA post “${title}” in Ruse`
+            }
+            className="mt-8 aspect-[3/2] max-h-[560px] w-full object-cover"
+            width={1200}
+            height={800}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
           />
         )}
 

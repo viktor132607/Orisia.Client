@@ -93,8 +93,16 @@ export default function DanceDetailClient({ dance }: { dance: HorotekaDance }) {
                   ) : (
                     <img
                       src={dance.video.thumbnailUrl}
-                      alt={title}
+                      alt={
+                        isBg
+                          ? `${dance.titleBg} — ${dance.regionBg}, ритъм ${dance.rhythm}`
+                          : `${dance.titleEn} — ${dance.regionEn}, rhythm ${dance.rhythm}`
+                      }
                       className="aspect-video w-full object-cover"
+                      width={1280}
+                      height={720}
+                      loading="lazy"
+                      decoding="async"
                     />
                   )}
                 </div>

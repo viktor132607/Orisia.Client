@@ -85,8 +85,16 @@ export default function NewsPage() {
                     {post.image && (
                       <img
                         src={post.image}
-                        alt={title}
+                        alt={
+                          isBg
+                            ? `Публикация „${title}“ — ОРИСИЯ, Русе`
+                            : `ORISIA post “${title}” in Ruse`
+                        }
                         className="h-48 w-full object-cover"
+                        width={1200}
+                        height={675}
+                        loading="lazy"
+                        decoding="async"
                       />
                     )}
                     <div className="flex flex-1 flex-col p-6">

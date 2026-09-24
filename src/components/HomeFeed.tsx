@@ -127,7 +127,18 @@ export default function HomeFeed() {
           <div className="grid gap-5">
             {slide && (
               <article className="relative min-h-[360px] overflow-hidden border border-[#6d5039] bg-orisia-ink text-orisia-light shadow-soft">
-                {slide.image && <img className="absolute inset-0 h-full w-full object-cover opacity-45" src={slide.image} alt="" />}
+                {slide.image && (
+                  <img
+                    className="absolute inset-0 h-full w-full object-cover opacity-45"
+                    src={slide.image}
+                    alt=""
+                    aria-hidden="true"
+                    width={1600}
+                    height={900}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/55" />
                 <div className="relative z-10 flex min-h-[360px] max-w-3xl flex-col justify-end p-7 sm:p-10">
                   <span className={`${badgeClass} self-start border-[#a5743b] bg-black/25 text-[#e7c58f]`}>{typeLabels[slide.type][language]}</span>
@@ -142,7 +153,21 @@ export default function HomeFeed() {
             <div className="grid gap-4">
               {orderedPosts.length ? orderedPosts.map((post) => (
                 <article className="overflow-hidden border border-orisia-line bg-orisia-paper shadow-sm dark:border-[#604a39] dark:bg-orisia-panel" key={post.id}>
-                  {post.image && <img className="max-h-[430px] w-full object-cover" src={post.image} alt={isBg ? post.titleBg : post.titleEn || post.titleBg} />}
+                  {post.image && (
+                    <img
+                      className="aspect-video max-h-[430px] w-full object-cover"
+                      src={post.image}
+                      alt={
+                        isBg
+                          ? `${post.titleBg} — ОРИСИЯ, Русе`
+                          : `${post.titleEn || post.titleBg} — ORISIA, Ruse`
+                      }
+                      width={1200}
+                      height={675}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
                   <div className="p-6">
                     <div className="flex items-center justify-between gap-4">
                       <span className={`${badgeClass} border-orisia-goldDark text-orisia-goldDark dark:text-[#e7c58f]`}>{typeLabels[post.type][language]}</span>

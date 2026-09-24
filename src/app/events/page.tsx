@@ -58,8 +58,16 @@ export default function EventsPage() {
         {post.image && (
           <img
             src={post.image}
-            alt={title}
+            alt={
+              isBg
+                ? `Събитие „${title}“ — ОРИСИЯ, Русе`
+                : `ORISIA event “${title}” in Ruse`
+            }
             className="h-56 w-full object-cover"
+            width={1200}
+            height={675}
+            loading="lazy"
+            decoding="async"
           />
         )}
         <div className="p-6">
