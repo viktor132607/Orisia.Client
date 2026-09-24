@@ -7,6 +7,12 @@ function absoluteUrl(path: string) {
   return new URL(path, siteUrl).toString();
 }
 
+function normalizeUrl(value: string) {
+  return value.startsWith("http://") || value.startsWith("https://")
+    ? value
+    : absoluteUrl(value);
+}
+
 const ruseAddress = {
   "@type": "PostalAddress",
   streetAddress: "ул. Родина 80",
@@ -125,6 +131,75 @@ export function buildBreadcrumbStructuredData({
   };
 }
 
+export function buildHorotekaDanceBreadcrumbStructuredData({
+  path,
+  name,
+}: {
+  path: string;
+  name: string;
+}) {
+  const url = absoluteUrl(path);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": `${url}#breadcrumb`,
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: siteName,
+        item: absoluteUrl("/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Хоротека",
+        item: absoluteUrl("/horoteka/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name,
+        item: url,
+      },
+    ],
+  };
+}
+
+export function buildVideoObjectStructuredData({
+  name,
+  description,
+  thumbnailUrl,
+  uploadDate,
+  contentUrl,
+  embedUrl,
+  duration,
+}: {
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate: string;
+  contentUrl?: string;
+  embedUrl?: string;
+  duration?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name,
+    description,
+    thumbnailUrl: [normalizeUrl(thumbnailUrl)],
+    uploadDate,
+    ...(contentUrl ? { contentUrl: normalizeUrl(contentUrl) } : {}),
+    ...(embedUrl ? { embedUrl: normalizeUrl(embedUrl) } : {}),
+    ...(duration ? { duration } : {}),
+    publisher: {
+      "@id": organizationId,
+    },
+  };
+}
+
 export function buildEventStructuredData({
   name,
   description,
@@ -136,11 +211,7 @@ export function buildEventStructuredData({
   startDate: string;
   image?: string;
 }) {
-  const imageUrl = image
-    ? image.startsWith("http://") || image.startsWith("https://")
-      ? image
-      : absoluteUrl(image)
-    : undefined;
+  const imageUrl = image ? normalizeUrl(image) : undefined;
 
   return {
     "@context": "https://schema.org",
