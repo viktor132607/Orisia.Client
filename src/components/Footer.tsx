@@ -1,18 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import useLanguage from "./useLanguage";
+import useLanguage, { useLocalizedPath } from "./useLanguage";
 
 export default function Footer() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const linkClass = "text-sm text-[#c9b8a8] transition hover:text-white";
 
   return (
     <footer className="border-t border-[#554b47] bg-[#1B191A] font-sans text-orisia-light">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-12 md:grid-cols-2 lg:grid-cols-[1.4fr_.8fr_.9fr_1.1fr] lg:px-8">
         <div>
-          <Link href="/" className="inline-block" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
+          <Link href={href("/")} className="inline-block" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
             <img src="/orisia-logo.jpg" alt={isBg ? "ОРИСИЯ" : "ORISIA"} className="h-16 w-16 object-contain" />
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-[#b9a184]">
@@ -24,29 +25,29 @@ export default function Footer() {
         <div>
           <strong className="mb-4 block text-sm font-bold text-orisia-light">{isBg ? "Страници" : "Pages"}</strong>
           <nav className="flex flex-col items-start gap-3" aria-label={isBg ? "Страници във футъра" : "Footer pages"}>
-            <Link className={linkClass} href="/">{isBg ? "Начало" : "Home"}</Link>
-            <Link className={linkClass} href="/news">{isBg ? "Новини" : "News"}</Link>
-            <Link className={linkClass} href="/events">{isBg ? "Събития" : "Events"}</Link>
-            <Link className={linkClass} href="/about">{isBg ? "За нас" : "About us"}</Link>
-            <Link className={linkClass} href="/gallery">{isBg ? "Галерия" : "Gallery"}</Link>
-            <Link className={linkClass} href="/horoteka">{isBg ? "Хоротека" : "Dance Library"}</Link>
-            <Link className={linkClass} href="/contact">{isBg ? "Контакти" : "Contacts"}</Link>
+            <Link className={linkClass} href={href("/")}>{isBg ? "Начало" : "Home"}</Link>
+            <Link className={linkClass} href={href("/news/")}>{isBg ? "Новини" : "News"}</Link>
+            <Link className={linkClass} href={href("/events/")}>{isBg ? "Събития" : "Events"}</Link>
+            <Link className={linkClass} href={href("/about/")}>{isBg ? "За нас" : "About us"}</Link>
+            <Link className={linkClass} href={href("/gallery/")}>{isBg ? "Галерия" : "Gallery"}</Link>
+            <Link className={linkClass} href={href("/horoteka/")}>{isBg ? "Хоротека" : "Dance Library"}</Link>
+            <Link className={linkClass} href={href("/contact/")}>{isBg ? "Контакти" : "Contacts"}</Link>
           </nav>
         </div>
 
         <div>
           <strong className="mb-4 block text-sm font-bold text-orisia-light">{isBg ? "Информация" : "Information"}</strong>
           <nav className="flex flex-col items-start gap-3" aria-label={isBg ? "Правна информация" : "Legal information"}>
-            <Link className={linkClass} href="/privacy">{isBg ? "Политика за поверителност" : "Privacy policy"}</Link>
-            <Link className={linkClass} href="/terms">{isBg ? "Общи условия" : "Terms and conditions"}</Link>
-            <Link className={linkClass} href="/cookies">{isBg ? "Бисквитки" : "Cookies"}</Link>
+            <Link className={linkClass} href={href("/privacy/")}>{isBg ? "Политика за поверителност" : "Privacy policy"}</Link>
+            <Link className={linkClass} href={href("/terms/")}>{isBg ? "Общи условия" : "Terms and conditions"}</Link>
+            <Link className={linkClass} href={href("/cookies/")}>{isBg ? "Бисквитки" : "Cookies"}</Link>
           </nav>
         </div>
 
         <div>
           <strong className="mb-4 block text-sm font-bold text-orisia-light">{isBg ? "Контакти" : "Contacts"}</strong>
           <div className="flex items-start gap-3 text-sm leading-6 text-[#c9b8a8]"><span aria-hidden="true">⌖</span><span>{isBg ? "гр. Русе, ул. Родина 80 (на гърба на боулинг залата), Русе, България, 7000" : "80 Rodina St. (behind the bowling hall), Ruse, Bulgaria, 7000"}</span></div>
-          <Link href="/contact" className="mt-4 flex items-center gap-3 text-sm text-[#c9b8a8] transition hover:text-white"><span aria-hidden="true">✉</span><span>{isBg ? "Изпрати запитване" : "Send an inquiry"}</span></Link>
+          <Link href={href("/contact/")} className="mt-4 flex items-center gap-3 text-sm text-[#c9b8a8] transition hover:text-white"><span aria-hidden="true">✉</span><span>{isBg ? "Изпрати запитване" : "Send an inquiry"}</span></Link>
         </div>
       </div>
 

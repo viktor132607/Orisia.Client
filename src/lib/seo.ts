@@ -38,6 +38,8 @@ export function buildSocialMetadata({
   image,
   type = "website",
   publishedTime,
+  locale = "bg_BG",
+  socialSiteName = siteName,
 }: {
   path: string;
   title: string;
@@ -45,6 +47,8 @@ export function buildSocialMetadata({
   image?: string;
   type?: "website" | "article";
   publishedTime?: string;
+  locale?: "bg_BG" | "en_GB";
+  socialSiteName?: string;
 }): Pick<Metadata, "openGraph" | "twitter"> {
   const socialImage = image || defaultSocialImage;
 
@@ -52,9 +56,9 @@ export function buildSocialMetadata({
     type === "article"
       ? {
           type: "article",
-          locale: "bg_BG",
+          locale,
           url: path,
-          siteName,
+          siteName: socialSiteName,
           title,
           description,
           ...(publishedTime ? { publishedTime } : {}),
@@ -62,9 +66,9 @@ export function buildSocialMetadata({
         }
       : {
           type: "website",
-          locale: "bg_BG",
+          locale,
           url: path,
-          siteName,
+          siteName: socialSiteName,
           title,
           description,
           images: [{ url: socialImage, alt: title }],

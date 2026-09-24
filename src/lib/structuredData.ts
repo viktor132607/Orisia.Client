@@ -64,10 +64,12 @@ export function buildWebPageStructuredData({
   path,
   name,
   description,
+  language = "bg",
 }: {
   path: string;
   name: string;
   description: string;
+  language?: "bg" | "en";
 }) {
   const url = absoluteUrl(path);
 
@@ -78,7 +80,7 @@ export function buildWebPageStructuredData({
     url,
     name,
     description,
-    inLanguage: "bg",
+    inLanguage: language,
     isPartOf: {
       "@id": websiteId,
     },
@@ -94,12 +96,14 @@ export function buildWebPageStructuredData({
 export function buildBreadcrumbStructuredData({
   path,
   name,
+  homePath = "/",
 }: {
   path: string;
   name: string;
+  homePath?: string;
 }) {
   const url = absoluteUrl(path);
-  const isHome = path === "/";
+  const isHome = path === homePath;
 
   return {
     "@context": "https://schema.org",
@@ -111,7 +115,7 @@ export function buildBreadcrumbStructuredData({
             "@type": "ListItem",
             position: 1,
             name: siteName,
-            item: absoluteUrl("/"),
+            item: absoluteUrl(homePath),
           },
         ]
       : [
@@ -119,7 +123,7 @@ export function buildBreadcrumbStructuredData({
             "@type": "ListItem",
             position: 1,
             name: siteName,
-            item: absoluteUrl("/"),
+            item: absoluteUrl(homePath),
           },
           {
             "@type": "ListItem",
@@ -153,7 +157,7 @@ export function buildSectionItemBreadcrumbStructuredData({
         "@type": "ListItem",
         position: 1,
         name: siteName,
-        item: absoluteUrl("/"),
+        item: absoluteUrl(homePath),
       },
       {
         "@type": "ListItem",

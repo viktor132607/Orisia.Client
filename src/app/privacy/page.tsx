@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import useLanguage from "../../components/useLanguage";
+import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
 
 export default function PrivacyPage() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const sectionClass = "border-t border-orisia-line pt-7 dark:border-[#5a4637]";
   const headingClass = "text-2xl font-bold sm:text-3xl";
   const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]";
@@ -60,7 +61,7 @@ export default function PrivacyPage() {
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "8. Бисквитки и локално съхранение" : "8. Cookies and local storage"}</h2>
             <p className={textClass}>{isBg ? "Подробности за използваните технически настройки и съхранение в браузъра са описани в отделната политика за бисквитки." : "Details about technical settings and browser storage are described in the separate Cookie Policy."}</p>
-            <Link href="/cookies" className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Виж политиката за бисквитки" : "View Cookie Policy"}</Link>
+            <Link href={href("/cookies/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Виж политиката за бисквитки" : "View Cookie Policy"}</Link>
           </section>
         </div>
       </div>

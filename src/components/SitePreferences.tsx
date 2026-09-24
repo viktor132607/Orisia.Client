@@ -1,25 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  getLocaleFromPathname,
+  isPublicPath,
+  localizePath,
+  stripLocale,
+  type Locale,
+} from "../lib/i18n";
 
 const THEME_KEY = "orisia-theme";
 const LANGUAGE_KEY = "orisia-language";
 
 type Theme = "dark" | "light";
-type Language = "bg" | "en";
+type Language = Locale;
 
 function applyLanguage(language: Language) {
   document.documentElement.lang = language;
-  document.title = language === "bg" ? "ОРИСИЯ" : "ORISIA";
-  const description = document.querySelector('meta[name="description"]');
-  if (description) {
-    description.setAttribute(
-      "content",
-      language === "bg"
-        ? "ОРИСИЯ — български фолклор, танц и традиция"
-        : "ORISIA — Bulgarian folklore, dance and tradition"
-    );
-  }
 }
 
 function applyTheme(theme: Theme) {
@@ -29,17 +27,21 @@ function applyTheme(theme: Theme) {
 }
 
 export default function SitePreferences() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const routeLocale = getLocaleFromPathname(pathname);
   const [theme, setTheme] = useState<Theme>("dark");
-  const [language, setLanguage] = useState<Language>("bg");
+  const [language, setLanguage] = useState<Language>(routeLocale ?? "bg");
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
-    const savedLanguage = window.localStorage.getItem(LANGUAGE_KEY) === "en" ? "en" : "bg";
+    const savedLanguage = routeLocale ?? (window.localStorage.getItem(LANGUAGE_KEY) === "en" ? "en" : "bg");
     setTheme(savedTheme);
     setLanguage(savedLanguage);
+    window.localStorage.setItem(LANGUAGE_KEY, savedLanguage);
     applyTheme(savedTheme);
     applyLanguage(savedLanguage);
-  }, []);
+  }, [routeLocale]);
 
   const toggleTheme = () => {
     const nextTheme: Theme = theme === "dark" ? "light" : "dark";
@@ -55,6 +57,10 @@ export default function SitePreferences() {
     window.localStorage.setItem(LANGUAGE_KEY, nextLanguage);
     applyLanguage(nextLanguage);
     window.dispatchEvent(new CustomEvent("orisia-language-change", { detail: { language: nextLanguage } }));
+
+    if (isPublicPath(pathname)) {
+      router.push(localizePath(stripLocale(pathname), nextLanguage));
+    }
   };
 
   const isBg = language === "bg";

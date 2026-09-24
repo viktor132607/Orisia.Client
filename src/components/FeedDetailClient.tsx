@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import useLanguage from "./useLanguage";
+import useLanguage, { useLocalizedPath } from "./useLanguage";
 import type { FeedPost } from "./homeFeedStore";
 
 function formatDate(date: string, isBg: boolean) {
@@ -24,9 +24,10 @@ export default function FeedDetailClient({
 }) {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
   const body = isBg ? post.bodyBg : post.bodyEn || post.bodyBg;
-  const backHref = kind === "event" ? "/events/" : "/news/";
+  const backHref = href(kind === "event" ? "/events/" : "/news/");
   const backLabel = kind === "event"
     ? isBg ? "Към събитията" : "Back to events"
     : isBg ? "Към новините" : "Back to news";

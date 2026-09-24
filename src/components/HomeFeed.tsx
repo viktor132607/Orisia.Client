@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import useLanguage from "./useLanguage";
+import useLanguage, { useLocalizedPath } from "./useLanguage";
 import { FEED_EVENT, FeedPost, FeedType, readFeedPosts } from "./homeFeedStore";
 
 const typeLabels: Record<FeedType, { bg: string; en: string }> = {
@@ -24,6 +24,7 @@ function formatDate(date: string, isBg: boolean) {
 export default function HomeFeed() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const [posts, setPosts] = useState<FeedPost[]>([]);
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -78,16 +79,16 @@ export default function HomeFeed() {
               : "ORISIA brings together people interested in Bulgarian folk dances, horo dances and folklore traditions in Ruse. Here you can find information about our activities, events, dance library and contact details."}
           </p>
           <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-3" aria-label={isBg ? "Основни раздели на ОРИСИЯ" : "Main ORISIA sections"}>
-            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/about">
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href={href("/about/")}>
               {isBg ? "За ОРИСИЯ" : "About ORISIA"}
             </Link>
-            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/horoteka">
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href={href("/horoteka/")}>
               {isBg ? "Хоротека" : "Dance library"}
             </Link>
-            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/events">
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href={href("/events/")}>
               {isBg ? "Събития" : "Events"}
             </Link>
-            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/contact">
+            <Link className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href={href("/contact/")}>
               {isBg ? "Контакти" : "Contacts"}
             </Link>
           </nav>
@@ -185,12 +186,12 @@ export default function HomeFeed() {
             <div className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel">
               <h3 className="text-2xl font-bold">{isBg ? "Предстоящи събития" : "Upcoming events"}</h3>
               <p className="mt-3 font-sans text-sm leading-6 text-[#725b47] dark:text-[#9e8463]">{isBg ? "Виж участията, репетициите и специалните дати на ОРИСИЯ." : "See ORISIA performances, rehearsals and special dates."}</p>
-              <Link className="mt-4 inline-block font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/calendar">{isBg ? "Към календара" : "Open calendar"}</Link>
+              <Link className="mt-4 inline-block font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href={href("/calendar/")}>{isBg ? "Към календара" : "Open calendar"}</Link>
             </div>
             <div className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel">
               <h3 className="text-2xl font-bold">{isBg ? "Хоротека" : "Dance library"}</h3>
               <p className="mt-3 font-sans text-sm leading-6 text-[#725b47] dark:text-[#9e8463]">{isBg ? "Кратки клипове и информация за български хора и ритми." : "Short clips and information about Bulgarian dances and rhythms."}</p>
-              <Link className="mt-4 inline-block font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href="/horoteka">{isBg ? "Разгледай" : "Explore"}</Link>
+              <Link className="mt-4 inline-block font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]" href={href("/horoteka/")}>{isBg ? "Разгледай" : "Explore"}</Link>
             </div>
           </aside>
         </div>

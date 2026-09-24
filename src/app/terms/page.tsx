@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import useLanguage from "../../components/useLanguage";
+import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
 
 export default function TermsPage() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const sectionClass = "border-t border-orisia-line pt-7 dark:border-[#5a4637]";
   const headingClass = "text-2xl font-bold sm:text-3xl";
   const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]";
@@ -56,8 +57,8 @@ export default function TermsPage() {
             <h2 className={headingClass}>{isBg ? "7. Поверителност" : "7. Privacy"}</h2>
             <p className={textClass}>{isBg ? "Информация за обработването на лични данни и използваното локално съхранение е достъпна в политиката за поверителност и политиката за бисквитки." : "Information about personal data processing and browser storage is available in the Privacy Policy and Cookie Policy."}</p>
             <div className="mt-4 flex flex-wrap gap-4 font-sans text-sm font-bold">
-              <Link href="/privacy" className="text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
-              <Link href="/cookies" className="text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Бисквитки" : "Cookies"}</Link>
+              <Link href={href("/privacy/")} className="text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
+              <Link href={href("/cookies/")} className="text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Бисквитки" : "Cookies"}</Link>
             </div>
           </section>
 
@@ -69,7 +70,7 @@ export default function TermsPage() {
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "9. Контакт" : "9. Contact"}</h2>
             <p className={textClass}>{isBg ? "За въпроси относно сайта и тези условия можете да използвате страницата за контакт." : "For questions about the website and these terms, you can use the contact page."}</p>
-            <Link href="/contact" className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Контакти" : "Contact"}</Link>
+            <Link href={href("/contact/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Контакти" : "Contact"}</Link>
           </section>
         </div>
       </div>

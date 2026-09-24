@@ -5,20 +5,24 @@ export default function PublicPageStructuredData({
   path,
   name,
   description,
+  language = "bg",
+  homePath = "/",
 }: {
   path: string;
   name: string;
   description: string;
+  language?: "bg" | "en";
+  homePath?: string;
 }) {
   return (
     <>
       <JsonLd
         id="webpage-structured-data"
-        data={buildWebPageStructuredData({ path, name, description })}
+        data={buildWebPageStructuredData({ path, name, description, language })}
       />
       <JsonLd
         id="breadcrumb-structured-data"
-        data={buildBreadcrumbStructuredData({ path, name })}
+        data={buildBreadcrumbStructuredData({ path, name, homePath })}
       />
     </>
   );

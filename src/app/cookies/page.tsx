@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import useLanguage from "../../components/useLanguage";
+import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
 
 export default function CookiesPage() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const sectionClass = "border-t border-orisia-line pt-7 dark:border-[#5a4637]";
   const headingClass = "text-2xl font-bold sm:text-3xl";
   const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]";
@@ -50,7 +51,7 @@ export default function CookiesPage() {
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "6. Връзка с поверителността" : "6. Relation to privacy"}</h2>
             <p className={textClass}>{isBg ? "За повече информация относно личните данни, целите на обработването и вашите права вижте политиката за поверителност." : "For more information about personal data, processing purposes and your rights, see the Privacy Policy."}</p>
-            <Link href="/privacy" className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
+            <Link href={href("/privacy/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
           </section>
         </div>
       </div>

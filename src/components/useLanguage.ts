@@ -1,11 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import {
+  getLocaleFromPathname,
+  localizePath,
+  type Locale,
+} from "../lib/i18n";
 
-export type Language = "bg" | "en";
+export type Language = Locale;
 export const LANGUAGE_KEY = "orisia-language";
 
 export default function useLanguage() {
+  const pathname = usePathname();
+  const routeLocale = getLocaleFromPathname(pathname);
   const [language, setLanguage] = useState<Language>("bg");
 
   useEffect(() => {
@@ -23,7 +31,14 @@ export default function useLanguage() {
       if (event.key === LANGUAGE_KEY) readLanguage();
     };
 
-    readLanguage();
+    if (routeLocale) {
+      setLanguage(routeLocale);
+      window.localStorage.setItem(LANGUAGE_KEY, routeLocale);
+      document.documentElement.lang = routeLocale;
+    } else {
+      readLanguage();
+    }
+
     window.addEventListener("orisia-language-change", handleLanguage);
     window.addEventListener("storage", handleStorage);
 
@@ -31,7 +46,14 @@ export default function useLanguage() {
       window.removeEventListener("orisia-language-change", handleLanguage);
       window.removeEventListener("storage", handleStorage);
     };
-  }, []);
+  }, [routeLocale]);
 
-  return language;
+  return routeLocale ?? language;
+}
+
+export function useLocalizedPath() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+
+  return (path: string) => (locale ? localizePath(path, locale) : path);
 }

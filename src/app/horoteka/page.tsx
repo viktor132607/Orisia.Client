@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import useLanguage from "../../components/useLanguage";
+import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
 import { horotekaDances } from "../../lib/horoteka";
 
 export default function HorotekaPage() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
 
   return (
     <main className="bg-orisia-cream dark:bg-orisia-dark">
@@ -76,7 +77,7 @@ export default function HorotekaPage() {
                     </span>
                     <h3 className="mt-2 text-2xl font-bold">
                       <Link
-                        href={`/horoteka/${dance.slug}/`}
+                        href={href(`/horoteka/${dance.slug}/`)}
                         className="transition hover:text-orisia-goldDark"
                       >
                         {title}
@@ -86,7 +87,7 @@ export default function HorotekaPage() {
                       {description}
                     </p>
                     <Link
-                      href={`/horoteka/${dance.slug}/`}
+                      href={href(`/horoteka/${dance.slug}/`)}
                       className="mt-4 inline-block border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]"
                     >
                       {isBg ? "Виж хорото" : "View dance"}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import JsonLd from "../../components/JsonLd";
-import useLanguage from "../../components/useLanguage";
+import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
 import {
   defaultFeedPosts,
   FEED_EVENT,
@@ -26,6 +26,7 @@ function formatDate(date: string, isBg: boolean) {
 export default function EventsPage() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const [posts, setPosts] = useState<FeedPost[]>(defaultFeedPosts);
 
   useEffect(() => {
@@ -50,7 +51,8 @@ export default function EventsPage() {
   const past = useMemo(() => events.filter((post) => post.date < today).sort((a, b) => b.date.localeCompare(a.date)), [events, today]);
 
   const renderEvent = (post: FeedPost) => {
-    const path = getFeedPostPath(post);
+    const rawPath = getFeedPostPath(post);
+    const path = rawPath ? href(rawPath) : null;
     const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
 
     return (
@@ -108,7 +110,7 @@ export default function EventsPage() {
             description: isBg ? post.bodyBg : post.bodyEn || post.bodyBg,
             startDate: post.date,
             image: post.image,
-            path: getFeedPostPath(post) ?? "/events/",
+            path: href(getFeedPostPath(post) ?? "/events/"),
           })}
         />
       ))}
@@ -125,7 +127,7 @@ export default function EventsPage() {
                   {isBg ? "Предстоящи участия, празници и специални събития на ОРИСИЯ." : "Upcoming performances, celebrations and special ORISIA events."}
                 </p>
               </div>
-              <Link href="/calendar" className="inline-flex min-h-10 items-center justify-center rounded border border-[#9b693d] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-[#70431f] transition hover:bg-[#ead7ba] dark:text-orisia-light dark:hover:bg-[#352116]">
+              <Link href={href("/calendar/")} className="inline-flex min-h-10 items-center justify-center rounded border border-[#9b693d] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-[#70431f] transition hover:bg-[#ead7ba] dark:text-orisia-light dark:hover:bg-[#352116]">
                 {isBg ? "Към календара" : "Open calendar"}
               </Link>
             </div>

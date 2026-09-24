@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import useLanguage from "../../components/useLanguage";
+import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
 import {
   defaultFeedPosts,
   FEED_EVENT,
@@ -37,6 +37,7 @@ function formatDate(date: string, isBg: boolean) {
 export default function NewsPage() {
   const language = useLanguage();
   const isBg = language === "bg";
+  const href = useLocalizedPath();
   const [posts, setPosts] = useState<FeedPost[]>(defaultFeedPosts);
 
   useEffect(() => {
@@ -77,7 +78,8 @@ export default function NewsPage() {
           {news.length ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {news.map((post) => {
-                const path = getFeedPostPath(post);
+                const rawPath = getFeedPostPath(post);
+                const path = rawPath ? href(rawPath) : null;
                 const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
 
                 return (

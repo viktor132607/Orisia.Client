@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import SitePreferences from "./SitePreferences";
+import { getLocaleFromPathname, localizePath } from "../lib/i18n";
 
 const AUTH_KEY = "orisia-dev-auth";
 const LANGUAGE_KEY = "orisia-language";
@@ -26,6 +28,9 @@ export default function Navbar() {
   const [role, setRole] = useState<AuthRole>("guest");
   const [language, setLanguage] = useState<Language>("bg");
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const routeLocale = getLocaleFromPathname(pathname);
+  const publicHref = (path: string) => routeLocale ? localizePath(path, routeLocale) : path;
 
   useEffect(() => {
     const readVariant = () => setRole(getRole(window.localStorage.getItem(AUTH_KEY)));
@@ -71,14 +76,14 @@ export default function Navbar() {
   const mobileLink = "flex min-h-14 items-center border-b border-[#403a38] px-7 font-sans text-[15px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:bg-[#272324] hover:text-white";
 
   const navItems = [
-    { href: "/", label: text.home },
-    { href: "/news", label: text.news },
-    { href: "/events", label: text.events },
-    { href: "/calendar", label: text.calendar },
-    { href: "/gallery", label: text.gallery },
-    { href: "/horoteka", label: text.horoteka },
-    { href: "/about", label: text.about },
-    { href: "/contact", label: text.contacts },
+    { href: publicHref("/"), label: text.home },
+    { href: publicHref("/news/"), label: text.news },
+    { href: publicHref("/events/"), label: text.events },
+    { href: publicHref("/calendar/"), label: text.calendar },
+    { href: publicHref("/gallery/"), label: text.gallery },
+    { href: publicHref("/horoteka/"), label: text.horoteka },
+    { href: publicHref("/about/"), label: text.about },
+    { href: publicHref("/contact/"), label: text.contacts },
   ];
 
   if (isAdmin) navItems.push({ href: "/admin", label: text.admin });
@@ -86,7 +91,7 @@ export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-[#1B191A] text-orisia-light shadow-sm">
       <div className="relative mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
-        <Link href="/" className="flex-none leading-none xl:hidden" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
+        <Link href={publicHref("/")} className="flex-none leading-none xl:hidden" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
           <img
             className="h-12 w-12 object-contain sm:h-[54px] sm:w-[54px]"
             src={LOGO_SRC}
@@ -100,7 +105,7 @@ export default function Navbar() {
         </Link>
 
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-4 whitespace-nowrap xl:flex 2xl:gap-6">
-          <Link href="/" className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
+          <Link href={publicHref("/")} className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
             <img
               className="h-[54px] w-[54px] object-contain"
               src={LOGO_SRC}
@@ -125,7 +130,7 @@ export default function Navbar() {
           </span>
           <span className="flex w-full items-center justify-center">
             {loggedIn ? (
-              <Link href="/" className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]" onClick={logout}>{text.logout}</Link>
+              <Link href={publicHref("/")} className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]" onClick={logout}>{text.logout}</Link>
             ) : (
               <Link href="/login" className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]">{text.login}</Link>
             )}
