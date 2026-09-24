@@ -115,10 +115,10 @@ export default function HomeFeed() {
           </div>
         </section>
 
-        <div className="mt-14 mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between" id="orisia-feed-all">
+        <section className="mt-14" id="orisia-feed-all" aria-labelledby="orisia-feed-title"><div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c28a48]">{isBg ? "ОРИСИЯ · FEED" : "ORISIA · FEED"}</span>
-            <h2 className="mt-2 text-4xl font-bold sm:text-5xl">{isBg ? "Какво се случва" : "What is happening"}</h2>
+            <h2 id="orisia-feed-title" className="mt-2 text-4xl font-bold sm:text-5xl">{isBg ? "Какво се случва" : "What is happening"}</h2>
           </div>
           <p className="max-w-xl font-sans text-sm leading-6 text-[#725b47] dark:text-[#a98c69]">{isBg ? "Събития, новини, отчети, снимки, графици, блогове и важни ъпдейти от живота на ОРИСИЯ." : "Events, news, reports, photos, schedules, blog posts and important updates from ORISIA."}</p>
         </div>
@@ -194,6 +194,7 @@ export default function HomeFeed() {
             </div>
           </aside>
         </div>
+        </section>
       </div>
     </section>
   );

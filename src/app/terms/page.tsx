@@ -12,15 +12,15 @@ export default function TermsPage() {
 
   return (
     <main className="min-h-screen bg-orisia-cream text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light">
-      <section className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
+      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
           <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
           <h1 className="mt-3 text-4xl font-bold sm:text-6xl">{isBg ? "Общи условия" : "Terms and Conditions"}</h1>
           <p className="mt-4 max-w-3xl font-sans text-sm leading-7 text-[#725b47] dark:text-[#c6a77d]">{isBg ? "Тези условия уреждат използването на публичния уебсайт на ОРИСИЯ и съдържанието, публикувано в него." : "These terms govern use of the public ORISIA website and the content published on it."}</p>
         </div>
-      </section>
+      </header>
 
-      <section className="py-14">
+      <div className="py-14">
         <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 sm:px-6 lg:px-8">
           <section>
             <h2 className={headingClass}>{isBg ? "1. Предназначение на сайта" : "1. Purpose of the website"}</h2>
@@ -72,7 +72,7 @@ export default function TermsPage() {
             <Link href="/contact" className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Контакти" : "Contact"}</Link>
           </section>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

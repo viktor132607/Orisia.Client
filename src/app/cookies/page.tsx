@@ -12,15 +12,15 @@ export default function CookiesPage() {
 
   return (
     <main className="min-h-screen bg-orisia-cream text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light">
-      <section className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
+      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
           <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
           <h1 className="mt-3 text-4xl font-bold sm:text-6xl">{isBg ? "Политика за бисквитки" : "Cookie Policy"}</h1>
           <p className="mt-4 max-w-3xl font-sans text-sm leading-7 text-[#725b47] dark:text-[#c6a77d]">{isBg ? "Тук е описано как сайтът използва бисквитки и локално съхранение в браузъра за технически настройки и предпочитания." : "This page explains how the website uses cookies and browser local storage for technical settings and preferences."}</p>
         </div>
-      </section>
+      </header>
 
-      <section className="py-14">
+      <div className="py-14">
         <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 sm:px-6 lg:px-8">
           <section>
             <h2 className={headingClass}>{isBg ? "1. Какво използва сайтът в момента" : "1. What the website currently uses"}</h2>
@@ -53,7 +53,7 @@ export default function CookiesPage() {
             <Link href="/privacy" className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
           </section>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

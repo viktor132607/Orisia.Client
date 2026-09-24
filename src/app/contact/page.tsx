@@ -28,10 +28,10 @@ export default function ContactPage() {
 
   return (
     <main className="min-h-screen bg-[#6b3218] font-condensed text-white dark:bg-[#140c08]">
-      <section className="px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pb-28 lg:pt-28">
+      <section className="px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pb-28 lg:pt-28" aria-labelledby="contact-title">
         <div className="mx-auto w-full max-w-7xl">
           <div className="text-center">
-            <h1 className="text-5xl font-bold uppercase tracking-[.02em] sm:text-6xl lg:text-7xl">
+            <h1 id="contact-title" className="text-5xl font-bold uppercase tracking-[.02em] sm:text-6xl lg:text-7xl">
               {isBg ? "Контакти" : "Contacts"}
             </h1>
             <p className="mt-5 text-lg text-white/80 sm:text-xl">
@@ -40,8 +40,8 @@ export default function ContactPage() {
           </div>
 
           <div className="mt-16 grid gap-8 lg:grid-cols-2 lg:items-stretch">
-            <aside className="rounded-2xl bg-white/[.07] p-7 shadow-soft backdrop-blur-[1px] sm:p-9 lg:p-10">
-              <h2 className="text-2xl font-bold text-[#f0a65e] sm:text-3xl">
+            <section className="rounded-2xl bg-white/[.07] p-7 shadow-soft backdrop-blur-[1px] sm:p-9 lg:p-10" aria-labelledby="contact-info-title">
+              <h2 id="contact-info-title" className="text-2xl font-bold text-[#f0a65e] sm:text-3xl">
                 {isBg ? "Информация за контакт" : "Contact information"}
               </h2>
 
@@ -50,11 +50,11 @@ export default function ContactPage() {
                   <span className="grid h-12 w-12 flex-none place-items-center rounded-full bg-white/10 text-[#f0a65e]">{pinIcon}</span>
                   <div>
                     <h3 className="text-lg font-bold">{isBg ? "Адрес" : "Address"}</h3>
-                    <p className="mt-1 max-w-md text-base leading-7 text-white/80">
+                    <address className="mt-1 max-w-md text-base not-italic leading-7 text-white/80">
                       {isBg
                         ? "гр. Русе, ул. Родина 80, на гърба на боулинг залата, Русе, България, 7000"
                         : "80 Rodina St., behind the bowling hall, Ruse, Bulgaria, 7000"}
-                    </p>
+                    </address>
                   </div>
                 </div>
 
@@ -80,7 +80,7 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-            </aside>
+            </section>
 
             <div className="min-h-[420px] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-soft lg:min-h-full">
               <iframe

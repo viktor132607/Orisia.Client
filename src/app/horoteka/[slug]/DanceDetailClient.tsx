@@ -13,7 +13,7 @@ export default function DanceDetailClient({ dance }: { dance: HorotekaDance }) {
 
   return (
     <main className="bg-orisia-cream text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light">
-      <section className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
+      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
           <nav
             className="mb-5 font-sans text-xs font-bold text-orisia-goldDark"
@@ -33,7 +33,7 @@ export default function DanceDetailClient({ dance }: { dance: HorotekaDance }) {
             {description}
           </p>
         </div>
-      </section>
+      </header>
 
       <section className="py-12" aria-labelledby="dance-details-title">
         <div className="mx-auto grid w-full max-w-5xl gap-6 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:px-8">

@@ -10,7 +10,7 @@ export default function HorotekaPage() {
 
   return (
     <main className="bg-orisia-cream dark:bg-orisia-dark">
-      <section className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
+      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="font-sans text-[10px] font-black uppercase tracking-[.2em] text-orisia-goldDark">
             {isBg ? "ОРИСИЯ · ХОРОТЕКА" : "ORISIA · DANCE LIBRARY"}
@@ -24,7 +24,7 @@ export default function HorotekaPage() {
               : "Information about Bulgarian horo dances, folklore regions, rhythms and dedicated pages for every dance."}
           </p>
         </div>
-      </section>
+      </header>
 
       <section className="py-12" aria-labelledby="horoteka-list-title">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">

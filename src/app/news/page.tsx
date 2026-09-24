@@ -73,7 +73,7 @@ export default function NewsPage() {
           </p>
         </header>
 
-        <section className="py-10">
+        <div className="py-10">
           {news.length ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {news.map((post) => {
@@ -130,7 +130,7 @@ export default function NewsPage() {
               {isBg ? "Все още няма публикувани новини." : "There are no published news items yet."}
             </div>
           )}
-        </section>
+        </div>
       </div>
     </main>
   );
