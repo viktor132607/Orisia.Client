@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import useLanguage from "./useLanguage";
 
 export default function AdminMenu() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const language = useLanguage();
   const isBg = language === "bg";
   const sections = [
