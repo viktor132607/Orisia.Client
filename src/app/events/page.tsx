@@ -2,8 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import JsonLd from "../../components/JsonLd";
 import useLanguage from "../../components/useLanguage";
-import { FEED_EVENT, FeedPost, readFeedPosts } from "../../components/homeFeedStore";
+import {
+  defaultFeedPosts,
+  FEED_EVENT,
+  FeedPost,
+  readFeedPosts,
+} from "../../components/homeFeedStore";
+import { buildEventStructuredData } from "../../lib/structuredData";
 
 function formatDate(date: string, isBg: boolean) {
   const value = new Date(`${date}T12:00:00`);
@@ -18,7 +25,7 @@ function formatDate(date: string, isBg: boolean) {
 export default function EventsPage() {
   const language = useLanguage();
   const isBg = language === "bg";
-  const [posts, setPosts] = useState<FeedPost[]>([]);
+  const [posts, setPosts] = useState<FeedPost[]>(defaultFeedPosts);
 
   useEffect(() => {
     const load = () => setPosts(readFeedPosts());
@@ -65,43 +72,57 @@ export default function EventsPage() {
   );
 
   return (
-    <main className="min-h-[70vh] bg-orisia-cream py-16 dark:bg-orisia-dark">
-      <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
-        <header className="border-b border-[#ceb28b] pb-8 dark:border-[#5d4129]">
-          <span className="font-sans text-xs font-black uppercase tracking-[.2em] text-orisia-goldDark dark:text-orisia-gold">
-            {isBg ? "ОРИСИЯ · СЪБИТИЯ" : "ORISIA · EVENTS"}
-          </span>
-          <div className="mt-3 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h1 className="text-4xl font-bold text-[#4b2e1b] sm:text-5xl dark:text-orisia-light">{isBg ? "Събития" : "Events"}</h1>
-              <p className="mt-3 max-w-2xl font-sans text-sm leading-7 text-[#705841] dark:text-[#bca486]">
-                {isBg ? "Предстоящи участия, празници и специални събития на ОРИСИЯ." : "Upcoming performances, celebrations and special ORISIA events."}
-              </p>
+    <>
+      {events.map((post) => (
+        <JsonLd
+          key={`structured-data-${post.id}`}
+          id={`event-${post.id}-structured-data`}
+          data={buildEventStructuredData({
+            name: isBg ? post.titleBg : post.titleEn || post.titleBg,
+            description: isBg ? post.bodyBg : post.bodyEn || post.bodyBg,
+            startDate: post.date,
+            image: post.image,
+          })}
+        />
+      ))}
+      <main className="min-h-[70vh] bg-orisia-cream py-16 dark:bg-orisia-dark">
+        <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+          <header className="border-b border-[#ceb28b] pb-8 dark:border-[#5d4129]">
+            <span className="font-sans text-xs font-black uppercase tracking-[.2em] text-orisia-goldDark dark:text-orisia-gold">
+              {isBg ? "ОРИСИЯ · СЪБИТИЯ" : "ORISIA · EVENTS"}
+            </span>
+            <div className="mt-3 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h1 className="text-4xl font-bold text-[#4b2e1b] sm:text-5xl dark:text-orisia-light">{isBg ? "Събития" : "Events"}</h1>
+                <p className="mt-3 max-w-2xl font-sans text-sm leading-7 text-[#705841] dark:text-[#bca486]">
+                  {isBg ? "Предстоящи участия, празници и специални събития на ОРИСИЯ." : "Upcoming performances, celebrations and special ORISIA events."}
+                </p>
+              </div>
+              <Link href="/calendar" className="inline-flex min-h-10 items-center justify-center rounded border border-[#9b693d] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-[#70431f] transition hover:bg-[#ead7ba] dark:text-orisia-light dark:hover:bg-[#352116]">
+                {isBg ? "Към календара" : "Open calendar"}
+              </Link>
             </div>
-            <Link href="/calendar" className="inline-flex min-h-10 items-center justify-center rounded border border-[#9b693d] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-[#70431f] transition hover:bg-[#ead7ba] dark:text-orisia-light dark:hover:bg-[#352116]">
-              {isBg ? "Към календара" : "Open calendar"}
-            </Link>
-          </div>
-        </header>
+          </header>
 
-        <section className="py-10">
-          <h2 className="mb-6 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">{isBg ? "Предстоящи" : "Upcoming"}</h2>
-          {upcoming.length ? (
-            <div className="grid gap-6 md:grid-cols-2">{upcoming.map(renderEvent)}</div>
-          ) : (
-            <div className="rounded border border-dashed border-[#c9ad88] p-8 font-sans text-sm text-[#705841] dark:border-[#5d4129] dark:text-[#bca486]">
-              {isBg ? "В момента няма публикувани предстоящи събития." : "There are no published upcoming events at the moment."}
-            </div>
-          )}
-        </section>
-
-        {past.length > 0 && (
-          <section className="border-t border-[#ceb28b] py-10 dark:border-[#5d4129]">
-            <h2 className="mb-6 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">{isBg ? "Минали събития" : "Past events"}</h2>
-            <div className="grid gap-6 md:grid-cols-2">{past.map(renderEvent)}</div>
+          <section className="py-10">
+            <h2 className="mb-6 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">{isBg ? "Предстоящи" : "Upcoming"}</h2>
+            {upcoming.length ? (
+              <div className="grid gap-6 md:grid-cols-2">{upcoming.map(renderEvent)}</div>
+            ) : (
+              <div className="rounded border border-dashed border-[#c9ad88] p-8 font-sans text-sm text-[#705841] dark:border-[#5d4129] dark:text-[#bca486]">
+                {isBg ? "В момента няма публикувани предстоящи събития." : "There are no published upcoming events at the moment."}
+              </div>
+            )}
           </section>
-        )}
-      </div>
-    </main>
+
+          {past.length > 0 && (
+            <section className="border-t border-[#ceb28b] py-10 dark:border-[#5d4129]">
+              <h2 className="mb-6 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">{isBg ? "Минали събития" : "Past events"}</h2>
+              <div className="grid gap-6 md:grid-cols-2">{past.map(renderEvent)}</div>
+            </section>
+          )}
+        </div>
+      </main>
+    </>
   );
 }

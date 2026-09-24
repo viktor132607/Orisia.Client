@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HomeGate from "../components/HomeGate";
+import PublicPageStructuredData from "../components/PublicPageStructuredData";
 import { defaultDescription, defaultTitle } from "../lib/seo";
 
 export const metadata: Metadata = {
@@ -13,5 +14,14 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <HomeGate />;
+  return (
+    <>
+      <PublicPageStructuredData
+        path="/"
+        name={defaultTitle}
+        description={defaultDescription}
+      />
+      <HomeGate />
+    </>
+  );
 }
