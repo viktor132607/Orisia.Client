@@ -7,6 +7,14 @@ function absoluteUrl(path: string) {
   return new URL(path, siteUrl).toString();
 }
 
+const ruseAddress = {
+  "@type": "PostalAddress",
+  streetAddress: "ул. Родина 80",
+  addressLocality: "Русе",
+  postalCode: "7000",
+  addressCountry: "BG",
+};
+
 export const organizationStructuredData = {
   "@context": "https://schema.org",
   "@type": "PerformingGroup",
@@ -16,12 +24,15 @@ export const organizationStructuredData = {
   logo: absoluteUrl("/orisia-logo.jpg"),
   image: absoluteUrl("/orisia-logo.jpg"),
   description: defaultDescription,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "ул. Родина 80",
-    addressLocality: "Русе",
-    postalCode: "7000",
-    addressCountry: "BG",
+  address: ruseAddress,
+  location: {
+    "@type": "Place",
+    name: "ОРИСИЯ — Русе",
+    address: ruseAddress,
+  },
+  areaServed: {
+    "@type": "City",
+    name: "Русе",
   },
   knowsAbout: [
     "Български народни танци",

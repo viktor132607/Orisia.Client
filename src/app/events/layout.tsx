@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PublicPageStructuredData from "../../components/PublicPageStructuredData";
+import { localSeoKeywords } from "../../lib/seo";
 
 const pageDescription =
   "Предстоящи участия, празници и фолклорни събития на ОРИСИЯ в Русе — дати, програма и информация за събитията.";
 
 export const metadata: Metadata = {
-  title: "Събития",
+  title: "Фолклорни събития в Русе",
   description: pageDescription,
+  keywords: localSeoKeywords,
   alternates: {
     canonical: "/events/",
   },

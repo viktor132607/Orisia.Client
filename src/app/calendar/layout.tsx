@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PublicPageStructuredData from "../../components/PublicPageStructuredData";
+import { localSeoKeywords } from "../../lib/seo";
 
 const pageDescription =
-  "Календар на ОРИСИЯ с предстоящи репетиции, участия и фолклорни вечери в Русе.";
+  "Календар на ОРИСИЯ в Русе с предстоящи репетиции, участия и фолклорни вечери.";
 
 export const metadata: Metadata = {
-  title: "Календар",
+  title: "Календар на ОРИСИЯ — Русе",
   description: pageDescription,
+  keywords: localSeoKeywords,
   alternates: {
     canonical: "/calendar/",
   },

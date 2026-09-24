@@ -15,6 +15,17 @@ function resolveSiteUrl() {
 export const siteUrl = resolveSiteUrl();
 
 export const siteName = "ОРИСИЯ";
+export const localSeoKeywords = [
+  "народни танци Русе",
+  "български народни танци Русе",
+  "хоро Русе",
+  "народни хора Русе",
+  "фолклор Русе",
+  "български фолклор Русе",
+  "танцов клуб Русе",
+  "фолклорни събития Русе",
+];
+
 export const defaultTitle = "ОРИСИЯ | Български народни танци и фолклор в Русе";
 export const defaultDescription =
   "ОРИСИЯ в Русе — български народни танци, фолклор, хора, репетиции, участия и събития, които пазят българската традиция жива.";
@@ -27,6 +38,7 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description: defaultDescription,
+  keywords: localSeoKeywords,
   openGraph: {
     type: "website",
     locale: "bg_BG",

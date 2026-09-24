@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PublicPageStructuredData from "../../components/PublicPageStructuredData";
+import { localSeoKeywords } from "../../lib/seo";
 
 const pageDescription =
   "Научете повече за ОРИСИЯ — общност за български народни танци и фолклор в Русе, нашата мисия, лектори и място за репетиции.";
 
 export const metadata: Metadata = {
-  title: "За нас",
+  title: "За нас — народни танци в Русе",
   description: pageDescription,
+  keywords: localSeoKeywords,
   alternates: {
     canonical: "/about/",
   },

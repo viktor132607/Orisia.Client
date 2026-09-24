@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PublicPageStructuredData from "../../components/PublicPageStructuredData";
+import { localSeoKeywords } from "../../lib/seo";
 
 const pageDescription =
-  "Хоротека на ОРИСИЯ с информация за български хора, стъпки, ритми и фолклорни области — право, дунавско, еленино, пайдушко и още.";
+  "Хоротека на ОРИСИЯ в Русе с информация за български хора, стъпки, ритми и фолклорни области — право, дунавско, еленино, пайдушко и още.";
 
 export const metadata: Metadata = {
-  title: "Хоротека",
+  title: "Хоротека — български хора в Русе",
   description: pageDescription,
+  keywords: localSeoKeywords,
   alternates: {
     canonical: "/horoteka/",
   },

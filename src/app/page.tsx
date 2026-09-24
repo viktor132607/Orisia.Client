@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import HomeGate from "../components/HomeGate";
 import PublicPageStructuredData from "../components/PublicPageStructuredData";
-import { defaultDescription, defaultTitle } from "../lib/seo";
+import {
+  defaultDescription,
+  defaultTitle,
+  localSeoKeywords,
+} from "../lib/seo";
 
 export const metadata: Metadata = {
   title: {
     absolute: defaultTitle,
   },
   description: defaultDescription,
+  keywords: localSeoKeywords,
   alternates: {
     canonical: "/",
   },
