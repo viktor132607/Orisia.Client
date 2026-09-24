@@ -5,7 +5,7 @@ import {
   getHorotekaDance,
   horotekaDances,
 } from "../../../lib/horoteka";
-import { localSeoKeywords } from "../../../lib/seo";
+import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
 import {
   buildHorotekaDanceBreadcrumbStructuredData,
   buildVideoObjectStructuredData,
@@ -34,10 +34,11 @@ export async function generateMetadata({
   }
 
   const path = `/horoteka/${dance.slug}/`;
+  const title = `${dance.titleBg} — ритъм ${dance.rhythm} и информация`;
   const description = `${dance.titleBg} — ${dance.regionBg}, ритъм ${dance.rhythm}. Информация за хорото в Хоротеката на ОРИСИЯ в Русе.`;
 
   return {
-    title: `${dance.titleBg} — ритъм ${dance.rhythm} и информация`,
+    title,
     description,
     keywords: [
       dance.titleBg,
@@ -48,6 +49,12 @@ export async function generateMetadata({
     alternates: {
       canonical: path,
     },
+    ...buildSocialMetadata({
+      path,
+      title,
+      description,
+      image: dance.video?.thumbnailUrl,
+    }),
   };
 }
 

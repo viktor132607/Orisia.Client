@@ -15,6 +15,7 @@ function resolveSiteUrl() {
 export const siteUrl = resolveSiteUrl();
 
 export const siteName = "ОРИСИЯ";
+export const defaultSocialImage = "/orisia-logo.jpg";
 export const localSeoKeywords = [
   "народни танци Русе",
   "български народни танци Русе",
@@ -30,6 +31,56 @@ export const defaultTitle = "ОРИСИЯ | Български народни т
 export const defaultDescription =
   "ОРИСИЯ в Русе — български народни танци, фолклор, хора, репетиции, участия и събития, които пазят българската традиция жива.";
 
+export function buildSocialMetadata({
+  path,
+  title,
+  description,
+  image,
+  type = "website",
+  publishedTime,
+}: {
+  path: string;
+  title: string;
+  description: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+}): Pick<Metadata, "openGraph" | "twitter"> {
+  const socialImage = image || defaultSocialImage;
+
+  const openGraph: NonNullable<Metadata["openGraph"]> =
+    type === "article"
+      ? {
+          type: "article",
+          locale: "bg_BG",
+          url: path,
+          siteName,
+          title,
+          description,
+          ...(publishedTime ? { publishedTime } : {}),
+          images: [{ url: socialImage, alt: title }],
+        }
+      : {
+          type: "website",
+          locale: "bg_BG",
+          url: path,
+          siteName,
+          title,
+          description,
+          images: [{ url: socialImage, alt: title }],
+        };
+
+  return {
+    openGraph,
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [socialImage],
+    },
+  };
+}
+
 export const defaultMetadata: Metadata = {
   metadataBase: siteUrl,
   applicationName: siteName,
@@ -39,26 +90,11 @@ export const defaultMetadata: Metadata = {
   },
   description: defaultDescription,
   keywords: localSeoKeywords,
-  openGraph: {
-    type: "website",
-    locale: "bg_BG",
-    url: siteUrl,
-    siteName,
+  ...buildSocialMetadata({
+    path: "/",
     title: defaultTitle,
     description: defaultDescription,
-    images: [
-      {
-        url: "/orisia-logo.jpg",
-        alt: "ОРИСИЯ",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary",
-    title: defaultTitle,
-    description: defaultDescription,
-    images: ["/orisia-logo.jpg"],
-  },
+  }),
   icons: {
     icon: "/orisia-logo.jpg",
     shortcut: "/orisia-logo.jpg",

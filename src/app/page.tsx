@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import HomeGate from "../components/HomeGate";
 import PublicPageStructuredData from "../components/PublicPageStructuredData";
 import {
+  buildSocialMetadata,
   defaultDescription,
   defaultTitle,
   localSeoKeywords,
@@ -16,6 +17,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  ...buildSocialMetadata({
+    path: "/",
+    title: defaultTitle,
+    description: defaultDescription,
+  }),
 };
 
 export default function Page() {

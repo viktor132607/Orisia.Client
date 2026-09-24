@@ -6,7 +6,7 @@ import {
   defaultFeedPosts,
   getDefaultFeedPost,
 } from "../../../components/homeFeedStore";
-import { localSeoKeywords } from "../../../lib/seo";
+import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
 import {
   buildEventStructuredData,
   buildSectionItemBreadcrumbStructuredData,
@@ -45,19 +45,12 @@ export async function generateMetadata({
     alternates: {
       canonical: path,
     },
-    openGraph: {
-      type: "website",
-      url: path,
+    ...buildSocialMetadata({
+      path,
       title: post.titleBg,
       description,
-      images: [post.image || "/orisia-logo.jpg"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: post.titleBg,
-      description,
-      images: [post.image || "/orisia-logo.jpg"],
-    },
+      image: post.image,
+    }),
   };
 }
 

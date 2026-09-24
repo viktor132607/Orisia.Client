@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
 import PublicPageStructuredData from "../../components/PublicPageStructuredData";
+import { buildSocialMetadata } from "../../lib/seo";
 
+const pageTitle = "Политика за бисквитки";
 const pageDescription =
   "Политика за бисквитки на ОРИСИЯ — информация за локално съхранение, технически настройки и предпочитания в браузъра.";
 
 export const metadata: Metadata = {
-  title: "Политика за бисквитки",
+  title: pageTitle,
   description: pageDescription,
   alternates: {
     canonical: "/cookies/",
   },
+  ...buildSocialMetadata({
+    path: "/cookies/",
+    title: pageTitle,
+    description: pageDescription,
+  }),
 };
 
 export default function CookiesLayout({ children }: { children: React.ReactNode }) {
