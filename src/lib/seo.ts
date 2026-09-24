@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const FALLBACK_SITE_URL = "https://orisia-client.onrender.com";
+const FALLBACK_SITE_URL = "https://orisia-client-zgwt.onrender.com";
 
 function resolveSiteUrl() {
   const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
