@@ -131,10 +131,14 @@ export function buildBreadcrumbStructuredData({
   };
 }
 
-export function buildHorotekaDanceBreadcrumbStructuredData({
+export function buildSectionItemBreadcrumbStructuredData({
+  sectionPath,
+  sectionName,
   path,
   name,
 }: {
+  sectionPath: string;
+  sectionName: string;
   path: string;
   name: string;
 }) {
@@ -154,8 +158,8 @@ export function buildHorotekaDanceBreadcrumbStructuredData({
       {
         "@type": "ListItem",
         position: 2,
-        name: "Хоротека",
-        item: absoluteUrl("/horoteka/"),
+        name: sectionName,
+        item: absoluteUrl(sectionPath),
       },
       {
         "@type": "ListItem",
@@ -165,6 +169,21 @@ export function buildHorotekaDanceBreadcrumbStructuredData({
       },
     ],
   };
+}
+
+export function buildHorotekaDanceBreadcrumbStructuredData({
+  path,
+  name,
+}: {
+  path: string;
+  name: string;
+}) {
+  return buildSectionItemBreadcrumbStructuredData({
+    sectionPath: "/horoteka/",
+    sectionName: "Хоротека",
+    path,
+    name,
+  });
 }
 
 export function buildVideoObjectStructuredData({
@@ -200,16 +219,51 @@ export function buildVideoObjectStructuredData({
   };
 }
 
+export function buildNewsArticleStructuredData({
+  path,
+  headline,
+  description,
+  datePublished,
+  image,
+}: {
+  path: string;
+  headline: string;
+  description: string;
+  datePublished: string;
+  image?: string;
+}) {
+  const url = absoluteUrl(path);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "@id": `${url}#article`,
+    headline,
+    description,
+    datePublished,
+    mainEntityOfPage: url,
+    ...(image ? { image: [normalizeUrl(image)] } : {}),
+    author: {
+      "@id": organizationId,
+    },
+    publisher: {
+      "@id": organizationId,
+    },
+  };
+}
+
 export function buildEventStructuredData({
   name,
   description,
   startDate,
   image,
+  path = "/events/",
 }: {
   name: string;
   description: string;
   startDate: string;
   image?: string;
+  path?: string;
 }) {
   const imageUrl = image ? normalizeUrl(image) : undefined;
 
@@ -220,7 +274,7 @@ export function buildEventStructuredData({
     description,
     startDate,
     eventStatus: "https://schema.org/EventScheduled",
-    url: absoluteUrl("/events/"),
+    url: absoluteUrl(path),
     ...(imageUrl ? { image: [imageUrl] } : {}),
     organizer: {
       "@id": organizationId,

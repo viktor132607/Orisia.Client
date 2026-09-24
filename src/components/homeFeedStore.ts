@@ -2,6 +2,7 @@ export type FeedType = "report" | "news" | "photos" | "blog" | "group" | "schedu
 
 export type FeedPost = {
   id: string;
+  slug?: string;
   type: FeedType;
   titleBg: string;
   titleEn: string;
@@ -18,6 +19,7 @@ export const FEED_EVENT = "orisia-home-feed-change";
 export const defaultFeedPosts: FeedPost[] = [
   {
     id: "birthday-2026",
+    slug: "3-godini-orisia",
     type: "event",
     titleBg: "3 години ОРИСИЯ",
     titleEn: "3 years of ORISIA",
@@ -28,6 +30,7 @@ export const defaultFeedPosts: FeedPost[] = [
   },
   {
     id: "schedule-september",
+    slug: "septemvriiski-grafik",
     type: "schedule",
     titleBg: "Септемврийски график",
     titleEn: "September schedule",
@@ -38,6 +41,7 @@ export const defaultFeedPosts: FeedPost[] = [
   },
   {
     id: "activity-report",
+    slug: "otchet-ot-deynostta",
     type: "report",
     titleBg: "Отчет от дейността",
     titleEn: "Activity report",
@@ -48,7 +52,31 @@ export const defaultFeedPosts: FeedPost[] = [
 ];
 
 function migratePosts(posts: FeedPost[]) {
-  return posts.map((post) => post.id === "birthday-2026" ? { ...post, type: "event" as FeedType } : post);
+  const defaultById = new Map(defaultFeedPosts.map((post) => [post.id, post]));
+
+  return posts.map((post) => {
+    const defaults = defaultById.get(post.id);
+    return {
+      ...post,
+      ...(defaults?.slug && !post.slug ? { slug: defaults.slug } : {}),
+      ...(post.id === "birthday-2026" ? { type: "event" as FeedType } : {}),
+    };
+  });
+}
+
+export function getDefaultFeedPost(slug: string) {
+  return defaultFeedPosts.find((post) => post.slug === slug);
+}
+
+export function getFeedPostPath(post: FeedPost) {
+  if (!post.slug) return null;
+  return post.type === "event"
+    ? `/events/${post.slug}/`
+    : `/news/${post.slug}/`;
+}
+
+export function isDefaultFeedPost(post: FeedPost) {
+  return defaultFeedPosts.some((item) => item.id === post.id && item.slug === post.slug);
 }
 
 export function readFeedPosts(): FeedPost[] {

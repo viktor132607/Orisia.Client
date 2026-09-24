@@ -8,6 +8,7 @@ import {
   defaultFeedPosts,
   FEED_EVENT,
   FeedPost,
+  getFeedPostPath,
   readFeedPosts,
 } from "../../components/homeFeedStore";
 import { buildEventStructuredData } from "../../lib/structuredData";
@@ -48,28 +49,45 @@ export default function EventsPage() {
   const upcoming = useMemo(() => events.filter((post) => post.date >= today).sort((a, b) => a.date.localeCompare(b.date)), [events, today]);
   const past = useMemo(() => events.filter((post) => post.date < today).sort((a, b) => b.date.localeCompare(a.date)), [events, today]);
 
-  const renderEvent = (post: FeedPost) => (
-    <article key={post.id} className="overflow-hidden rounded border border-[#d5c0a1] bg-[#fffaf2] dark:border-[#5a4029] dark:bg-[#1d110b]">
-      {post.image && (
-        <img
-          src={post.image}
-          alt={isBg ? post.titleBg : post.titleEn || post.titleBg}
-          className="h-56 w-full object-cover"
-        />
-      )}
-      <div className="p-6">
-        <time className="font-sans text-xs font-black uppercase tracking-[.12em] text-orisia-goldDark dark:text-orisia-gold" dateTime={post.date}>
-          {formatDate(post.date, isBg)}
-        </time>
-        <h2 className="mt-2 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">
-          {isBg ? post.titleBg : post.titleEn || post.titleBg}
-        </h2>
-        <p className="mt-3 font-sans text-sm leading-7 text-[#6e5540] dark:text-[#bca486]">
-          {isBg ? post.bodyBg : post.bodyEn || post.bodyBg}
-        </p>
-      </div>
-    </article>
-  );
+  const renderEvent = (post: FeedPost) => {
+    const path = getFeedPostPath(post);
+    const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
+
+    return (
+      <article key={post.id} className="overflow-hidden rounded border border-[#d5c0a1] bg-[#fffaf2] dark:border-[#5a4029] dark:bg-[#1d110b]">
+        {post.image && (
+          <img
+            src={post.image}
+            alt={title}
+            className="h-56 w-full object-cover"
+          />
+        )}
+        <div className="p-6">
+          <time className="font-sans text-xs font-black uppercase tracking-[.12em] text-orisia-goldDark dark:text-orisia-gold" dateTime={post.date}>
+            {formatDate(post.date, isBg)}
+          </time>
+          <h2 className="mt-2 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">
+            {path ? (
+              <Link href={path} className="transition hover:text-orisia-goldDark">
+                {title}
+              </Link>
+            ) : title}
+          </h2>
+          <p className="mt-3 font-sans text-sm leading-7 text-[#6e5540] dark:text-[#bca486]">
+            {isBg ? post.bodyBg : post.bodyEn || post.bodyBg}
+          </p>
+          {path && (
+            <Link
+              href={path}
+              className="mt-5 inline-block border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]"
+            >
+              {isBg ? "Виж събитието" : "View event"}
+            </Link>
+          )}
+        </div>
+      </article>
+    );
+  };
 
   return (
     <>
@@ -82,6 +100,7 @@ export default function EventsPage() {
             description: isBg ? post.bodyBg : post.bodyEn || post.bodyBg,
             startDate: post.date,
             image: post.image,
+            path: getFeedPostPath(post) ?? "/events/",
           })}
         />
       ))}

@@ -1,8 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import useLanguage from "../../components/useLanguage";
-import { FEED_EVENT, FeedPost, FeedType, readFeedPosts } from "../../components/homeFeedStore";
+import {
+  defaultFeedPosts,
+  FEED_EVENT,
+  FeedPost,
+  FeedType,
+  getFeedPostPath,
+  readFeedPosts,
+} from "../../components/homeFeedStore";
 
 const newsTypes: FeedType[] = ["news", "report", "photos", "blog", "group", "schedule"];
 
@@ -29,7 +37,7 @@ function formatDate(date: string, isBg: boolean) {
 export default function NewsPage() {
   const language = useLanguage();
   const isBg = language === "bg";
-  const [posts, setPosts] = useState<FeedPost[]>([]);
+  const [posts, setPosts] = useState<FeedPost[]>(defaultFeedPosts);
 
   useEffect(() => {
     const load = () => setPosts(readFeedPosts());
@@ -68,29 +76,46 @@ export default function NewsPage() {
         <section className="py-10">
           {news.length ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {news.map((post) => (
-                <article key={post.id} className="flex min-h-full flex-col overflow-hidden rounded border border-[#d5c0a1] bg-[#fffaf2] dark:border-[#5a4029] dark:bg-[#1d110b]">
-                  {post.image && (
-                    <img
-                      src={post.image}
-                      alt={isBg ? post.titleBg : post.titleEn || post.titleBg}
-                      className="h-48 w-full object-cover"
-                    />
-                  )}
-                  <div className="flex flex-1 flex-col p-6">
-                    <div className="flex items-center justify-between gap-3 font-sans text-[11px] font-black uppercase tracking-[.1em] text-orisia-goldDark dark:text-orisia-gold">
-                      <span>{typeLabels[post.type][language]}</span>
-                      <time className="text-right" dateTime={post.date}>{formatDate(post.date, isBg)}</time>
+              {news.map((post) => {
+                const path = getFeedPostPath(post);
+                const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
+
+                return (
+                  <article key={post.id} className="flex min-h-full flex-col overflow-hidden rounded border border-[#d5c0a1] bg-[#fffaf2] dark:border-[#5a4029] dark:bg-[#1d110b]">
+                    {post.image && (
+                      <img
+                        src={post.image}
+                        alt={title}
+                        className="h-48 w-full object-cover"
+                      />
+                    )}
+                    <div className="flex flex-1 flex-col p-6">
+                      <div className="flex items-center justify-between gap-3 font-sans text-[11px] font-black uppercase tracking-[.1em] text-orisia-goldDark dark:text-orisia-gold">
+                        <span>{typeLabels[post.type][language]}</span>
+                        <time className="text-right" dateTime={post.date}>{formatDate(post.date, isBg)}</time>
+                      </div>
+                      <h2 className="mt-4 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">
+                        {path ? (
+                          <Link href={path} className="transition hover:text-orisia-goldDark">
+                            {title}
+                          </Link>
+                        ) : title}
+                      </h2>
+                      <p className="mt-3 line-clamp-5 font-sans text-sm leading-7 text-[#6e5540] dark:text-[#bca486]">
+                        {isBg ? post.bodyBg : post.bodyEn || post.bodyBg}
+                      </p>
+                      {path && (
+                        <Link
+                          href={path}
+                          className="mt-5 inline-block self-start border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]"
+                        >
+                          {isBg ? "Прочети" : "Read more"}
+                        </Link>
+                      )}
                     </div>
-                    <h2 className="mt-4 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">
-                      {isBg ? post.titleBg : post.titleEn || post.titleBg}
-                    </h2>
-                    <p className="mt-3 line-clamp-5 font-sans text-sm leading-7 text-[#6e5540] dark:text-[#bca486]">
-                      {isBg ? post.bodyBg : post.bodyEn || post.bodyBg}
-                    </p>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           ) : (
             <div className="rounded border border-dashed border-[#c9ad88] p-8 font-sans text-sm text-[#705841] dark:border-[#5d4129] dark:text-[#bca486]">
