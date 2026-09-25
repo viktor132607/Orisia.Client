@@ -54,4 +54,12 @@ jobs:
       - name: Verify static export
         run: |
           test -f out/index.html
+          test -f out/404.html
           test -f out/robots.txt
+          test -f out/sitemap.xml
+          test -f out/bg/index.html
+          test -f out/en/index.html
+          test -f out/bg/news/index.html
+          test -f out/en/news/index.html
+          test -f out/bg/horoteka/pravo-horo/index.html
+          test -f out/en/horoteka/pravo-horo/index.html

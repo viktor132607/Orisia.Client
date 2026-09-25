@@ -27,7 +27,6 @@ export default function Footer() {
           <p className="mt-4 max-w-sm text-sm leading-6 text-[#b9a184]">
             {isBg ? "Български фолклор, танц, традиция и общност с характер." : "Bulgarian folklore, dance, tradition and community with character."}
           </p>
-          <a href="#" className="mt-5 grid h-10 w-10 place-items-center rounded-full border border-[#554b47] bg-[#262223] text-xl font-bold text-white transition hover:border-orisia-gold" aria-label="Facebook" title="Facebook">f</a>
         </div>
 
         <div>

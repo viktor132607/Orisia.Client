@@ -87,7 +87,7 @@ export default function Navbar() {
     { href: publicHref("/contact/"), label: text.contacts },
   ];
 
-  if (isAdmin) navItems.push({ href: "/admin", label: text.admin });
+  if (isAdmin) navItems.push({ href: "/admin/", label: text.admin });
 
   return (
     <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-[#1B191A] text-orisia-light shadow-sm">
@@ -127,13 +127,13 @@ export default function Navbar() {
         <div className="ml-auto hidden w-[300px] flex-none grid-cols-[90px_96px_96px] items-center gap-2 whitespace-nowrap pl-6 xl:grid">
           <SitePreferences />
           <span className="flex w-full items-center justify-center">
-            {loggedIn ? <Link href="/account" className="flex min-h-11 w-full items-center justify-center px-2 font-sans text-[10px] font-extrabold uppercase tracking-[.06em] text-orisia-light hover:text-white 2xl:text-[12px]">{text.profile}</Link> : null}
+            {loggedIn ? <Link href="/account/" className="flex min-h-11 w-full items-center justify-center px-2 font-sans text-[10px] font-extrabold uppercase tracking-[.06em] text-orisia-light hover:text-white 2xl:text-[12px]">{text.profile}</Link> : null}
           </span>
           <span className="flex w-full items-center justify-center">
             {loggedIn ? (
               <Link href={publicHref("/")} className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]" onClick={logout}>{text.logout}</Link>
             ) : (
-              <Link href="/login" className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]">{text.login}</Link>
+              <Link href="/login/" className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]">{text.login}</Link>
             )}
           </span>
         </div>
@@ -171,11 +171,11 @@ export default function Navbar() {
         <div className="border-t border-[#554b47] p-5">
           {loggedIn ? (
             <div className="grid gap-3">
-              <Link href="/account" className="flex min-h-12 items-center justify-center rounded-sm border border-[#5f5550] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-orisia-light" onClick={() => setMenuOpen(false)}>{text.profile}</Link>
+              <Link href="/account/" className="flex min-h-12 items-center justify-center rounded-sm border border-[#5f5550] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-orisia-light" onClick={() => setMenuOpen(false)}>{text.profile}</Link>
               <Link href={publicHref("/")} className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={logout}>{text.logout}</Link>
             </div>
           ) : (
-            <Link href="/login" className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={() => setMenuOpen(false)}>{text.login}</Link>
+            <Link href="/login/" className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={() => setMenuOpen(false)}>{text.login}</Link>
           )}
         </div>
       </aside>
