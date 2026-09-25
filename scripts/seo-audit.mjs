@@ -25,6 +25,15 @@ function htmlFileForPathname(pathname) {
   return path.join(clean, "index.html");
 }
 
+function hasAlternate(html, language) {
+  const links = html.match(/<link[^>]*>/gi) ?? [];
+  return links.some(
+    (link) =>
+      /rel=["']alternate["']/i.test(link) &&
+      new RegExp(`hreflang=["']${language}["']`, "i").test(link)
+  );
+}
+
 function assertCommonSeo(html, pathname) {
   assert(/<link[^>]+rel=["']canonical["']/i.test(html), `${pathname}: missing canonical`);
   assert(html.includes(`${siteUrl}${pathname}`), `${pathname}: canonical/metadata does not reference expected live URL`);
@@ -58,9 +67,9 @@ for (const url of urls) {
 for (const locale of ["bg", "en"]) {
   const pathname = `/${locale}/`;
   const html = read(`${locale}/index.html`);
-  assert(/hreflang=["']bg["']/i.test(html), `${pathname}: missing bg hreflang`);
-  assert(/hreflang=["']en["']/i.test(html), `${pathname}: missing en hreflang`);
-  assert(/hreflang=["']x-default["']/i.test(html), `${pathname}: missing x-default hreflang`);
+  assert(hasAlternate(html, "bg"), `${pathname}: missing bg hreflang`);
+  assert(hasAlternate(html, "en"), `${pathname}: missing en hreflang`);
+  assert(hasAlternate(html, "x-default"), `${pathname}: missing x-default hreflang`);
   assert(
     new RegExp(`<html\\s+lang=["']${locale}["']`, "i").test(html),
     `${pathname}: incorrect <html lang> for localized page`
@@ -70,9 +79,9 @@ for (const locale of ["bg", "en"]) {
 const home = read("index.html");
 assert(home.includes('"@type":"PerformingGroup"'), "Homepage: missing PerformingGroup JSON-LD");
 assert(home.includes('"@type":"WebSite"'), "Homepage: missing WebSite JSON-LD");
-assert(home.includes('hreflang="bg"'), "Homepage: missing bg hreflang");
-assert(home.includes('hreflang="en"'), "Homepage: missing en hreflang");
-assert(home.includes('hreflang="x-default"'), "Homepage: missing x-default hreflang");
+assert(hasAlternate(home, "bg"), "Homepage: missing bg hreflang");
+assert(hasAlternate(home, "en"), "Homepage: missing en hreflang");
+assert(hasAlternate(home, "x-default"), "Homepage: missing x-default hreflang");
 
 const eventHtml = read("events/3-godini-orisia/index.html");
 assert(eventHtml.includes('"@type":"Event"'), "Event detail: missing Event JSON-LD");

@@ -27,8 +27,17 @@ if (!fs.existsSync(homeFile)) {
   process.exit(1);
 }
 
+function hasAlternate(html, language) {
+  const links = html.match(/<link[^>]*>/gi) ?? [];
+  return links.some(
+    (link) =>
+      /rel=["']alternate["']/i.test(link) &&
+      new RegExp(`hreflang=["']${language}["']`, "i").test(link)
+  );
+}
+
 let home = fs.readFileSync(homeFile, "utf8");
-if (!/hreflang=["']bg["']/i.test(home)) {
+if (!hasAlternate(home, "bg") || !hasAlternate(home, "en") || !hasAlternate(home, "x-default")) {
   const alternates = [
     `<link rel="alternate" hreflang="bg" href="${siteUrl}/bg/"/>`,
     `<link rel="alternate" hreflang="en" href="${siteUrl}/en/"/>`,
