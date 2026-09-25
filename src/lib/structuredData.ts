@@ -278,7 +278,13 @@ export function buildEventStructuredData({
     description,
     startDate,
     eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     url: absoluteUrl(path),
+    location: {
+      "@type": "Place",
+      name: "ОРИСИЯ — Русе",
+      address: ruseAddress,
+    },
     ...(imageUrl ? { image: [imageUrl] } : {}),
     organizer: {
       "@id": organizationId,

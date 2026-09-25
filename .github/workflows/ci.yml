@@ -63,3 +63,6 @@ jobs:
           test -f out/en/news/index.html
           test -f out/bg/horoteka/pravo-horo/index.html
           test -f out/en/horoteka/pravo-horo/index.html
+
+      - name: SEO audit
+        run: npm run seo:audit
