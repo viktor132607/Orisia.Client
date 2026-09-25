@@ -8,7 +8,8 @@ import {
   localSeoKeywords,
 } from "../lib/seo";
 
-export const metadata: Metadata = {
+export function generateMetadata(): Metadata {
+  return {
   title: {
     absolute: defaultTitle,
   },
@@ -27,7 +28,8 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: defaultDescription,
   }),
-};
+  };
+}
 
 export default function Page() {
   return (
