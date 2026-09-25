@@ -62,8 +62,8 @@ for (const locale of ["bg", "en"]) {
   assert(/hreflang=["']en["']/i.test(html), `${pathname}: missing en hreflang`);
   assert(/hreflang=["']x-default["']/i.test(html), `${pathname}: missing x-default hreflang`);
   assert(
-    html.includes(`content="${locale}"`) || html.includes(`lang="${locale}"`),
-    `${pathname}: missing locale language marker`
+    new RegExp(`<html\\s+lang=["']${locale}["']`, "i").test(html),
+    `${pathname}: incorrect <html lang> for localized page`
   );
 }
 
