@@ -13,7 +13,8 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const events = await safePublicGet<EventResponse[]>("/events", []);
-  return events.map((event) => ({ slug: event.slug }));
+  const params = events.map((event) => ({ slug: event.slug }));
+  return params.length ? params : [{ slug: "__no-events__" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

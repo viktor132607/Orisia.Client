@@ -12,7 +12,8 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const dances = await safePublicGet<DanceResponse[]>("/horoteka", []);
-  return dances.map((dance) => ({ slug: dance.slug }));
+  const params = dances.map((dance) => ({ slug: dance.slug }));
+  return params.length ? params : [{ slug: "__no-dances__" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

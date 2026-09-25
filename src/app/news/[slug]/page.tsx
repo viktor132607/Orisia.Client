@@ -13,7 +13,8 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const posts = await safePublicGet<PostResponse[]>("/posts", []);
-  return posts.map((post) => ({ slug: post.slug }));
+  const params = posts.map((post) => ({ slug: post.slug }));
+  return params.length ? params : [{ slug: "__no-news__" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
