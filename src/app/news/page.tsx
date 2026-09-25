@@ -1,139 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { api, postNumberToType, type PostResponse } from "../../lib/api";
 import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
-import {
-  defaultFeedPosts,
-  FEED_EVENT,
-  FeedPost,
-  FeedType,
-  getFeedPostPath,
-  readFeedPosts,
-} from "../../components/homeFeedStore";
 
-const newsTypes: FeedType[] = ["news", "report", "photos", "blog", "group", "schedule"];
-
-const typeLabels: Record<FeedType, { bg: string; en: string }> = {
-  report: { bg: "Отчет", en: "Report" },
-  news: { bg: "Новина", en: "News" },
-  photos: { bg: "Снимки", en: "Photos" },
-  blog: { bg: "Блог", en: "Blog" },
-  group: { bg: "Група", en: "Group update" },
-  schedule: { bg: "График", en: "Schedule" },
-  event: { bg: "Събитие", en: "Event" },
+const labels: Record<string, { bg: string; en: string }> = {
+  news: { bg: "Новина", en: "News" }, report: { bg: "Отчет", en: "Report" }, photos: { bg: "Снимки", en: "Photos" },
+  blog: { bg: "Блог", en: "Blog" }, group: { bg: "Група", en: "Group update" }, schedule: { bg: "График", en: "Schedule" },
 };
-
-function formatDate(date: string, isBg: boolean) {
-  const value = new Date(`${date}T12:00:00`);
-  if (Number.isNaN(value.getTime())) return date;
-  return new Intl.DateTimeFormat(isBg ? "bg-BG" : "en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  }).format(value);
-}
 
 export default function NewsPage() {
   const language = useLanguage();
   const isBg = language === "bg";
   const href = useLocalizedPath();
-  const [posts, setPosts] = useState<FeedPost[]>(defaultFeedPosts);
+  const [posts, setPosts] = useState<PostResponse[]>([]);
+  const [state, setState] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
-    const load = () => setPosts(readFeedPosts());
-    const handleChange = (event: Event) => {
-      const detail = (event as CustomEvent<{ posts?: FeedPost[] }>).detail;
-      setPosts(detail?.posts ?? readFeedPosts());
-    };
-
-    load();
-    window.addEventListener(FEED_EVENT, handleChange);
-    window.addEventListener("storage", load);
-    return () => {
-      window.removeEventListener(FEED_EVENT, handleChange);
-      window.removeEventListener("storage", load);
-    };
+    api.posts.list().then((items) => { setPosts(items); setState("ready"); }).catch(() => setState("error"));
   }, []);
 
-  const news = useMemo(
-    () => posts.filter((post) => newsTypes.includes(post.type)).sort((a, b) => b.date.localeCompare(a.date)),
-    [posts]
-  );
-
-  return (
-    <main className="min-h-[70vh] bg-orisia-cream py-16 dark:bg-orisia-dark">
-      <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
-        <header className="border-b border-[#ceb28b] pb-8 dark:border-[#5d4129]">
-          <span className="font-sans text-xs font-black uppercase tracking-[.2em] text-orisia-goldDark dark:text-orisia-gold">
-            {isBg ? "ОРИСИЯ · НОВИНИ" : "ORISIA · NEWS"}
-          </span>
-          <h1 className="mt-3 text-4xl font-bold text-[#4b2e1b] sm:text-5xl dark:text-orisia-light">{isBg ? "Новини" : "News"}</h1>
-          <p className="mt-3 max-w-2xl font-sans text-sm leading-7 text-[#705841] dark:text-[#bca486]">
-            {isBg ? "Новини, отчети, снимки, блог публикации, групови ъпдейти и промени в графика." : "News, reports, photos, blog posts, group updates and schedule changes."}
-          </p>
-        </header>
-
-        <div className="py-10">
-          {news.length ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {news.map((post) => {
-                const rawPath = getFeedPostPath(post);
-                const path = rawPath ? href(rawPath) : null;
-                const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
-
-                return (
-                  <article key={post.id} className="flex min-h-full flex-col overflow-hidden rounded border border-[#d5c0a1] bg-[#fffaf2] dark:border-[#5a4029] dark:bg-[#1d110b]">
-                    {post.image && (
-                      <img
-                        src={post.image}
-                        alt={
-                          isBg
-                            ? `Публикация „${title}“ — ОРИСИЯ, Русе`
-                            : `ORISIA post “${title}” in Ruse`
-                        }
-                        className="h-48 w-full object-cover"
-                        width={1200}
-                        height={675}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    )}
-                    <div className="flex flex-1 flex-col p-6">
-                      <div className="flex items-center justify-between gap-3 font-sans text-[11px] font-black uppercase tracking-[.1em] text-orisia-goldDark dark:text-orisia-gold">
-                        <span>{typeLabels[post.type][language]}</span>
-                        <time className="text-right" dateTime={post.date}>{formatDate(post.date, isBg)}</time>
-                      </div>
-                      <h2 className="mt-4 text-2xl font-bold text-[#4b2e1b] dark:text-orisia-light">
-                        {path ? (
-                          <Link href={path} className="transition hover:text-orisia-goldDark">
-                            {title}
-                          </Link>
-                        ) : title}
-                      </h2>
-                      <p className="mt-3 line-clamp-5 font-sans text-sm leading-7 text-[#6e5540] dark:text-[#bca486]">
-                        {isBg ? post.bodyBg : post.bodyEn || post.bodyBg}
-                      </p>
-                      {path && (
-                        <Link
-                          href={path}
-                          className="mt-5 inline-block self-start border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark dark:text-[#d3a969]"
-                        >
-                          {isBg ? "Прочети" : "Read more"}
-                        </Link>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="rounded border border-dashed border-[#c9ad88] p-8 font-sans text-sm text-[#705841] dark:border-[#5d4129] dark:text-[#bca486]">
-              {isBg ? "Все още няма публикувани новини." : "There are no published news items yet."}
-            </div>
-          )}
-        </div>
-      </div>
-    </main>
-  );
+  return <main className="min-h-[70vh] bg-orisia-cream py-16 dark:bg-orisia-dark"><div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+    <header className="border-b border-[#ceb28b] pb-8 dark:border-[#5d4129]"><span className="font-sans text-xs font-black uppercase tracking-[.2em] text-orisia-goldDark">{isBg ? "ОРИСИЯ · НОВИНИ" : "ORISIA · NEWS"}</span><h1 className="mt-3 text-4xl font-bold sm:text-5xl">{isBg ? "Новини" : "News"}</h1></header>
+    <div className="py-10">
+      {state === "loading" && <p className="font-sans text-sm">{isBg ? "Зареждане…" : "Loading…"}</p>}
+      {state === "error" && <div className="border border-red-400/50 p-6 font-sans text-sm">{isBg ? "Новините не могат да бъдат заредени." : "News could not be loaded."}</div>}
+      {state === "ready" && (posts.length ? <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{posts.map((post) => {
+        const type = postNumberToType[post.type] ?? "news";
+        const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
+        const body = isBg ? post.excerptBg || post.bodyBg : post.excerptEn || post.bodyEn || post.bodyBg;
+        return <article key={post.id} className="flex flex-col border border-[#d5c0a1] bg-[#fffaf2] p-6 dark:border-[#5a4029] dark:bg-[#1d110b]">
+          <div className="flex justify-between gap-3 font-sans text-[11px] font-black uppercase text-orisia-goldDark"><span>{labels[type]?.[language] ?? type}</span><time>{new Date(post.publishedAt ?? post.createdOn).toLocaleDateString(isBg ? "bg-BG" : "en-GB")}</time></div>
+          <h2 className="mt-4 text-2xl font-bold"><Link href={href(`/news/${post.slug}/`)}>{title}</Link></h2>
+          <p className="mt-3 line-clamp-5 flex-1 font-sans text-sm leading-7 text-[#6e5540] dark:text-[#bca486]">{body}</p>
+          <Link href={href(`/news/${post.slug}/`)} className="mt-5 self-start border-b border-orisia-goldDark font-sans text-xs font-black uppercase text-orisia-goldDark">{isBg ? "Прочети" : "Read more"}</Link>
+        </article>;
+      })}</div> : <div className="border border-dashed border-[#c9ad88] p-8 font-sans text-sm">{isBg ? "Все още няма публикувани новини." : "There are no published news items yet."}</div>)}
+    </div>
+  </div></main>;
 }

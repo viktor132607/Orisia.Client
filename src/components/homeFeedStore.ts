@@ -1,8 +1,11 @@
-export type FeedType = "report" | "news" | "photos" | "blog" | "group" | "schedule" | "event";
+import type { EventResponse, FeedItemResponse, FeedType, PostResponse } from "../lib/api";
+import { postNumberToType } from "../lib/api";
+
+export type { FeedType };
 
 export type FeedPost = {
   id: string;
-  slug?: string;
+  slug: string;
   type: FeedType;
   titleBg: string;
   titleEn: string;
@@ -11,92 +14,58 @@ export type FeedPost = {
   date: string;
   image?: string;
   featured?: boolean;
+  endAt?: string | null;
+  location?: string | null;
 };
 
-export const FEED_KEY = "orisia-home-feed";
-export const FEED_EVENT = "orisia-home-feed-change";
-
-export const defaultFeedPosts: FeedPost[] = [
-  {
-    id: "birthday-2026",
-    slug: "3-godini-orisia",
-    type: "event",
-    titleBg: "3 години ОРИСИЯ",
-    titleEn: "3 years of ORISIA",
-    bodyBg: "На 18.09.2026 празнуваме три години танц, приятелства и български фолклор.",
-    bodyEn: "On 18 September 2026 we celebrate three years of dance, friendship and Bulgarian folklore.",
-    date: "2026-09-18",
-    featured: true,
-  },
-  {
-    id: "schedule-september",
-    slug: "septemvriiski-grafik",
-    type: "schedule",
-    titleBg: "Септемврийски график",
-    titleEn: "September schedule",
-    bodyBg: "Следете календара за репетиции, участия и специални събития през септември.",
-    bodyEn: "Follow the calendar for rehearsals, performances and special events throughout September.",
-    date: "2026-09-02",
-    featured: true,
-  },
-  {
-    id: "activity-report",
-    slug: "otchet-ot-deynostta",
-    type: "report",
-    titleBg: "Отчет от дейността",
-    titleEn: "Activity report",
-    bodyBg: "Тук ще публикуваме кратки отчети, снимки и важни моменти от дейността на ОРИСИЯ.",
-    bodyEn: "Here we will publish short activity reports, photos and important moments from ORISIA.",
-    date: "2026-09-01",
-  },
-];
-
-function migratePosts(posts: FeedPost[]) {
-  const defaultById = new Map(defaultFeedPosts.map((post) => [post.id, post]));
-
-  return posts.map((post) => {
-    const defaults = defaultById.get(post.id);
-    return {
-      ...post,
-      ...(defaults?.slug && !post.slug ? { slug: defaults.slug } : {}),
-      ...(post.id === "birthday-2026" ? { type: "event" as FeedType } : {}),
-    };
-  });
-}
-
-export function getDefaultFeedPost(slug: string) {
-  return defaultFeedPosts.find((post) => post.slug === slug);
-}
-
 export function getFeedPostPath(post: FeedPost) {
-  if (!post.slug) return null;
   return post.type === "event"
     ? `/events/${post.slug}/`
     : `/news/${post.slug}/`;
 }
 
-export function isDefaultFeedPost(post: FeedPost) {
-  return defaultFeedPosts.some((item) => item.id === post.id && item.slug === post.slug);
+export function feedItemToPost(item: FeedItemResponse): FeedPost {
+  return {
+    id: item.id,
+    slug: item.slug,
+    type: item.type,
+    titleBg: item.titleBg,
+    titleEn: item.titleEn,
+    bodyBg: item.bodyBg,
+    bodyEn: item.bodyEn,
+    date: item.date,
+    featured: item.featured,
+    endAt: item.endAt,
+    location: item.location,
+  };
 }
 
-export function readFeedPosts(): FeedPost[] {
-  if (typeof window === "undefined") return defaultFeedPosts;
-  const stored = window.localStorage.getItem(FEED_KEY);
-  if (!stored) return defaultFeedPosts;
-  try {
-    const parsed = JSON.parse(stored) as FeedPost[];
-    if (!Array.isArray(parsed)) return defaultFeedPosts;
-    const migrated = migratePosts(parsed);
-    if (JSON.stringify(migrated) !== JSON.stringify(parsed)) {
-      window.localStorage.setItem(FEED_KEY, JSON.stringify(migrated));
-    }
-    return migrated;
-  } catch {
-    return defaultFeedPosts;
-  }
+export function postResponseToFeedPost(post: PostResponse): FeedPost {
+  return {
+    id: post.id,
+    slug: post.slug,
+    type: postNumberToType[post.type] ?? "news",
+    titleBg: post.titleBg,
+    titleEn: post.titleEn,
+    bodyBg: post.bodyBg,
+    bodyEn: post.bodyEn,
+    date: post.publishedAt ?? post.createdOn,
+    featured: post.featured,
+  };
 }
 
-export function writeFeedPosts(posts: FeedPost[]) {
-  window.localStorage.setItem(FEED_KEY, JSON.stringify(posts));
-  window.dispatchEvent(new CustomEvent(FEED_EVENT, { detail: { posts } }));
+export function eventResponseToFeedPost(event: EventResponse): FeedPost {
+  return {
+    id: event.id,
+    slug: event.slug,
+    type: "event",
+    titleBg: event.titleBg,
+    titleEn: event.titleEn,
+    bodyBg: event.descriptionBg,
+    bodyEn: event.descriptionEn,
+    date: event.startAt,
+    featured: event.featured,
+    endAt: event.endAt,
+    location: event.location,
+  };
 }
