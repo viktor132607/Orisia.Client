@@ -23,8 +23,8 @@ jobs:
     timeout-minutes: 15
 
     env:
-      NEXT_PUBLIC_SITE_URL: https://orisia-client.onrender.com
-      NEXT_PUBLIC_API_URL: https://orisia-api.onrender.com/api
+      NEXT_PUBLIC_SITE_URL: https://orisia-client-zgwt.onrender.com
+      NEXT_PUBLIC_API_URL: https://orisia-server.onrender.com/api
 
     steps:
       - name: Checkout

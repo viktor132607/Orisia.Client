@@ -68,10 +68,11 @@ export default function Navbar() {
     window.dispatchEvent(new CustomEvent("orisia-auth-change", { detail: { role: "guest", loggedIn: false, isAdmin: false } }));
   };
 
-  const text = labels[language];
+  const activeLanguage = routeLocale ?? language;
+  const text = labels[activeLanguage];
   const loggedIn = role !== "guest";
   const isAdmin = role === "admin";
-  const isBg = language === "bg";
+  const isBg = activeLanguage === "bg";
   const navLink = "inline-flex h-12 flex-none items-center justify-center px-2.5 font-sans text-[10px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:px-3 2xl:text-[12px]";
   const mobileLink = "flex min-h-14 items-center border-b border-[#403a38] px-7 font-sans text-[15px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:bg-[#272324] hover:text-white";
 

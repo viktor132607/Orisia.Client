@@ -20,15 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <JsonLd id="organization-structured-data" data={organizationStructuredData} />
         <JsonLd id="website-structured-data" data={websiteStructuredData} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
         <SiteEntranceGate />
         <div className="min-h-screen pt-20 bg-orisia-cream dark:bg-orisia-dark">
           <Navbar />
-          <DevVariantMenu />
+          {process.env.NODE_ENV !== "production" ? <DevVariantMenu /> : null}
           {children}
           <Footer />
           <CookieBanner />
