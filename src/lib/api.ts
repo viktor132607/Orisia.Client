@@ -275,7 +275,7 @@ async function errorMessage(response: Response) {
     if (parsed.message) return parsed.message;
     if (parsed.title) return parsed.title;
     if (parsed.errors) return Object.values(parsed.errors).flat().join(" ");
-  } catch {}
+  } catch {\n    return text;\n  }
   return text;
 }
 
