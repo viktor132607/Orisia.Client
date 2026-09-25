@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import process from "node:process";
+import { fileURLToPath, URL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const out = path.join(root, "out");
@@ -92,9 +93,9 @@ const notFound = read("404.html");
 assert(/content=["'][^"']*noindex/i.test(notFound), "404.html: missing noindex");
 
 if (failures.length) {
-  console.error("\nSEO audit failed:");
-  for (const failure of failures) console.error(`- ${failure}`);
+  process.stderr.write("\nSEO audit failed:\n");
+  for (const failure of failures) process.stderr.write(`- ${failure}\n`);
   process.exit(1);
 }
 
-console.log(`SEO audit passed: ${urls.length} sitemap URLs verified against static export.`);
+process.stdout.write(`SEO audit passed: ${urls.length} sitemap URLs verified against static export.\n`);
