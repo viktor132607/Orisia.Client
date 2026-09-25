@@ -58,9 +58,9 @@ for (const url of urls) {
 for (const locale of ["bg", "en"]) {
   const pathname = `/${locale}/`;
   const html = read(`${locale}/index.html`);
-  assert(html.includes('hreflang="bg"'), `${pathname}: missing bg hreflang`);
-  assert(html.includes('hreflang="en"'), `${pathname}: missing en hreflang`);
-  assert(html.includes('hreflang="x-default"'), `${pathname}: missing x-default hreflang`);
+  assert(/hreflang=["']bg["']/i.test(html), `${pathname}: missing bg hreflang`);
+  assert(/hreflang=["']en["']/i.test(html), `${pathname}: missing en hreflang`);
+  assert(/hreflang=["']x-default["']/i.test(html), `${pathname}: missing x-default hreflang`);
   assert(
     html.includes(`content="${locale}"`) || html.includes(`lang="${locale}"`),
     `${pathname}: missing locale language marker`
