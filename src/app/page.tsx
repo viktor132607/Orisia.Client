@@ -6,6 +6,7 @@ import {
   defaultDescription,
   defaultTitle,
   localSeoKeywords,
+  siteUrl,
 } from "../lib/seo";
 
 export function generateMetadata(): Metadata {
@@ -34,6 +35,9 @@ export function generateMetadata(): Metadata {
 export default function Page() {
   return (
     <>
+      <link rel="alternate" hrefLang="bg" href={new URL("/bg/", siteUrl).toString()} />
+      <link rel="alternate" hrefLang="en" href={new URL("/en/", siteUrl).toString()} />
+      <link rel="alternate" hrefLang="x-default" href={new URL("/", siteUrl).toString()} />
       <PublicPageStructuredData
         path="/"
         name={defaultTitle}
