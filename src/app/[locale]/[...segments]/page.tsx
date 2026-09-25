@@ -14,138 +14,112 @@ import DanceDetailClient from "../../horoteka/[slug]/DanceDetailClient";
 import FeedDetailClient from "../../../components/FeedDetailClient";
 import JsonLd from "../../../components/JsonLd";
 import PublicPageStructuredData from "../../../components/PublicPageStructuredData";
-import { getDefaultFeedPost } from "../../../components/homeFeedStore";
-import { getHorotekaDance } from "../../../lib/horoteka";
-import { isLocale, locales, localizePath } from "../../../lib/i18n";
-import {
-  buildLocalizedMetadata,
-  getLocalizedSeo,
-  localizedDetailPaths,
-  localizedStaticPaths,
-} from "../../../lib/localizedSeo";
-import {
-  buildEventStructuredData,
-  buildNewsArticleStructuredData,
-  buildVideoObjectStructuredData,
-} from "../../../lib/structuredData";
+import { eventResponseToFeedPost, postResponseToFeedPost } from "../../../components/homeFeedStore";
+import { absoluteMediaUrl, type DanceResponse, type EventResponse, type PostResponse, safePublicGet } from "../../../lib/api";
+import { isLocale, locales, localizePath, type Locale } from "../../../lib/i18n";
+import { buildLocalizedMetadata, englishKeywords, getLocalizedSeo, localizedStaticPaths } from "../../../lib/localizedSeo";
+import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
+import { buildEventStructuredData, buildNewsArticleStructuredData } from "../../../lib/structuredData";
 
-type Props = {
-  params: Promise<{ locale: string; segments: string[] }>;
-};
-
+type Props = { params: Promise<{ locale: string; segments: string[] }> };
 export const dynamicParams = false;
 
 const routeComponents: Record<string, React.ComponentType> = {
-  "/about/": AboutPage,
-  "/calendar/": CalendarPage,
-  "/contact/": ContactPage,
-  "/cookies/": CookiesPage,
-  "/events/": EventsPage,
-  "/gallery/": GalleryPage,
-  "/horoteka/": HorotekaPage,
-  "/news/": NewsPage,
-  "/privacy/": PrivacyPage,
-  "/terms/": TermsPage,
+  "/about/": AboutPage, "/calendar/": CalendarPage, "/contact/": ContactPage, "/cookies/": CookiesPage,
+  "/events/": EventsPage, "/gallery/": GalleryPage, "/horoteka/": HorotekaPage, "/news/": NewsPage,
+  "/privacy/": PrivacyPage, "/terms/": TermsPage,
 };
 
-function segmentsToPath(segments: string[]) {
-  return `/${segments.join("/")}/`;
+const segmentsToPath = (segments: string[]) => `/${segments.join("/")}/`;
+
+export async function generateStaticParams() {
+  const [posts, events, dances] = await Promise.all([
+    safePublicGet<PostResponse[]>("/posts", []),
+    safePublicGet<EventResponse[]>("/events", []),
+    safePublicGet<DanceResponse[]>("/horoteka", []),
+  ]);
+  const detailPaths = [
+    ...posts.map((item) => `/news/${item.slug}/`),
+    ...events.map((item) => `/events/${item.slug}/`),
+    ...dances.map((item) => `/horoteka/${item.slug}/`),
+  ];
+  return locales.flatMap((locale) => [...localizedStaticPaths, ...detailPaths].map((path) => ({ locale, segments: path.split("/").filter(Boolean) })));
 }
 
-export function generateStaticParams() {
-  const paths = [...localizedStaticPaths, ...localizedDetailPaths];
-  return locales.flatMap((locale) =>
-    paths.map((path) => ({
-      locale,
-      segments: path.split("/").filter(Boolean),
-    }))
-  );
+async function detailMetadata(locale: Locale, path: string): Promise<Metadata> {
+  const canonical = localizePath(path, locale);
+  const eventMatch = path.match(/^\/events\/([^/]+)\/$/);
+  if (eventMatch) {
+    const item = await safePublicGet<EventResponse | null>(`/events/${eventMatch[1]}`, null);
+    if (!item) return {};
+    const title = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
+    const description = locale === "bg" ? item.descriptionBg : item.descriptionEn || item.descriptionBg;
+    return { title, description, alternates: { canonical, languages: { bg: localizePath(path, "bg"), en: localizePath(path, "en"), "x-default": path } }, ...buildSocialMetadata({ path: canonical, title, description, locale: locale === "bg" ? "bg_BG" : "en_GB" }) };
+  }
+  const newsMatch = path.match(/^\/news\/([^/]+)\/$/);
+  if (newsMatch) {
+    const item = await safePublicGet<PostResponse | null>(`/posts/${newsMatch[1]}`, null);
+    if (!item) return {};
+    const title = locale === "bg" ? item.seoTitleBg || item.titleBg : item.seoTitleEn || item.titleEn || item.titleBg;
+    const description = locale === "bg" ? item.seoDescriptionBg || item.excerptBg || item.bodyBg : item.seoDescriptionEn || item.excerptEn || item.bodyEn || item.bodyBg;
+    return { title, description, keywords: locale === "bg" ? [item.titleBg, ...localSeoKeywords] : [item.titleEn || item.titleBg, ...englishKeywords], alternates: { canonical, languages: { bg: localizePath(path, "bg"), en: localizePath(path, "en"), "x-default": path } }, ...buildSocialMetadata({ path: canonical, title, description, type: "article", publishedTime: item.publishedAt || item.createdOn, locale: locale === "bg" ? "bg_BG" : "en_GB" }) };
+  }
+  const danceMatch = path.match(/^\/horoteka\/([^/]+)\/$/);
+  if (danceMatch) {
+    const item = await safePublicGet<DanceResponse | null>(`/horoteka/${danceMatch[1]}`, null);
+    if (!item) return {};
+    const title = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
+    const description = locale === "bg" ? item.descriptionBg : item.descriptionEn || item.descriptionBg;
+    return { title, description, alternates: { canonical, languages: { bg: localizePath(path, "bg"), en: localizePath(path, "en"), "x-default": path } }, ...buildSocialMetadata({ path: canonical, title, description, image: absoluteMediaUrl(item.thumbnailUrl), locale: locale === "bg" ? "bg_BG" : "en_GB" }) };
+  }
+  return {};
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, segments } = await params;
   if (!isLocale(locale)) return {};
-  return buildLocalizedMetadata(locale, segmentsToPath(segments));
+  const path = segmentsToPath(segments);
+  return getLocalizedSeo(locale, path) ? buildLocalizedMetadata(locale, path) : detailMetadata(locale, path);
 }
 
 export default async function LocalizedPublicPage({ params }: Props) {
   const { locale, segments } = await params;
   if (!isLocale(locale)) notFound();
-
   const path = segmentsToPath(segments);
-  const seo = getLocalizedSeo(locale, path);
-  if (!seo) notFound();
-
   const localizedPath = localizePath(path, locale);
   const StaticComponent = routeComponents[path];
 
   if (StaticComponent) {
-    return (
-      <div lang={locale}>
-        <PublicPageStructuredData
-          path={localizedPath}
-          name={seo.title}
-          description={seo.description}
-          language={locale}
-          homePath={`/${locale}/`}
-        />
-        <StaticComponent />
-      </div>
-    );
+    const seo = getLocalizedSeo(locale, path);
+    if (!seo) notFound();
+    return <div lang={locale}><PublicPageStructuredData path={localizedPath} name={seo.title} description={seo.description} language={locale} homePath={`/${locale}/`} /><StaticComponent /></div>;
   }
 
   const eventMatch = path.match(/^\/events\/([^/]+)\/$/);
   if (eventMatch) {
-    const post = getDefaultFeedPost(eventMatch[1]);
-    if (!post || post.type !== "event") notFound();
-    const name = locale === "bg" ? post.titleBg : post.titleEn || post.titleBg;
-    const description = locale === "bg" ? post.bodyBg : post.bodyEn || post.bodyBg;
-    return (
-      <div lang={locale}>
-        <PublicPageStructuredData path={localizedPath} name={name} description={description} language={locale} homePath={`/${locale}/`} />
-        <JsonLd
-          id={`localized-event-${post.id}-structured-data`}
-          data={buildEventStructuredData({ path: localizedPath, name, description, startDate: post.date, image: post.image })}
-        />
-        <FeedDetailClient post={post} kind="event" />
-      </div>
-    );
+    const item = await safePublicGet<EventResponse | null>(`/events/${eventMatch[1]}`, null);
+    if (!item) notFound();
+    const name = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
+    const description = locale === "bg" ? item.descriptionBg : item.descriptionEn || item.descriptionBg;
+    return <div lang={locale}><PublicPageStructuredData path={localizedPath} name={name} description={description} language={locale} homePath={`/${locale}/`} /><JsonLd id={`localized-event-${item.id}`} data={buildEventStructuredData({ path: localizedPath, name, description, startDate: item.startAt })} /><FeedDetailClient post={eventResponseToFeedPost(item)} kind="event" /></div>;
   }
 
   const newsMatch = path.match(/^\/news\/([^/]+)\/$/);
   if (newsMatch) {
-    const post = getDefaultFeedPost(newsMatch[1]);
-    if (!post || post.type === "event") notFound();
-    const headline = locale === "bg" ? post.titleBg : post.titleEn || post.titleBg;
-    const description = locale === "bg" ? post.bodyBg : post.bodyEn || post.bodyBg;
-    return (
-      <div lang={locale}>
-        <PublicPageStructuredData path={localizedPath} name={headline} description={description} language={locale} homePath={`/${locale}/`} />
-        <JsonLd
-          id={`localized-news-${post.id}-structured-data`}
-          data={buildNewsArticleStructuredData({ path: localizedPath, headline, description, datePublished: post.date, image: post.image })}
-        />
-        <FeedDetailClient post={post} kind="news" />
-      </div>
-    );
+    const item = await safePublicGet<PostResponse | null>(`/posts/${newsMatch[1]}`, null);
+    if (!item) notFound();
+    const headline = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
+    const description = locale === "bg" ? item.excerptBg || item.bodyBg : item.excerptEn || item.bodyEn || item.bodyBg;
+    return <div lang={locale}><PublicPageStructuredData path={localizedPath} name={headline} description={description} language={locale} homePath={`/${locale}/`} /><JsonLd id={`localized-news-${item.id}`} data={buildNewsArticleStructuredData({ path: localizedPath, headline, description, datePublished: item.publishedAt || item.createdOn })} /><FeedDetailClient post={postResponseToFeedPost(item)} kind="news" /></div>;
   }
 
   const danceMatch = path.match(/^\/horoteka\/([^/]+)\/$/);
   if (danceMatch) {
-    const dance = getHorotekaDance(danceMatch[1]);
-    if (!dance) notFound();
-    const name = locale === "bg" ? dance.titleBg : dance.titleEn;
-    const description = locale === "bg" ? dance.descriptionBg : dance.descriptionEn;
-    const videoData = dance.video
-      ? buildVideoObjectStructuredData({ name: `${name} — ORISIA`, description, ...dance.video })
-      : null;
-    return (
-      <div lang={locale}>
-        <PublicPageStructuredData path={localizedPath} name={name} description={description} language={locale} homePath={`/${locale}/`} />
-        {videoData && <JsonLd id={`localized-${dance.slug}-video-structured-data`} data={videoData} />}
-        <DanceDetailClient dance={dance} />
-      </div>
-    );
+    const item = await safePublicGet<DanceResponse | null>(`/horoteka/${danceMatch[1]}`, null);
+    if (!item) notFound();
+    const name = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
+    const description = locale === "bg" ? item.descriptionBg : item.descriptionEn || item.descriptionBg;
+    return <div lang={locale}><PublicPageStructuredData path={localizedPath} name={name} description={description} language={locale} homePath={`/${locale}/`} /><DanceDetailClient dance={item} /></div>;
   }
 
   notFound();

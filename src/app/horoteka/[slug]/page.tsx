@@ -1,104 +1,44 @@
-import { buildLanguageAlternates } from "../../../lib/i18n";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import JsonLd from "../../../components/JsonLd";
-import {
-  getHorotekaDance,
-  horotekaDances,
-} from "../../../lib/horoteka";
+import { absoluteMediaUrl, type DanceResponse, safePublicGet } from "../../../lib/api";
+import { buildLanguageAlternates } from "../../../lib/i18n";
 import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
-import {
-  buildHorotekaDanceBreadcrumbStructuredData,
-  buildVideoObjectStructuredData,
-  buildWebPageStructuredData,
-} from "../../../lib/structuredData";
+import { buildHorotekaDanceBreadcrumbStructuredData, buildWebPageStructuredData } from "../../../lib/structuredData";
 import DanceDetailClient from "./DanceDetailClient";
 
-type DancePageProps = {
-  params: Promise<{ slug: string }>;
-};
-
+type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return horotekaDances.map((dance) => ({ slug: dance.slug }));
+export async function generateStaticParams() {
+  const dances = await safePublicGet<DanceResponse[]>("/horoteka", []);
+  return dances.map((dance) => ({ slug: dance.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: DancePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const dance = getHorotekaDance(slug);
-
-  if (!dance) {
-    return {};
-  }
-
-  const path = `/horoteka/${dance.slug}/`;
-  const title = `${dance.titleBg} — ритъм ${dance.rhythm} и информация`;
-  const description = `${dance.titleBg} — ${dance.regionBg}, ритъм ${dance.rhythm}. Информация за хорото в Хоротеката на ОРИСИЯ в Русе.`;
-
+  const dance = await safePublicGet<DanceResponse | null>(`/horoteka/${encodeURIComponent(slug)}`, null);
+  if (!dance) return {};
+  const path = `/horoteka/${slug}/`;
+  const title = `${dance.titleBg}${dance.rhythm ? ` — ритъм ${dance.rhythm}` : ""}`;
+  const description = dance.descriptionBg;
   return {
     title,
     description,
-    keywords: [
-      dance.titleBg,
-      `${dance.titleBg} Русе`,
-      `${dance.titleBg} ритъм`,
-      ...localSeoKeywords,
-    ],
+    keywords: [dance.titleBg, `${dance.titleBg} Русе`, ...localSeoKeywords],
     alternates: buildLanguageAlternates(path),
-    ...buildSocialMetadata({
-      path,
-      title,
-      description,
-      image: dance.video?.thumbnailUrl,
-    }),
+    ...buildSocialMetadata({ path, title, description, image: absoluteMediaUrl(dance.thumbnailUrl) }),
   };
 }
 
-export default async function DancePage({ params }: DancePageProps) {
+export default async function DancePage({ params }: Props) {
   const { slug } = await params;
-  const dance = getHorotekaDance(slug);
-
-  if (!dance) {
-    notFound();
-  }
-
-  const path = `/horoteka/${dance.slug}/`;
-  const description = `${dance.titleBg} — ${dance.regionBg}, ритъм ${dance.rhythm}. ${dance.descriptionBg}`;
-  const videoStructuredData = dance.video
-    ? buildVideoObjectStructuredData({
-        name: `${dance.titleBg} — ОРИСИЯ`,
-        description: dance.descriptionBg,
-        ...dance.video,
-      })
-    : null;
-
-  return (
-    <>
-      <JsonLd
-        id={`${dance.slug}-webpage-structured-data`}
-        data={buildWebPageStructuredData({
-          path,
-          name: dance.titleBg,
-          description,
-        })}
-      />
-      <JsonLd
-        id={`${dance.slug}-breadcrumb-structured-data`}
-        data={buildHorotekaDanceBreadcrumbStructuredData({
-          path,
-          name: dance.titleBg,
-        })}
-      />
-      {videoStructuredData && (
-        <JsonLd
-          id={`${dance.slug}-video-structured-data`}
-          data={videoStructuredData}
-        />
-      )}
-      <DanceDetailClient dance={dance} />
-    </>
-  );
+  const dance = await safePublicGet<DanceResponse | null>(`/horoteka/${encodeURIComponent(slug)}`, null);
+  if (!dance) notFound();
+  const path = `/horoteka/${slug}/`;
+  return <>
+    <JsonLd id={`${slug}-webpage-structured-data`} data={buildWebPageStructuredData({ path, name: dance.titleBg, description: dance.descriptionBg })} />
+    <JsonLd id={`${slug}-breadcrumb-structured-data`} data={buildHorotekaDanceBreadcrumbStructuredData({ path, name: dance.titleBg })} />
+    <DanceDetailClient dance={dance} />
+  </>;
 }

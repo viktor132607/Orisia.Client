@@ -83,15 +83,23 @@ assert(hasAlternate(home, "bg"), "Homepage: missing bg hreflang");
 assert(hasAlternate(home, "en"), "Homepage: missing en hreflang");
 assert(hasAlternate(home, "x-default"), "Homepage: missing x-default hreflang");
 
-const eventHtml = read("events/3-godini-orisia/index.html");
-assert(eventHtml.includes('"@type":"Event"'), "Event detail: missing Event JSON-LD");
-assert(eventHtml.includes('"location"'), "Event detail: missing Event location");
+const detailEventUrl = urls.find((url) => /^\\\/events\\\/[^/]+\\\/$/.test(new URL(url).pathname));
+if (detailEventUrl) {
+  const pathname = new URL(detailEventUrl).pathname;
+  const eventHtml = read(htmlFileForPathname(pathname));
+  assert(eventHtml.includes('"@type":"Event"'), "Event detail: missing Event JSON-LD");
+  assert(eventHtml.includes('"location"'), "Event detail: missing Event location");
+}
 
-const newsHtml = read("news/septemvriiski-grafik/index.html");
-assert(
-  newsHtml.includes('"@type":"NewsArticle"') || newsHtml.includes('property="og:type" content="article"'),
-  "News detail: missing article semantics"
-);
+const detailNewsUrl = urls.find((url) => /^\\\/news\\\/[^/]+\\\/$/.test(new URL(url).pathname));
+if (detailNewsUrl) {
+  const pathname = new URL(detailNewsUrl).pathname;
+  const newsHtml = read(htmlFileForPathname(pathname));
+  assert(
+    newsHtml.includes('"@type":"NewsArticle"') || newsHtml.includes('property="og:type" content="article"'),
+    "News detail: missing article semantics"
+  );
+}
 
 for (const privatePage of ["login/index.html", "register/index.html", "account/index.html", "admin/index.html"]) {
   const html = read(privatePage);

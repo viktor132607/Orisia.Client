@@ -1,102 +1,52 @@
-import { buildLanguageAlternates } from "../../../lib/i18n";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FeedDetailClient from "../../../components/FeedDetailClient";
 import JsonLd from "../../../components/JsonLd";
-import {
-  defaultFeedPosts,
-  getDefaultFeedPost,
-} from "../../../components/homeFeedStore";
+import { postResponseToFeedPost } from "../../../components/homeFeedStore";
+import { type PostResponse, safePublicGet } from "../../../lib/api";
+import { buildLanguageAlternates } from "../../../lib/i18n";
 import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
-import {
-  buildNewsArticleStructuredData,
-  buildSectionItemBreadcrumbStructuredData,
-  buildWebPageStructuredData,
-} from "../../../lib/structuredData";
+import { buildNewsArticleStructuredData, buildSectionItemBreadcrumbStructuredData, buildWebPageStructuredData } from "../../../lib/structuredData";
 
-type NewsDetailPageProps = {
-  params: Promise<{ slug: string }>;
-};
-
+type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return defaultFeedPosts
-    .filter((post) => post.type !== "event" && post.slug)
-    .map((post) => ({ slug: post.slug as string }));
+export async function generateStaticParams() {
+  const posts = await safePublicGet<PostResponse[]>("/posts", []);
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: NewsDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getDefaultFeedPost(slug);
-
-  if (!post || post.type === "event") {
-    return {};
-  }
-
+  const post = await safePublicGet<PostResponse | null>(`/posts/${encodeURIComponent(slug)}`, null);
+  if (!post) return {};
   const path = `/news/${slug}/`;
-  const description = post.bodyBg;
-
+  const description = post.seoDescriptionBg || post.excerptBg || post.bodyBg;
   return {
-    title: post.titleBg,
+    title: post.seoTitleBg || post.titleBg,
     description,
     keywords: [post.titleBg, ...localSeoKeywords],
     alternates: buildLanguageAlternates(path),
     ...buildSocialMetadata({
       path,
-      title: post.titleBg,
+      title: post.seoTitleBg || post.titleBg,
       description,
-      image: post.image,
       type: "article",
-      publishedTime: post.date,
+      publishedTime: post.publishedAt || post.createdOn,
     }),
   };
 }
 
-export default async function NewsDetailPage({
-  params,
-}: NewsDetailPageProps) {
+export default async function NewsDetailPage({ params }: Props) {
   const { slug } = await params;
-  const post = getDefaultFeedPost(slug);
-
-  if (!post || post.type === "event") {
-    notFound();
-  }
-
+  const post = await safePublicGet<PostResponse | null>(`/posts/${encodeURIComponent(slug)}`, null);
+  if (!post) notFound();
+  const feed = postResponseToFeedPost(post);
   const path = `/news/${slug}/`;
-
-  return (
-    <>
-      <JsonLd
-        id={`news-${slug}-webpage-structured-data`}
-        data={buildWebPageStructuredData({
-          path,
-          name: post.titleBg,
-          description: post.bodyBg,
-        })}
-      />
-      <JsonLd
-        id={`news-${slug}-breadcrumb-structured-data`}
-        data={buildSectionItemBreadcrumbStructuredData({
-          sectionPath: "/news/",
-          sectionName: "Новини",
-          path,
-          name: post.titleBg,
-        })}
-      />
-      <JsonLd
-        id={`news-${slug}-article-structured-data`}
-        data={buildNewsArticleStructuredData({
-          path,
-          headline: post.titleBg,
-          description: post.bodyBg,
-          datePublished: post.date,
-          image: post.image,
-        })}
-      />
-      <FeedDetailClient post={post} kind="news" />
-    </>
-  );
+  return <>
+    <JsonLd id={`news-${slug}-webpage-structured-data`} data={buildWebPageStructuredData({ path, name: post.titleBg, description: post.excerptBg || post.bodyBg })} />
+    <JsonLd id={`news-${slug}-breadcrumb-structured-data`} data={buildSectionItemBreadcrumbStructuredData({ sectionPath: "/news/", sectionName: "Новини", path, name: post.titleBg })} />
+    <JsonLd id={`news-${slug}-article-structured-data`} data={buildNewsArticleStructuredData({ path, headline: post.titleBg, description: post.excerptBg || post.bodyBg, datePublished: post.publishedAt || post.createdOn })} />
+    <FeedDetailClient post={feed} kind="news" />
+  </>;
 }

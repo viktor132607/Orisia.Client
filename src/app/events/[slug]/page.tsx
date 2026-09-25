@@ -1,100 +1,45 @@
-import { buildLanguageAlternates } from "../../../lib/i18n";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FeedDetailClient from "../../../components/FeedDetailClient";
 import JsonLd from "../../../components/JsonLd";
-import {
-  defaultFeedPosts,
-  getDefaultFeedPost,
-} from "../../../components/homeFeedStore";
+import { eventResponseToFeedPost } from "../../../components/homeFeedStore";
+import { type EventResponse, safePublicGet } from "../../../lib/api";
+import { buildLanguageAlternates } from "../../../lib/i18n";
 import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
-import {
-  buildEventStructuredData,
-  buildSectionItemBreadcrumbStructuredData,
-  buildWebPageStructuredData,
-} from "../../../lib/structuredData";
+import { buildEventStructuredData, buildSectionItemBreadcrumbStructuredData, buildWebPageStructuredData } from "../../../lib/structuredData";
 
-type EventDetailPageProps = {
-  params: Promise<{ slug: string }>;
-};
-
+type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return defaultFeedPosts
-    .filter((post) => post.type === "event" && post.slug)
-    .map((post) => ({ slug: post.slug as string }));
+export async function generateStaticParams() {
+  const events = await safePublicGet<EventResponse[]>("/events", []);
+  return events.map((event) => ({ slug: event.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: EventDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getDefaultFeedPost(slug);
-
-  if (!post || post.type !== "event") {
-    return {};
-  }
-
+  const event = await safePublicGet<EventResponse | null>(`/events/${encodeURIComponent(slug)}`, null);
+  if (!event) return {};
   const path = `/events/${slug}/`;
-  const description = post.bodyBg;
-
   return {
-    title: post.titleBg,
-    description,
-    keywords: [post.titleBg, "фолклорни събития Русе", ...localSeoKeywords],
+    title: event.titleBg,
+    description: event.descriptionBg,
+    keywords: [event.titleBg, "фолклорни събития Русе", ...localSeoKeywords],
     alternates: buildLanguageAlternates(path),
-    ...buildSocialMetadata({
-      path,
-      title: post.titleBg,
-      description,
-      image: post.image,
-    }),
+    ...buildSocialMetadata({ path, title: event.titleBg, description: event.descriptionBg }),
   };
 }
 
-export default async function EventDetailPage({
-  params,
-}: EventDetailPageProps) {
+export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params;
-  const post = getDefaultFeedPost(slug);
-
-  if (!post || post.type !== "event") {
-    notFound();
-  }
-
+  const event = await safePublicGet<EventResponse | null>(`/events/${encodeURIComponent(slug)}`, null);
+  if (!event) notFound();
+  const feed = eventResponseToFeedPost(event);
   const path = `/events/${slug}/`;
-
-  return (
-    <>
-      <JsonLd
-        id={`event-${slug}-webpage-structured-data`}
-        data={buildWebPageStructuredData({
-          path,
-          name: post.titleBg,
-          description: post.bodyBg,
-        })}
-      />
-      <JsonLd
-        id={`event-${slug}-breadcrumb-structured-data`}
-        data={buildSectionItemBreadcrumbStructuredData({
-          sectionPath: "/events/",
-          sectionName: "Събития",
-          path,
-          name: post.titleBg,
-        })}
-      />
-      <JsonLd
-        id={`event-${slug}-structured-data`}
-        data={buildEventStructuredData({
-          path,
-          name: post.titleBg,
-          description: post.bodyBg,
-          startDate: post.date,
-          image: post.image,
-        })}
-      />
-      <FeedDetailClient post={post} kind="event" />
-    </>
-  );
+  return <>
+    <JsonLd id={`event-${slug}-webpage-structured-data`} data={buildWebPageStructuredData({ path, name: event.titleBg, description: event.descriptionBg })} />
+    <JsonLd id={`event-${slug}-breadcrumb-structured-data`} data={buildSectionItemBreadcrumbStructuredData({ sectionPath: "/events/", sectionName: "Събития", path, name: event.titleBg })} />
+    <JsonLd id={`event-${slug}-structured-data`} data={buildEventStructuredData({ path, name: event.titleBg, description: event.descriptionBg, startDate: event.startAt })} />
+    <FeedDetailClient post={feed} kind="event" />
+  </>;
 }
