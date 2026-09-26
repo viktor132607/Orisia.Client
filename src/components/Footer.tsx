@@ -16,7 +16,7 @@ export default function Footer() {
             <img src="/orisia-logo.jpg" alt={isBg ? "ОРИСИЯ" : "ORISIA"} className="h-12 w-12 object-contain" width={48} height={48} loading="lazy" decoding="async" />
           </Link>
           <p className="mt-3 max-w-xs text-[13px] leading-5 text-[#b9a184]">
-            {isBg ? "Даскало за фолклор „ОРИСИЯ“" : "ORISIA Folklore School"}
+            {isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}
           </p>
         </div>
 
