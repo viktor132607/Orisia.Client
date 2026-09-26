@@ -12,6 +12,7 @@ export default function AdminMenu() {
     { href: "/admin/", bg: "Табло", en: "Dashboard", exact: true },
     { href: "/admin/home/", bg: "Публикации", en: "Posts" },
     { href: "/admin/events/", bg: "Събития", en: "Events" },
+    { href: "/admin/groups/", bg: "Групи", en: "Groups" },
     { href: "/admin/horoteka/", bg: "Хоротека", en: "Dance Library" },
     { href: "/admin/gallery/", bg: "Галерия", en: "Gallery" },
     { href: "/admin/media/", bg: "Медия", en: "Media" },
