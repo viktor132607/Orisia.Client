@@ -74,6 +74,28 @@ export type EventResponse = {
   modifiedOn: string;
 };
 
+export type GroupScheduleResponse = {
+  id: string;
+  dayOfWeek: number;
+  startTime: string;
+  durationMinutes: number;
+};
+
+export type GroupResponse = {
+  id: string;
+  slug: string;
+  nameBg: string;
+  nameEn: string;
+  descriptionBg: string;
+  descriptionEn: string;
+  location?: string | null;
+  active: boolean;
+  sortOrder: number;
+  schedules: GroupScheduleResponse[];
+  createdOn: string;
+  modifiedOn: string;
+};
+
 export type FeedItemResponse = {
   id: string;
   source: "post" | "event";
@@ -99,7 +121,9 @@ export type FeedResponse = { count: number; items: FeedItemResponse[] };
 
 export type CalendarOccurrence = {
   occurrenceId: string;
-  eventId: string;
+  source: "event" | "group";
+  eventId?: string | null;
+  groupId?: string | null;
   slug: string;
   titleBg: string;
   titleEn: string;
@@ -387,6 +411,14 @@ export const api = {
   calendar: {
     month: (year: number, month: number) => request<CalendarResponse>(`/calendar/month?year=${year}&month=${month}`),
     upcoming: (take = 5) => request<CalendarOccurrence[]>(`/calendar/upcoming?take=${take}`),
+  },
+  groups: {
+    list: () => request<GroupResponse[]>("/groups"),
+    bySlug: (slug: string) => request<GroupResponse>(`/groups/${encodeURIComponent(slug)}`),
+    adminList: () => request<GroupResponse[]>("/groups/admin/all", {}, true),
+    create: (body: unknown) => request<GroupResponse>("/groups", { method: "POST", body: json(body) }, true),
+    update: (id: string, body: unknown) => request<GroupResponse>(`/groups/${id}`, { method: "PUT", body: json(body) }, true),
+    delete: (id: string) => request<void>(`/groups/${id}`, { method: "DELETE" }, true),
   },
   gallery: {
     list: () => request<GalleryAlbumResponse[]>("/gallery"),
