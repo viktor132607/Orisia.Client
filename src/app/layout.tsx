@@ -23,10 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <SiteEntranceGate />
-        <div className="min-h-screen pt-20 bg-orisia-cream dark:bg-orisia-dark">
+        <div className="flex min-h-screen flex-col bg-orisia-cream pt-20 dark:bg-orisia-dark">
           <Navbar />
           {process.env.NODE_ENV !== "production" ? <DevVariantMenu /> : null}
-          {children}
+          <div className="flex-1">{children}</div>
           <Footer />
           <CookieBanner />
         </div>
