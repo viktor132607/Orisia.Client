@@ -6,6 +6,7 @@ import ContactPage from "../../contact/page";
 import CookiesPage from "../../cookies/page";
 import EventsPage from "../../events/page";
 import GalleryPage from "../../gallery/page";
+import GroupsPage from "../../groups/page";
 import HorotekaPage from "../../horoteka/page";
 import NewsPage from "../../news/page";
 import PrivacyPage from "../../privacy/page";
@@ -26,7 +27,7 @@ export const dynamicParams = false;
 
 const routeComponents: Record<string, React.ComponentType> = {
   "/about/": AboutPage, "/calendar/": CalendarPage, "/contact/": ContactPage, "/cookies/": CookiesPage,
-  "/events/": EventsPage, "/gallery/": GalleryPage, "/horoteka/": HorotekaPage, "/news/": NewsPage,
+  "/events/": EventsPage, "/gallery/": GalleryPage, "/groups/": GroupsPage, "/horoteka/": HorotekaPage, "/news/": NewsPage,
   "/privacy/": PrivacyPage, "/terms/": TermsPage,
 };
 
