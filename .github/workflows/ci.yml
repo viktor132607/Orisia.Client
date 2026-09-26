@@ -61,8 +61,11 @@ jobs:
           test -f out/en/index.html
           test -f out/bg/news/index.html
           test -f out/en/news/index.html
-          test -f out/bg/horoteka/pravo-horo/index.html
-          test -f out/en/horoteka/pravo-horo/index.html
+          test -f out/bg/horoteka/index.html
+          test -f out/en/horoteka/index.html
+          test -f out/admin/database/index.html
+          # Detail slugs come from the API, not from hard-coded demo records.
+          # The SEO audit below verifies every emitted sitemap URL.
 
       - name: SEO audit
         run: npm run seo:audit
