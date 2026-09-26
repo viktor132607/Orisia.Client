@@ -336,6 +336,25 @@ export async function safePublicGet<T>(path: string, fallback: T): Promise<T> {
 const json = (body: unknown) => JSON.stringify(body);
 
 export const api = {
+  databaseBackup: {
+    export: async (retry = true): Promise<Blob> => {
+      const token = readStorage(ACCESS_TOKEN_KEY);
+      const response = await fetch(`${API_URL}/database-backup/export`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        cache: "no-store",
+      });
+      if (response.status === 401 && retry && await refreshSession()) return api.databaseBackup.export(false);
+      if (!response.ok) throw new ApiError(response.status, await errorMessage(response));
+      return response.blob();
+    },
+    restore: (archive: File, confirmation: string) => {
+      const body = new FormData();
+      body.append("archive", archive);
+      body.append("confirmation", confirmation);
+      // Never automatically replay a destructive restore request.
+      return request<{ message: string; restoredAtUtc: string }>("/database-backup/restore", { method: "POST", body }, true, false);
+    },
+  },
   feed: {
     get: (query = "") => request<FeedResponse>(`/feed${query ? `?${query}` : ""}`),
     latest: (take = 20) => request<FeedResponse>(`/feed/latest?take=${take}`),
