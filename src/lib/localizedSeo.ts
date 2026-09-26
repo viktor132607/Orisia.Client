@@ -15,18 +15,18 @@ export const englishKeywords = [
   "Bulgarian folk dances Ruse",
   "Bulgarian folklore Ruse",
   "horo Ruse",
-  "folk dance club Ruse",
+  "folklore school Ruse",
   "folklore events Ruse",
 ];
 
 const staticSeo: Record<string, Record<Locale, SeoContent>> = {
   "/": {
-    bg: { title: "ОРИСИЯ | Български народни танци и фолклор в Русе", description: "ОРИСИЯ в Русе — български народни танци, фолклор, хора, репетиции, участия и събития.", keywords: localSeoKeywords },
-    en: { title: "ORISIA | Bulgarian folk dances and folklore in Ruse", description: "ORISIA in Ruse — Bulgarian folk dances, folklore, rehearsals, performances and events.", keywords: englishKeywords },
+    bg: { title: "Даскало за фолклор „ОРИСИЯ“ | Народни танци в Русе", description: "Даскало за фолклор „ОРИСИЯ“ в Русе — народни танци, хора, репетиции, участия и събития.", keywords: localSeoKeywords },
+    en: { title: "ORISIA Folklore School | Folk dances in Ruse", description: "ORISIA Folklore School in Ruse — Bulgarian folk dances, rehearsals, performances and events.", keywords: englishKeywords },
   },
   "/about/": {
-    bg: { title: "За нас — народни танци в Русе", description: "Научете повече за ОРИСИЯ — общност за български народни танци и фолклор в Русе.", keywords: localSeoKeywords },
-    en: { title: "About ORISIA — Bulgarian folk dances in Ruse", description: "Learn more about ORISIA, our Bulgarian folk dance community in Ruse.", keywords: englishKeywords },
+    bg: { title: "За Даскало за фолклор „ОРИСИЯ“", description: "Научете повече за Даскало за фолклор „ОРИСИЯ“ и народните танци в Русе.", keywords: localSeoKeywords },
+    en: { title: "About ORISIA Folklore School", description: "Learn more about ORISIA Folklore School and Bulgarian folk dance in Ruse.", keywords: englishKeywords },
   },
   "/news/": { bg: { title: "Новини", description: "Последни новини от ОРИСИЯ." }, en: { title: "News", description: "Latest ORISIA news." } },
   "/events/": { bg: { title: "Фолклорни събития в Русе", description: "Предстоящи участия и фолклорни събития на ОРИСИЯ.", keywords: localSeoKeywords }, en: { title: "Folklore events in Ruse", description: "Upcoming ORISIA performances and folklore events.", keywords: englishKeywords } },

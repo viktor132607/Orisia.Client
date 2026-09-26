@@ -61,8 +61,8 @@ export default function HomeFeed() {
     <section className="bg-orisia-cream py-12 text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light" id="programa">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <header className="mb-12 border-b border-orisia-line pb-10 dark:border-[#574333]">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c28a48]">{isBg ? "БЪЛГАРСКИ ФОЛКЛОР · РУСЕ" : "BULGARIAN FOLKLORE · RUSE"}</span>
-          <h1 className="mt-3 max-w-5xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{isBg ? "ОРИСИЯ — народни танци и български фолклор в Русе" : "ORISIA — Bulgarian folk dances and folklore in Ruse"}</h1>
+          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c28a48]">{isBg ? "ДАСКАЛО ЗА ФОЛКЛОР · РУСЕ" : "FOLKLORE SCHOOL · RUSE"}</span>
+          <h1 className="mt-3 max-w-5xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}</h1>
           <p className="mt-5 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#b19873]">{isBg ? "ОРИСИЯ събира хора с интерес към българските народни танци, хората и фолклорните традиции в Русе." : "ORISIA brings together people interested in Bulgarian folk dances and folklore traditions in Ruse."}</p>
           <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
             {[["/about/", isBg ? "За ОРИСИЯ" : "About ORISIA"], ["/horoteka/", isBg ? "Хоротека" : "Dance library"], ["/events/", isBg ? "Събития" : "Events"], ["/contact/", isBg ? "Контакти" : "Contacts"]].map(([path, label]) => (

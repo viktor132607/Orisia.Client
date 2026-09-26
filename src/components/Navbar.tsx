@@ -97,7 +97,7 @@ export default function Navbar() {
           <img
             className="h-12 w-12 object-contain sm:h-[54px] sm:w-[54px]"
             src={LOGO_SRC}
-            alt={isBg ? "ОРИСИЯ — народни танци и фолклор в Русе" : "ORISIA — Bulgarian folk dance and folklore in Ruse"}
+            alt={isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}
             width={54}
             height={54}
             loading="eager"
@@ -111,7 +111,7 @@ export default function Navbar() {
             <img
               className="h-[54px] w-[54px] object-contain"
               src={LOGO_SRC}
-              alt={isBg ? "ОРИСИЯ — народни танци и фолклор в Русе" : "ORISIA — Bulgarian folk dance and folklore in Ruse"}
+              alt={isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}
               width={54}
               height={54}
               loading="eager"

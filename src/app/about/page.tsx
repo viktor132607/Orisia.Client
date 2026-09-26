@@ -20,8 +20,8 @@ export default function AboutPage() {
           </h1>
           <p className="mt-4 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#c6a77d]">
             {isBg
-              ? "Място за български фолклор, танц и хора, които искат да пазят традицията жива и да я споделят заедно."
-              : "A place for Bulgarian folklore, dance and people who want to keep tradition alive and share it together."}
+              ? "Даскало за фолклор „ОРИСИЯ“ — място за народни танци и за хора, които искат да пазят традицията жива."
+              : "ORISIA Folklore School — a place for folk dance and people who want to keep tradition alive."}
           </p>
         </div>
       </header>
@@ -33,12 +33,12 @@ export default function AboutPage() {
               {isBg ? "КОИ СМЕ НИЕ" : "WHO WE ARE"}
             </span>
             <h2 className="mt-3 text-3xl font-bold">
-              {isBg ? "Танц, традиция и общност" : "Dance, tradition and community"}
+              {isBg ? "Даскало за фолклор „ОРИСИЯ“" : "ORISIA Folklore School"}
             </h2>
             <p className="mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]">
               {isBg
-                ? "ОРИСИЯ събира хора около българските народни танци, репетициите, участията и фолклорните събития. Тази страница ще се развива с историята, целите и важните моменти на клуба."
-                : "ORISIA brings people together around Bulgarian folk dances, rehearsals, performances and folklore events. This page will grow with the club's history, goals and important moments."}
+                ? "В даскалото учим български народни танци, репетираме и участваме във фолклорни събития. Тази страница ще се развива с историята, целите и важните моменти на „ОРИСИЯ“."
+                : "At our folklore school, we learn Bulgarian folk dances, rehearse and take part in folklore events. This page will grow with ORISIA's history, goals and important moments."}
             </p>
           </article>
 

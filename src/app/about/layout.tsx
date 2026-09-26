@@ -5,7 +5,7 @@ import { buildSocialMetadata, localSeoKeywords } from "../../lib/seo";
 
 const pageTitle = "За нас — народни танци в Русе";
 const pageDescription =
-  "Научете повече за ОРИСИЯ — общност за български народни танци и фолклор в Русе, нашата мисия, лектори и място за репетиции.";
+  "Научете повече за Даскало за фолклор „ОРИСИЯ“ в Русе, нашата мисия, лектори и място за репетиции.";
 
 export const metadata: Metadata = {
   title: pageTitle,
