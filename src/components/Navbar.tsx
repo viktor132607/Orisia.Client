@@ -14,8 +14,8 @@ type Language = "bg" | "en";
 type AuthRole = "guest" | "user" | "admin";
 
 const labels = {
-  bg: { home: "Начало", news: "Новини", events: "Събития", calendar: "Календар", gallery: "Галерия", horoteka: "Хоротека", about: "За ОРИСИЯ", contacts: "Контакти", admin: "Админ", profile: "Профил", logout: "Изход", login: "Вход", menu: "Меню", close: "Затвори менюто" },
-  en: { home: "Home", news: "News", events: "Events", calendar: "Calendar", gallery: "Gallery", horoteka: "Dance Library", about: "About ORISIA", contacts: "Contacts", admin: "Admin", profile: "Profile", logout: "Logout", login: "Login", menu: "Menu", close: "Close menu" },
+  bg: { home: "Начало", news: "Новини", events: "Събития", calendar: "Календар", groups: "Групи", gallery: "Галерия", horoteka: "Хоротека", about: "За ОРИСИЯ", contacts: "Контакти", admin: "Админ", profile: "Профил", logout: "Изход", login: "Вход", menu: "Меню", close: "Затвори менюто" },
+  en: { home: "Home", news: "News", events: "Events", calendar: "Calendar", groups: "Groups", gallery: "Gallery", horoteka: "Dance Library", about: "About ORISIA", contacts: "Contacts", admin: "Admin", profile: "Profile", logout: "Logout", login: "Login", menu: "Menu", close: "Close menu" },
 };
 
 function getRole(value: string | null): AuthRole {
@@ -73,7 +73,7 @@ export default function Navbar() {
   const loggedIn = role !== "guest";
   const isAdmin = role === "admin";
   const isBg = activeLanguage === "bg";
-  const navLink = "inline-flex h-12 flex-none items-center justify-center px-2.5 font-sans text-[10px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:px-3 2xl:text-[12px]";
+  const navLink = "inline-flex h-12 flex-none items-center justify-center px-2 font-sans text-[10px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:px-2.5 2xl:text-[11px]";
   const mobileLink = "flex min-h-14 items-center border-b border-[#403a38] px-7 font-sans text-[15px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:bg-[#272324] hover:text-white";
 
   const navItems = [
@@ -81,6 +81,7 @@ export default function Navbar() {
     { href: publicHref("/news/"), label: text.news },
     { href: publicHref("/events/"), label: text.events },
     { href: publicHref("/calendar/"), label: text.calendar },
+    { href: publicHref("/groups/"), label: text.groups },
     { href: publicHref("/gallery/"), label: text.gallery },
     { href: publicHref("/horoteka/"), label: text.horoteka },
     { href: publicHref("/about/"), label: text.about },
