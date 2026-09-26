@@ -4,7 +4,7 @@ import { locales, localizePath } from "../lib/i18n";
 import { siteUrl } from "../lib/seo";
 
 export const dynamic = "force-static";
-const staticPaths = ["/","/about/","/calendar/","/contact/","/cookies/","/events/","/gallery/","/horoteka/","/news/","/privacy/","/terms/"];
+const staticPaths = ["/","/about/","/calendar/","/contact/","/cookies/","/events/","/gallery/","/groups/","/horoteka/","/news/","/privacy/","/terms/"];
 const absolute = (path: string) => new URL(path, siteUrl).toString();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
