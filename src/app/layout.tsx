@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import CookieBanner from "../components/CookieBanner";
+import "./admin.css";
+import SiteFrame from "../components/SiteFrame";
 import JsonLd from "../components/JsonLd";
 import { defaultMetadata } from "../lib/seo";
 import {
@@ -20,12 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd id="website-structured-data" data={websiteStructuredData} />
       </head>
       <body>
-        <div className="flex min-h-screen flex-col bg-orisia-cream">
-          <Navbar />
-          <div className="flex-1">{children}</div>
-          <Footer />
-          <CookieBanner />
-        </div>
+        <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
   );

@@ -4,7 +4,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { api, clearSession, type UserResponse } from "../../lib/api";
 import useLanguage from "../../components/useLanguage";
-import PublicPageHeader from "../../components/PublicPageHeader";
 
 export default function Page() {
   const router = useRouter();
@@ -76,14 +75,10 @@ export default function Page() {
   }
 
   return (
-    <main className="min-h-[70vh] bg-[#faf8f5] font-sans text-orisia-ink">
-      <PublicPageHeader
-        eyebrow="ОРИСИЯ"
-        title={isBg ? "Профил" : "Profile"}
-        description={isBg ? "Управление на личните данни, паролата и достъпа до профила." : "Manage your personal details, password and account access."}
-      />
+    <main className="min-h-[70vh] font-sans">
+      <div><span className="text-[11px] font-bold uppercase tracking-[.12em] text-[#0a7564]">{isBg ? "Акаунт" : "Account"}</span><h1 className="mt-2">{isBg ? "Профил" : "Profile"}</h1><p className="mt-2 text-sm text-[#62777c]">{isBg ? "Управление на личните данни, паролата и достъпа до профила." : "Manage your personal details, password and account access."}</p></div>
 
-      <section className="py-12 md:py-20">
+      <section className="py-8">
         <div className="mx-auto grid w-[min(1180px,calc(100%_-_40px))] gap-6 lg:grid-cols-2 max-[620px]:w-[min(100%_-_28px,1180px)]">
           <section className="rounded-[24px] border border-orisia-line/45 bg-white p-7 shadow-[0_8px_26px_rgba(75,46,27,.04)] md:p-9">
             <span className="text-[11px] font-black uppercase tracking-[.15em] text-orisia-goldDark">{user.role}</span>
