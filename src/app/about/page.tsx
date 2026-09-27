@@ -5,110 +5,75 @@ import useLanguage from "../../components/useLanguage";
 const lecturers = [0, 1, 2];
 
 export default function AboutPage() {
-  const language = useLanguage();
-  const isBg = language === "bg";
+  const isBg = useLanguage() === "bg";
+
+  const rows = isBg ? [
+    { label: "Какво правим", copy: "Учем и танцуваме български народни хора, поддържаме редовни групи и участваме във фолклорни събития." },
+    { label: "Къде сме", copy: "Русе, бул. Родина 80 — на гърба на боулинг залата." },
+    { label: "Идеята", copy: "Да пазим фолклора жив, достъпен и споделен между хора от различни възрасти и опит." },
+  ] : [
+    { label: "What we do", copy: "We learn and dance Bulgarian folk dances, run regular groups and take part in folklore events." },
+    { label: "Where", copy: "Ruse, 80 Rodina Blvd. — behind the bowling hall." },
+    { label: "The idea", copy: "To keep folklore alive, accessible and shared between people of different ages and experience." },
+  ];
 
   return (
-    <main className="bg-orisia-cream text-orisia-brown">
-      <header className="border-b border-orisia-line bg-[#f6f0e7] py-16">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark">
-            {isBg ? "ОРИСИЯ · ЗА НАС" : "ORISIA · ABOUT US"}
-          </span>
-          <h1 className="mt-3 text-5xl font-bold sm:text-7xl">
-            {isBg ? "За ОРИСИЯ" : "About ORISIA"}
-          </h1>
-          <p className="mt-4 max-w-3xl font-sans text-base leading-7 text-[#725b47]">
-            {isBg
-              ? "Даскало за фолклор „ОРИСИЯ“ — място за народни танци и за хора, които искат да пазят традицията жива."
-              : "ORISIA Folklore School — a place for folk dance and people who want to keep tradition alive."}
-          </p>
-        </div>
-      </header>
-
-      <div className="py-14">
-        <div className="mx-auto grid w-full max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <article className="border border-orisia-line bg-orisia-paper p-8 shadow-sm">
-            <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">
-              {isBg ? "КОИ СМЕ НИЕ" : "WHO WE ARE"}
-            </span>
-            <h2 className="mt-3 text-3xl font-bold">
-              {isBg ? "Даскало за фолклор „ОРИСИЯ“" : "ORISIA Folklore School"}
-            </h2>
-            <p className="mt-3 font-sans text-sm leading-7 text-[#725b47]">
-              {isBg
-                ? "В даскалото учим български народни танци, репетираме и участваме във фолклорни събития. Тази страница ще се развива с историята, целите и важните моменти на „ОРИСИЯ“."
-                : "At our folklore school, we learn Bulgarian folk dances, rehearse and take part in folklore events. This page will grow with ORISIA's history, goals and important moments."}
-            </p>
-          </article>
-
-          <article className="border border-orisia-line bg-orisia-paper p-8 shadow-sm">
-            <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">
-              {isBg ? "КЪДЕ СМЕ" : "WHERE WE ARE"}
-            </span>
-            <h2 className="mt-3 text-3xl font-bold">{isBg ? "Русе" : "Ruse"}</h2>
-            <address className="mt-3 font-sans text-sm not-italic leading-7 text-[#725b47]">
-              {isBg
-                ? "гр. Русе, ул. Родина 80, на гърба на боулинг залата."
-                : "80 Rodina St., behind the bowling hall, Ruse."}
-            </address>
-            <p className="mt-2 font-sans text-sm leading-7 text-[#725b47]">
-              {isBg
-                ? "Тук се срещаме, репетираме и подготвяме следващите си участия."
-                : "This is where we meet, rehearse and prepare for our next performances."}
-            </p>
-          </article>
-        </div>
-      </div>
-
-      <section className="pb-20" aria-labelledby="lecturers-title">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">
-                {isBg ? "ЕКИП" : "TEAM"}
-              </span>
-              <h2 id="lecturers-title" className="mt-2 text-4xl font-bold sm:text-5xl">
-                {isBg ? "Нашите лектори" : "Our instructors"}
-              </h2>
+    <main className="bg-white font-sans text-orisia-ink">
+      <section className="min-h-[68vh] py-[72px] max-[620px]:py-[48px]" aria-labelledby="about-heading">
+        <div className="mx-auto grid w-[min(1460px,calc(100%_-_40px))] gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,728px)] max-[620px]:w-[min(100%_-_28px,1460px)]">
+          <article className="flex flex-col pt-6 max-[1100px]:pt-0">
+            <div className="mb-8 flex items-center gap-5 max-[620px]:items-start">
+              <img src="/orisia-logo.jpg" alt={isBg ? "Лого на ОРИСИЯ" : "ORISIA logo"} width={112} height={112} className="h-28 w-28 shrink-0 rounded-full border border-orisia-line bg-white object-cover max-[620px]:h-24 max-[620px]:w-24" />
+              <div>
+                <span className="mb-2 inline-block text-[11px] font-black uppercase tracking-[.16em] text-orisia-goldDark">{isBg ? "ОРИСИЯ · ЗА НАС" : "ORISIA · ABOUT US"}</span>
+                <h1 id="about-heading" className="text-[clamp(40px,5vw,68px)] font-black uppercase leading-[.95] tracking-[-.02em]">{isBg ? "За ОРИСИЯ" : "About ORISIA"}</h1>
+              </div>
             </div>
-            <p className="max-w-xl font-sans text-sm leading-6 text-[#725b47]">
-              {isBg
-                ? "Хората, които водят заниманията, показват стъпките и предават характера на българските хора."
-                : "The people who lead the sessions, teach the steps and pass on the character of Bulgarian horo dances."}
+            <p className="mb-8 max-w-[760px] text-lg leading-[1.65] text-[#5f5146]">
+              {isBg ? "Даскало за фолклор „ОРИСИЯ“ е място за народни танци, срещи и общност — за хора, които искат да пазят традицията жива и да я преживяват заедно." : "ORISIA Folklore School is a place for folk dance, community and shared experiences — for people who want to keep tradition alive together."}
             </p>
+            <dl className="divide-y divide-orisia-line/45 border-y border-orisia-line/45">
+              {rows.map(({ label, copy }) => (
+                <div key={label} className="grid grid-cols-[140px_minmax(0,1fr)] gap-5 py-5 max-[620px]:grid-cols-1 max-[620px]:gap-2">
+                  <dt className="font-black uppercase text-orisia-goldDark">{label}</dt>
+                  <dd className="m-0 leading-[1.65] text-[#5f5146]">{copy}</dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+
+          <figure className="m-0 flex min-h-[620px] items-center justify-center overflow-hidden rounded-2xl border border-orisia-line/45 bg-[radial-gradient(circle_at_70%_25%,#fffaf3,transparent_42%),linear-gradient(145deg,#f1e8dd,#d9c5b2)] p-10 max-[1100px]:min-h-[420px]">
+            <div className="text-center">
+              <img src="/orisia-logo.jpg" alt="" className="mx-auto h-56 w-56 rounded-full border-4 border-orisia-line bg-white object-cover shadow-[0_18px_55px_rgba(75,46,27,.18)] max-[620px]:h-40 max-[620px]:w-40" />
+              <p className="mt-7 text-sm font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg ? "Даскало за фолклор · Русе" : "Folklore school · Ruse"}</p>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section className="border-t border-orisia-line/45 bg-[#faf8f5] py-16 md:py-20" aria-labelledby="lecturers-title">
+        <div className="mx-auto w-[min(1460px,calc(100%_-_40px))] max-[620px]:w-[min(100%_-_28px,1460px)]">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <span className="text-[11px] font-black uppercase tracking-[.16em] text-orisia-goldDark">{isBg ? "ЕКИП" : "TEAM"}</span>
+              <h2 id="lecturers-title" className="mt-2 text-[clamp(34px,5vw,52px)] font-black uppercase leading-none">{isBg ? "Нашите лектори" : "Our instructors"}</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-7 text-[#6b5847]">{isBg ? "Хората, които водят заниманията и предават характера на българските хора." : "The people who lead the sessions and pass on the character of Bulgarian folk dances."}</p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
             {lecturers.map((index) => (
-              <article
-                className="overflow-hidden border border-orisia-line bg-orisia-paper"
-                key={index}
-              >
-                <div className="grid aspect-[4/3] place-items-center border-b border-orisia-line bg-[#e5d2b7] font-sans text-xs font-bold uppercase tracking-wide text-[#8a6c4c]">
-                  {isBg ? "Снимка на лектор" : "Instructor photo"}
+              <article key={index} className="overflow-hidden rounded-2xl border border-orisia-line/45 bg-white shadow-[0_8px_26px_rgba(75,46,27,.04)]">
+                <div className="flex aspect-[5/4] items-center justify-center bg-[radial-gradient(circle_at_70%_25%,#fffaf3,transparent_45%),linear-gradient(145deg,#f2eee8,#e1d8cc)]">
+                  <img src="/orisia-logo.jpg" alt="" className="h-28 w-28 rounded-full border border-orisia-line object-cover opacity-60" />
                 </div>
-                <div className="p-6">
-                  <span className="font-sans text-[10px] font-black uppercase tracking-[.15em] text-orisia-goldDark">
-                    {isBg ? "Лектор" : "Instructor"}
-                  </span>
-                  <h3 className="mt-2 text-2xl font-bold">
-                    {isBg ? "Име на лектор" : "Instructor name"}
-                  </h3>
-                  <p className="mt-2 font-sans text-sm leading-6 text-[#725b47]">
-                    {isBg
-                      ? "Кратко представяне на лектора, опита му и фолклорните области или хора, с които работи."
-                      : "A short introduction to the instructor, their experience and the folklore regions or dances they work with."}
-                  </p>
+                <div className="border-t-4 border-orisia-gold p-6">
+                  <span className="text-[10px] font-black uppercase tracking-[.15em] text-orisia-goldDark">{isBg ? "Лектор" : "Instructor"}</span>
+                  <h3 className="mt-2 text-2xl font-black">{isBg ? "Име на лектор" : "Instructor name"}</h3>
+                  <p className="mt-3 text-sm leading-7 text-[#6b5847]">{isBg ? "Представяне, опит и фолклорни области ще бъдат добавени при налични данни." : "Bio, experience and folklore regions will be added when the data is available."}</p>
                 </div>
               </article>
             ))}
-          </div>
-
-          <div className="mt-5 border border-dashed border-orisia-line p-4 font-sans text-xs text-[#806a55]">
-            {isBg
-              ? "Имената, снимките и точните представяния са оставени като placeholder-и, защото в проекта няма записани данни за лекторите."
-              : "Names, photos and exact bios are left as placeholders because the project does not yet contain instructor details."}
           </div>
         </div>
       </section>
