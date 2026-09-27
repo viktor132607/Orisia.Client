@@ -2,131 +2,165 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { api, type FeedItemResponse, type FeedType } from "../lib/api";
+import {
+  api,
+  type EventResponse,
+  type FeedItemResponse,
+  type PostResponse,
+} from "../lib/api";
+import PublicStory, { type PublicStoryData } from "./PublicStory";
 import useLanguage, { useLocalizedPath } from "./useLanguage";
 
-const typeLabels: Record<FeedType, { bg: string; en: string }> = {
-  report: { bg: "Отчет", en: "Report" },
-  news: { bg: "Новина", en: "News" },
-  photos: { bg: "Снимки", en: "Photos" },
-  blog: { bg: "Блог", en: "Blog" },
-  group: { bg: "Група", en: "Group update" },
-  schedule: { bg: "График", en: "Schedule" },
-  event: { bg: "Събитие", en: "Event" },
-};
-
-function formatDate(date: string, isBg: boolean) {
-  const value = new Date(date);
-  return Number.isNaN(value.getTime())
-    ? date
-    : new Intl.DateTimeFormat(isBg ? "bg-BG" : "en-GB", { day: "2-digit", month: "long", year: "numeric" }).format(value);
+function labelFor(item: FeedItemResponse, isBg: boolean) {
+  if (item.type === "event") return isBg ? "Събитие" : "Event";
+  return isBg ? "Новина" : "News";
 }
 
 export default function HomeFeed() {
   const language = useLanguage();
   const isBg = language === "bg";
   const href = useLocalizedPath();
-  const [items, setItems] = useState<FeedItemResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [feed, setFeed] = useState<FeedItemResponse[]>([]);
+  const [posts, setPosts] = useState<PostResponse[]>([]);
+  const [events, setEvents] = useState<EventResponse[]>([]);
+  const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [activeSlide, setActiveSlide] = useState(0);
+  const [previousSlide, setPreviousSlide] = useState<PublicStoryData | null>(null);
+  const [direction, setDirection] = useState<"next" | "previous">("next");
 
   useEffect(() => {
-    api.feed.get("take=30")
-      .then((result) => setItems(result.items))
-      .catch((reason: Error) => setError(reason.message))
-      .finally(() => setLoading(false));
+    Promise.all([api.feed.get("take=30"), api.posts.list(), api.events.list()])
+      .then(([feedResponse, postItems, eventItems]) => {
+        setFeed(feedResponse.items);
+        setPosts(postItems);
+        setEvents(eventItems);
+        setState("ready");
+      })
+      .catch(() => setState("error"));
   }, []);
 
-  const ordered = useMemo(() => [...items].sort((a, b) => b.date.localeCompare(a.date)), [items]);
-  const latest = ordered.slice(0, 3);
-  const featured = ordered.filter((item) => item.featured);
-  const slides = featured.length ? featured : ordered.slice(0, 3);
-  const slide = slides[activeSlide];
+  const postBySlug = useMemo(() => new Map(posts.map((item) => [item.slug, item])), [posts]);
+  const eventBySlug = useMemo(() => new Map(events.map((item) => [item.slug, item])), [events]);
+
+  const stories = useMemo<PublicStoryData[]>(() => {
+    return [...feed]
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .filter((item) => item.type === "news" || item.type === "event")
+      .map((item) => {
+        const post = item.type === "event" ? undefined : postBySlug.get(item.slug);
+        const event = item.type === "event" ? eventBySlug.get(item.slug) : undefined;
+        return {
+          id: item.id,
+          kind: item.type === "event" ? "event" : "news",
+          title: isBg ? item.titleBg : item.titleEn || item.titleBg,
+          body: isBg ? item.bodyBg : item.bodyEn || item.bodyBg,
+          date: item.date,
+          href: href(item.type === "event" ? `/events/${item.slug}/` : `/news/${item.slug}/`),
+          label: labelFor(item, isBg),
+          location: item.location,
+          mediaType: event?.mediaType ?? (post?.mediaUrl ? 1 : 0),
+          mediaUrl: event?.mediaUrl ?? post?.mediaUrl ?? null,
+          slideshowUrls: event?.slideshowUrls ?? [],
+        };
+      });
+  }, [feed, postBySlug, eventBySlug, isBg, href]);
+
+  const featuredIds = useMemo(() => new Set(feed.filter((item) => item.featured).map((item) => item.id)), [feed]);
+  const featured = useMemo(() => {
+    const items = stories.filter((item) => featuredIds.has(item.id));
+    return items.length ? items : stories.slice(0, 3);
+  }, [stories, featuredIds]);
+
+  const slide = featured[activeSlide % Math.max(featured.length, 1)];
 
   useEffect(() => {
-    if (slides.length < 2 || typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => setActiveSlide((current) => (current + 1) % slides.length), 6000);
+    if (featured.length < 2 || !slide || typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(() => {
+      setPreviousSlide(slide);
+      setDirection("next");
+      setActiveSlide((current) => (current + 1) % featured.length);
+    }, 6500);
     return () => window.clearInterval(timer);
-  }, [slides.length]);
+  }, [featured.length, slide]);
 
-  useEffect(() => {
-    if (activeSlide >= slides.length) setActiveSlide(0);
-  }, [activeSlide, slides.length]);
+  function showSlide(index: number, step: "next" | "previous") {
+    if (!slide || index === activeSlide % featured.length) return;
+    setPreviousSlide(window.matchMedia("(prefers-reduced-motion: reduce)").matches ? null : slide);
+    setDirection(step);
+    setActiveSlide(index);
+  }
 
-  const detailPath = (item: FeedItemResponse) => href(item.type === "event" ? `/events/${item.slug}/` : `/news/${item.slug}/`);
-  const badgeClass = "inline-flex min-h-6 items-center rounded-full border border-orisia-goldDark px-2.5 font-sans text-[10px] font-black uppercase tracking-wide";
+  function heroImage(item?: PublicStoryData | null) {
+    if (!item) return null;
+    if (item.mediaType === 1 && item.mediaUrl) return item.mediaUrl;
+    if (item.mediaType === 3 && item.slideshowUrls?.length) return item.slideshowUrls[0];
+    return null;
+  }
+
+  const currentImage = heroImage(slide);
+  const previousImage = heroImage(previousSlide);
 
   return (
-    <section className="bg-orisia-cream py-12 text-orisia-brown" id="programa">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-12 border-b border-orisia-line pb-10">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark">{isBg ? "ДАСКАЛО ЗА ФОЛКЛОР · РУСЕ" : "FOLKLORE SCHOOL · RUSE"}</span>
-          <h1 className="mt-3 max-w-5xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}</h1>
-          <p className="mt-5 max-w-3xl font-sans text-base leading-7 text-[#725b47]">{isBg ? "ОРИСИЯ събира хора с интерес към българските народни танци, хората и фолклорните традиции в Русе." : "ORISIA brings together people interested in Bulgarian folk dances and folklore traditions in Ruse."}</p>
-          <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
-            {[["/about/", isBg ? "За ОРИСИЯ" : "About ORISIA"], ["/horoteka/", isBg ? "Хоротека" : "Dance library"], ["/events/", isBg ? "Събития" : "Events"], ["/contact/", isBg ? "Контакти" : "Contacts"]].map(([path, label]) => (
-              <Link key={path} className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark" href={href(path)}>{label}</Link>
-            ))}
-          </nav>
-        </header>
+    <main className="bg-[#faf8f5] font-sans text-orisia-ink">
+      <section className="mx-auto grid w-[min(1460px,calc(100%_-_40px))] gap-0 py-8 lg:grid-cols-2 lg:py-12 max-[620px]:w-[min(100%_-_28px,1460px)]">
+        <div className="flex min-h-[370px] min-w-0 flex-col justify-center bg-white p-8 md:p-12 lg:min-h-[524px] lg:rounded-l-[24px] lg:p-14">
+          <span className="text-xs font-black uppercase tracking-[.2em] text-orisia-goldDark">{isBg ? "ДАСКАЛО ЗА ФОЛКЛОР · РУСЕ" : "FOLKLORE SCHOOL · RUSE"}</span>
 
-        {loading && <div className="border border-dashed border-orisia-line p-8 text-center font-sans text-sm">{isBg ? "Зареждане…" : "Loading…"}</div>}
-        {error && <div className="border border-red-400/50 bg-red-50 p-5 font-sans text-sm text-red-800">{isBg ? "Съдържанието не може да бъде заредено." : "Content could not be loaded."} {error}</div>}
+          {slide ? (
+            <div key={`${slide.id}-${language}`} className="hero-copy-fade">
+              <h1 className="mt-5 text-[clamp(34px,4vw,58px)] font-black uppercase leading-[1.03] tracking-[-.025em]">{slide.title}</h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#6b5847]">{slide.body.length > 330 ? slide.body.slice(0, 330).trimEnd().replace(/\s+\S*$/, "") + "…" : slide.body}</p>
+            </div>
+          ) : (
+            <>
+              <h1 className="mt-5 text-[clamp(34px,4vw,58px)] font-black uppercase leading-[1.03]">{isBg ? "Даскало за фолклор „ОРИСИЯ“" : "ORISIA Folklore School"}</h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#6b5847]">{isBg ? "Български народни танци, групи, събития и общност в Русе." : "Bulgarian folk dances, groups, events and community in Ruse."}</p>
+            </>
+          )}
 
-        {!loading && !error && (
-          <>
-            <section className="border-b border-orisia-line pb-10">
-              <div className="mb-7 flex items-end justify-between gap-5">
-                <h2 className="text-4xl font-bold sm:text-5xl">{isBg ? "Последни новини" : "Latest news"}</h2>
-                <Link href={href("/news/")} className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-bold text-orisia-goldDark">{isBg ? "Виж всички" : "View all"}</Link>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href={href("/about/")} className="rounded-xl bg-orisia-goldDark px-6 py-3 font-bold text-white transition hover:bg-[#754725]">{isBg ? "За нас" : "About us"}</Link>
+            <Link href={href("/calendar/")} className="rounded-xl border border-[#a99582] px-6 py-3 font-bold transition hover:border-orisia-goldDark hover:text-orisia-goldDark">{isBg ? "Календар" : "Calendar"}</Link>
+          </div>
+
+          {featured.length > 1 && (
+            <div className="mt-8 flex items-center gap-3">
+              <button type="button" onClick={() => showSlide((activeSlide - 1 + featured.length) % featured.length, "previous")} className="grid h-10 w-10 place-items-center rounded-full border border-orisia-line bg-white text-lg hover:border-orisia-goldDark">←</button>
+              <div className="flex gap-2">
+                {featured.map((item, index) => <button key={item.id} type="button" onClick={() => showSlide(index, index > activeSlide ? "next" : "previous")} className={`h-2.5 w-2.5 rounded-full border border-orisia-goldDark ${index === activeSlide % featured.length ? "bg-orisia-goldDark" : "bg-white"}`} aria-label={`Slide ${index + 1}`} />)}
               </div>
-              <div className="grid gap-7 md:grid-cols-3">
-                {latest.length ? latest.map((item) => (
-                  <article className="border-t border-orisia-line pt-5" key={item.id}>
-                    {item.mediaUrl && <img src={item.mediaUrl} alt={isBg ? item.titleBg : item.titleEn || item.titleBg} className="mb-5 aspect-[16/9] w-full object-cover" />}
-                    <div className="flex justify-between gap-3 font-sans text-[10px] font-bold uppercase text-[#8c7357]"><span>{typeLabels[item.type]?.[language] ?? item.type}</span><time>{formatDate(item.date, isBg)}</time></div>
-                    <h3 className="mt-4 text-xl font-bold sm:text-2xl"><Link href={detailPath(item)}>{isBg ? item.titleBg : item.titleEn || item.titleBg}</Link></h3>
-                    <p className="mt-3 line-clamp-3 font-sans text-sm leading-6 text-[#725b47]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
-                  </article>
-                )) : <div className="md:col-span-3 border border-dashed border-orisia-line p-6 text-center font-sans text-sm">{isBg ? "Все още няма публикувано съдържание." : "There is no published content yet."}</div>}
-              </div>
-            </section>
+              <button type="button" onClick={() => showSlide((activeSlide + 1) % featured.length, "next")} className="grid h-10 w-10 place-items-center rounded-full border border-orisia-line bg-white text-lg hover:border-orisia-goldDark">→</button>
+            </div>
+          )}
+        </div>
 
-            <section className="mt-14">
-              <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,.55fr)]">
-                <div className="grid gap-5">
-                  {slide && <article className="relative min-h-[330px] overflow-hidden border border-[#6d5039] bg-orisia-ink text-orisia-light shadow-soft">
-                    {slide.mediaUrl && <img src={slide.mediaUrl} alt={isBg ? slide.titleBg : slide.titleEn || slide.titleBg} className="absolute inset-0 h-full w-full object-cover opacity-25" />}
-                    <div className="relative z-10 flex min-h-[330px] max-w-3xl flex-col justify-end p-7 sm:p-10">
-                      <span className={`${badgeClass} self-start border-[#a5743b] text-[#e7c58f]`}>{typeLabels[slide.type]?.[language] ?? slide.type}</span>
-                      <h3 className="mt-4 text-4xl font-bold sm:text-5xl"><Link href={detailPath(slide)}>{isBg ? slide.titleBg : slide.titleEn || slide.titleBg}</Link></h3>
-                      <p className="mt-3 font-sans text-sm leading-6 text-[#d7c2a3]">{isBg ? slide.bodyBg : slide.bodyEn || slide.bodyBg}</p>
-                      <span className="mt-5 font-sans text-xs text-[#aa9479]">{formatDate(slide.date, isBg)}</span>
-                    </div>
-                    {slides.length > 1 && <div className="absolute bottom-5 right-5 z-20 flex gap-2">{slides.map((item, index) => <button key={item.id} type="button" className={`h-2.5 w-2.5 rounded-full border border-[#c18c4b] ${index === activeSlide ? "bg-[#d09b57]" : "bg-transparent"}`} onClick={() => setActiveSlide(index)} aria-label={`Slide ${index + 1}`} />)}</div>}
-                  </article>}
+        <div className="group relative h-[330px] overflow-hidden bg-[#e8dfd4] md:h-[440px] lg:h-auto lg:self-stretch lg:rounded-r-[24px]">
+          {previousImage ? <img src={previousImage} alt="" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" /> : <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,#fffaf3,transparent_45%),linear-gradient(135deg,#efe7dc,#d8c6b4)]" />}
+          {currentImage ? (
+            <img key={`${currentImage}-${activeSlide}`} src={currentImage} alt={slide?.title || "ОРИСИЯ"} className={`absolute inset-0 h-full w-full object-cover ${previousSlide ? direction === "next" ? "hero-photo-next" : "hero-photo-previous" : ""}`} />
+          ) : (
+            <div key={activeSlide} className={`absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_70%_25%,#fffaf3,transparent_45%),linear-gradient(135deg,#efe7dc,#d8c6b4)] ${previousSlide ? direction === "next" ? "hero-photo-next" : "hero-photo-previous" : ""}`}>
+              <img src="/orisia-logo.jpg" alt="ОРИСИЯ" className="h-48 w-48 rounded-full border-4 border-orisia-line bg-white object-cover shadow-[0_15px_45px_rgba(75,46,27,.18)] md:h-64 md:w-64" />
+            </div>
+          )}
+        </div>
+      </section>
 
-                  <div className="grid gap-4">
-                    {ordered.map((item) => <article className="overflow-hidden border border-orisia-line bg-orisia-paper" key={item.id}>
-                      {item.mediaUrl && <img src={item.mediaUrl} alt={isBg ? item.titleBg : item.titleEn || item.titleBg} className="max-h-72 w-full object-cover" />}
-                      <div className="p-6">
-                      <div className="flex items-center justify-between gap-4"><span className={`${badgeClass} text-orisia-goldDark`}>{typeLabels[item.type]?.[language] ?? item.type}</span><time className="font-sans text-[11px] text-[#8c7357]">{formatDate(item.date, isBg)}</time></div>
-                      <h3 className="mt-4 text-2xl font-bold sm:text-3xl"><Link href={detailPath(item)}>{isBg ? item.titleBg : item.titleEn || item.titleBg}</Link></h3>
-                      <p className="mt-3 font-sans text-sm leading-7 text-[#725b47]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
-                      </div>
-                    </article>)}
-                  </div>
-                </div>
-                <aside className="grid gap-4 lg:sticky lg:top-24">
-                  <div className="border border-orisia-line bg-orisia-paper p-6"><h3 className="text-2xl font-bold">{isBg ? "Предстоящи събития" : "Upcoming events"}</h3><Link className="mt-4 inline-block font-sans text-xs font-black uppercase text-orisia-goldDark" href={href("/calendar/")}>{isBg ? "Към календара" : "Open calendar"}</Link></div>
-                  <div className="border border-orisia-line bg-orisia-paper p-6"><h3 className="text-2xl font-bold">{isBg ? "Хоротека" : "Dance library"}</h3><Link className="mt-4 inline-block font-sans text-xs font-black uppercase text-orisia-goldDark" href={href("/horoteka/")}>{isBg ? "Разгледай" : "Explore"}</Link></div>
-                </aside>
-              </div>
-            </section>
-          </>
-        )}
-      </div>
-    </section>
+      <section className="border-t border-orisia-line/45 bg-white">
+        <div className="mx-auto w-[min(1460px,calc(100%_-_40px))] py-12 max-[620px]:w-[min(100%_-_28px,1460px)] md:py-18">
+          <header className="flex flex-wrap items-end justify-between gap-5 border-b border-orisia-line/55 pb-7">
+            <div>
+              <span className="text-[11px] font-black uppercase tracking-[.18em] text-orisia-goldDark">{isBg ? "АКТУАЛНО" : "LATEST"}</span>
+              <h2 className="mt-2 text-[clamp(32px,5vw,52px)] font-black uppercase leading-none">{isBg ? "Новини и събития" : "News and events"}</h2>
+            </div>
+            <Link href={href("/news/")} className="border-b-2 border-orisia-goldDark pb-1 text-sm font-bold text-orisia-goldDark">{isBg ? "Всички новини" : "All news"}</Link>
+          </header>
+
+          {state === "loading" && <p className="py-12 text-[#6b5847]">{isBg ? "Зареждане…" : "Loading…"}</p>}
+          {state === "error" && <p className="py-12 text-red-700">{isBg ? "Съдържанието не може да бъде заредено." : "Content could not be loaded."}</p>}
+          {state === "ready" && (stories.length ? stories.slice(0, 6).map((item, index) => <PublicStory key={item.id} item={item} isBg={isBg} linked reverse={index % 2 === 1} />) : <p className="py-12 text-[#6b5847]">{isBg ? "Все още няма публикувано съдържание." : "There is no published content yet."}</p>)}
+        </div>
+      </section>
+    </main>
   );
 }
