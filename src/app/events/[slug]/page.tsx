@@ -4,6 +4,7 @@ import FeedDetailClient from "../../../components/FeedDetailClient";
 import JsonLd from "../../../components/JsonLd";
 import { eventResponseToFeedPost } from "../../../components/homeFeedStore";
 import { type EventResponse, safePublicGet } from "../../../lib/api";
+import { initialEventBySlug, initialEvents } from "../../../lib/initialContent";
 import { buildLanguageAlternates } from "../../../lib/i18n";
 import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
 import { buildEventStructuredData, buildSectionItemBreadcrumbStructuredData, buildWebPageStructuredData } from "../../../lib/structuredData";
@@ -13,13 +14,13 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const events = await safePublicGet<EventResponse[]>("/events", []);
-  const params = events.map((event) => ({ slug: event.slug }));
+  const params = [...new Set([...events, ...initialEvents].map((event) => event.slug))].map((slug) => ({ slug }));
   return params.length ? params : [{ slug: "__no-events__" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const event = await safePublicGet<EventResponse | null>(`/events/${encodeURIComponent(slug)}`, null);
+  const event = await safePublicGet<EventResponse | null>(`/events/${encodeURIComponent(slug)}`, initialEventBySlug(slug));
   if (!event) return {};
   const path = `/events/${slug}/`;
   return {
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params;
-  const event = await safePublicGet<EventResponse | null>(`/events/${encodeURIComponent(slug)}`, null);
+  const event = await safePublicGet<EventResponse | null>(`/events/${encodeURIComponent(slug)}`, initialEventBySlug(slug));
   if (!event) notFound();
   const feed = eventResponseToFeedPost(event);
   const path = `/events/${slug}/`;

@@ -17,6 +17,7 @@ import JsonLd from "../../../components/JsonLd";
 import PublicPageStructuredData from "../../../components/PublicPageStructuredData";
 import { eventResponseToFeedPost, postResponseToFeedPost } from "../../../components/homeFeedStore";
 import { absoluteMediaUrl, type DanceResponse, type EventResponse, type PostResponse, safePublicGet } from "../../../lib/api";
+import { initialEventBySlug, initialEvents, initialPostBySlug, initialPosts } from "../../../lib/initialContent";
 import { isLocale, locales, localizePath, type Locale } from "../../../lib/i18n";
 import { buildLocalizedMetadata, englishKeywords, getLocalizedSeo, localizedStaticPaths } from "../../../lib/localizedSeo";
 import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
@@ -40,8 +41,8 @@ export async function generateStaticParams() {
     safePublicGet<DanceResponse[]>("/horoteka", []),
   ]);
   const detailPaths = [
-    ...posts.map((item) => `/news/${item.slug}/`),
-    ...events.map((item) => `/events/${item.slug}/`),
+    ...[...new Set([...posts, ...initialPosts].map((item) => item.slug))].map((slug) => `/news/${slug}/`),
+    ...[...new Set([...events, ...initialEvents].map((item) => item.slug))].map((slug) => `/events/${slug}/`),
     ...dances.map((item) => `/horoteka/${item.slug}/`),
   ];
   return locales.flatMap((locale) => [...localizedStaticPaths, ...detailPaths].map((path) => ({ locale, segments: path.split("/").filter(Boolean) })));
@@ -51,7 +52,7 @@ async function detailMetadata(locale: Locale, path: string): Promise<Metadata> {
   const canonical = localizePath(path, locale);
   const eventMatch = path.match(/^\/events\/([^/]+)\/$/);
   if (eventMatch) {
-    const item = await safePublicGet<EventResponse | null>(`/events/${eventMatch[1]}`, null);
+    const item = await safePublicGet<EventResponse | null>(`/events/${eventMatch[1]}`, initialEventBySlug(eventMatch[1]));
     if (!item) return {};
     const title = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
     const description = locale === "bg" ? item.descriptionBg : item.descriptionEn || item.descriptionBg;
@@ -59,7 +60,7 @@ async function detailMetadata(locale: Locale, path: string): Promise<Metadata> {
   }
   const newsMatch = path.match(/^\/news\/([^/]+)\/$/);
   if (newsMatch) {
-    const item = await safePublicGet<PostResponse | null>(`/posts/${newsMatch[1]}`, null);
+    const item = await safePublicGet<PostResponse | null>(`/posts/${newsMatch[1]}`, initialPostBySlug(newsMatch[1]));
     if (!item) return {};
     const title = locale === "bg" ? item.seoTitleBg || item.titleBg : item.seoTitleEn || item.titleEn || item.titleBg;
     const description = locale === "bg" ? item.seoDescriptionBg || item.excerptBg || item.bodyBg : item.seoDescriptionEn || item.excerptEn || item.bodyEn || item.bodyBg;
@@ -98,7 +99,7 @@ export default async function LocalizedPublicPage({ params }: Props) {
 
   const eventMatch = path.match(/^\/events\/([^/]+)\/$/);
   if (eventMatch) {
-    const item = await safePublicGet<EventResponse | null>(`/events/${eventMatch[1]}`, null);
+    const item = await safePublicGet<EventResponse | null>(`/events/${eventMatch[1]}`, initialEventBySlug(eventMatch[1]));
     if (!item) notFound();
     const name = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
     const description = locale === "bg" ? item.descriptionBg : item.descriptionEn || item.descriptionBg;
@@ -107,7 +108,7 @@ export default async function LocalizedPublicPage({ params }: Props) {
 
   const newsMatch = path.match(/^\/news\/([^/]+)\/$/);
   if (newsMatch) {
-    const item = await safePublicGet<PostResponse | null>(`/posts/${newsMatch[1]}`, null);
+    const item = await safePublicGet<PostResponse | null>(`/posts/${newsMatch[1]}`, initialPostBySlug(newsMatch[1]));
     if (!item) notFound();
     const headline = locale === "bg" ? item.titleBg : item.titleEn || item.titleBg;
     const description = locale === "bg" ? item.excerptBg || item.bodyBg : item.excerptEn || item.bodyEn || item.bodyBg;

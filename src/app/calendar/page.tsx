@@ -84,7 +84,7 @@ export default function CalendarPage() {
                         <div key={item.occurrenceId} className={`mt-2 border-l-2 pl-2 ${item.source === "group" ? "border-orisia-gold" : "border-[#7b5b43]"}`}>
                           <span className="font-sans text-[9px] font-black uppercase tracking-[.08em] text-orisia-goldDark">{item.source === "group" ? (isBg ? "Група" : "Group") : (isBg ? "Събитие" : "Event")}</span>
                           <strong className="block text-xs">{isBg ? item.titleBg : item.titleEn || item.titleBg}</strong>
-                          <time className="font-sans text-[10px]">{new Date(item.startAt).toLocaleTimeString(isBg ? "bg-BG" : "en-GB", { hour: "2-digit", minute: "2-digit" })}</time>
+                          <time className="font-sans text-[10px]">{item.allDay ? (isBg ? "Цял ден" : "All day") : new Date(item.startAt).toLocaleTimeString(isBg ? "bg-BG" : "en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Sofia" })}</time>
                         </div>
                       ))}
                     </>
@@ -103,7 +103,7 @@ export default function CalendarPage() {
                 {upcoming.length ? upcoming.map(item => (
                   <article key={item.occurrenceId} className="border border-orisia-line p-4">
                     <span className="font-sans text-[9px] font-black uppercase tracking-[.1em] text-orisia-goldDark">{item.source === "group" ? (isBg ? "Репетиция" : "Rehearsal") : (isBg ? "Събитие" : "Event")}</span>
-                    <time className="mt-1 block font-sans text-[10px] text-[#725b47]">{new Date(item.startAt).toLocaleString(isBg ? "bg-BG" : "en-GB")}</time>
+                    <time className="mt-1 block font-sans text-[10px] text-[#725b47]">{item.allDay ? `${new Date(item.startAt).toLocaleDateString(isBg ? "bg-BG" : "en-GB", { timeZone: "UTC" })} · ${isBg ? "Цял ден" : "All day"}` : new Date(item.startAt).toLocaleString(isBg ? "bg-BG" : "en-GB", { timeZone: "Europe/Sofia" })}</time>
                     <h3 className="mt-1 text-lg font-bold">{isBg ? item.titleBg : item.titleEn || item.titleBg}</h3>
                   </article>
                 )) : <p className="font-sans text-sm">{isBg ? "Няма предстоящи събития." : "No upcoming events."}</p>}

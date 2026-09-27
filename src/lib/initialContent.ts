@@ -1,0 +1,62 @@
+import type { EventResponse, PostResponse } from "./api";
+
+// These four records are also seeded by Orisia.Server. Static export needs them
+// when the API is unavailable at build time; live API responses take precedence.
+const createdOn = "2026-09-27T00:00:00Z";
+
+export const initialPosts: PostResponse[] = [
+  {
+    id: "initial-beginners-news",
+    slug: "nova-grupa-nachinaeshti-oktomvri-2026",
+    type: 0, status: 1,
+    titleBg: "Нова група за начинаещи от 12 октомври",
+    titleEn: "New beginners' group starting 12 October",
+    excerptBg: "Народни танци за начинаещи в Русе — понеделник и сряда от 19:40 ч.",
+    excerptEn: "Beginner folk dances in Ruse — Mondays and Wednesdays at 19:40.",
+    bodyBg: "Даскало за фолклор „Орисия“ открива нова група за начинаещи на 12 октомври 2026 г. Занятията са в понеделник и сряда от 19:40 ч. в залата на бул. Родина 80, на гърба на боулинг залата в Русе. За записване и допълнителна информация се свържете с нас чрез страницата ни във Facebook.",
+    bodyEn: "ORISIA Folklore School is opening a new beginners' group on 12 October 2026. Classes are on Mondays and Wednesdays at 19:40 at 80 Rodina Boulevard, behind the bowling hall in Ruse. Contact us through our Facebook page for registration and more information.",
+    seoTitleBg: "", seoTitleEn: "", seoDescriptionBg: "", seoDescriptionEn: "",
+    featured: true, publishedAt: createdOn, createdOn, modifiedOn: createdOn,
+  },
+  {
+    id: "initial-sandrovo-news",
+    slug: "orisiya-sandrovo-pee-i-tancuva-2026",
+    type: 0, status: 1,
+    titleBg: "„Орисия“ на фестивала „Сандрово пее и танцува“",
+    titleEn: "ORISIA at the Sandrovo Sings and Dances festival",
+    excerptBg: "Школата участва с демонстрации в XIV издание на фолклорния фестивал в Сандрово.",
+    excerptEn: "The school took part in the 14th folklore festival in Sandrovo with dance demonstrations.",
+    bodyBg: "На 4 юли 2026 г. в село Сандрово се проведе XIV фолклорен фестивал „Сандрово пее и танцува“. Във вечерната програма Даскало за фолклор „Орисия“ — Русе представи демонстрации на български народни танци.",
+    bodyEn: "The 14th Sandrovo Sings and Dances folklore festival took place on 4 July 2026. ORISIA Folklore School from Ruse presented Bulgarian folk dance demonstrations during the evening programme.",
+    seoTitleBg: "", seoTitleEn: "", seoDescriptionBg: "", seoDescriptionEn: "",
+    featured: false, publishedAt: createdOn, createdOn, modifiedOn: createdOn,
+  },
+];
+
+export const initialEvents: EventResponse[] = [
+  {
+    id: "initial-beginners-event",
+    slug: "nachalo-na-grupa-za-nachinaeshti-2026",
+    titleBg: "Начало на новата група за начинаещи",
+    titleEn: "New beginners' group begins",
+    descriptionBg: "Първо занятие на новата група на „Орисия“. Редовните занятия са всеки понеделник и сряда от 19:40 ч. За записване вижте страницата ни във Facebook.",
+    descriptionEn: "The first class of ORISIA's new beginners' group. Regular classes are every Monday and Wednesday at 19:40. Visit our Facebook page to register.",
+    startAt: "2026-10-12T16:40:00Z", allDay: false, eventType: 0,
+    location: "гр. Русе, бул. Родина 80 (на гърба на боулинг залата)",
+    featured: true, status: 1, createdOn, modifiedOn: createdOn,
+  },
+  {
+    id: "initial-sandrovo-event",
+    slug: "sandrovo-pee-i-tancuva-2026",
+    titleBg: "Фестивал „Сандрово пее и танцува“",
+    titleEn: "Sandrovo Sings and Dances festival",
+    descriptionBg: "XIV издание на фолклорния фестивал в Сандрово с демонстрации на Даскало за фолклор „Орисия“ — Русе във вечерната програма.",
+    descriptionEn: "The 14th folklore festival in Sandrovo, with dance demonstrations by ORISIA Folklore School from Ruse in the evening programme.",
+    startAt: "2026-07-04T00:00:00Z", allDay: true, eventType: 3,
+    location: "с. Сандрово, община Русе",
+    featured: false, status: 1, createdOn, modifiedOn: createdOn,
+  },
+];
+
+export const initialPostBySlug = (slug: string) => initialPosts.find((post) => post.slug === slug) ?? null;
+export const initialEventBySlug = (slug: string) => initialEvents.find((event) => event.slug === slug) ?? null;

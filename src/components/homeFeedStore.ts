@@ -15,6 +15,7 @@ export type FeedPost = {
   image?: string;
   featured?: boolean;
   endAt?: string | null;
+  allDay?: boolean;
   location?: string | null;
 };
 
@@ -66,6 +67,7 @@ export function eventResponseToFeedPost(event: EventResponse): FeedPost {
     date: event.startAt,
     featured: event.featured,
     endAt: event.endAt,
+    allDay: event.allDay,
     location: event.location,
   };
 }

@@ -10,7 +10,7 @@ import { buildEventStructuredData } from "../../lib/structuredData";
 function Card({ item, isBg, href }: { item: EventResponse; isBg: boolean; href: (path: string) => string }) {
   const title = isBg ? item.titleBg : item.titleEn || item.titleBg;
   const body = isBg ? item.descriptionBg : item.descriptionEn || item.descriptionBg;
-  return <article className="border border-[#d5c0a1] bg-[#fffaf2] p-6"><time className="font-sans text-xs font-black uppercase text-orisia-goldDark">{new Date(item.startAt).toLocaleString(isBg ? "bg-BG" : "en-GB")}</time><h2 className="mt-2 text-2xl font-bold"><Link href={href(`/events/${item.slug}/`)}>{title}</Link></h2>{item.location && <p className="mt-2 font-sans text-xs text-orisia-goldDark">{item.location}</p>}<p className="mt-3 font-sans text-sm leading-7 text-[#6e5540]">{body}</p></article>;
+  return <article className="border border-[#d5c0a1] bg-[#fffaf2] p-6"><time className="font-sans text-xs font-black uppercase text-orisia-goldDark">{item.allDay ? new Date(item.startAt).toLocaleDateString(isBg ? "bg-BG" : "en-GB", { timeZone: "UTC" }) : new Date(item.startAt).toLocaleString(isBg ? "bg-BG" : "en-GB", { timeZone: "Europe/Sofia" })}</time><h2 className="mt-2 text-2xl font-bold"><Link href={href(`/events/${item.slug}/`)}>{title}</Link></h2>{item.location && <p className="mt-2 font-sans text-xs text-orisia-goldDark">{item.location}</p>}<p className="mt-3 font-sans text-sm leading-7 text-[#6e5540]">{body}</p></article>;
 }
 
 export default function EventsPage() {

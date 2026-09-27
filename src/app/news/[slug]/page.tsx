@@ -4,6 +4,7 @@ import FeedDetailClient from "../../../components/FeedDetailClient";
 import JsonLd from "../../../components/JsonLd";
 import { postResponseToFeedPost } from "../../../components/homeFeedStore";
 import { type PostResponse, safePublicGet } from "../../../lib/api";
+import { initialPostBySlug, initialPosts } from "../../../lib/initialContent";
 import { buildLanguageAlternates } from "../../../lib/i18n";
 import { buildSocialMetadata, localSeoKeywords } from "../../../lib/seo";
 import { buildNewsArticleStructuredData, buildSectionItemBreadcrumbStructuredData, buildWebPageStructuredData } from "../../../lib/structuredData";
@@ -13,13 +14,13 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const posts = await safePublicGet<PostResponse[]>("/posts", []);
-  const params = posts.map((post) => ({ slug: post.slug }));
+  const params = [...new Set([...posts, ...initialPosts].map((post) => post.slug))].map((slug) => ({ slug }));
   return params.length ? params : [{ slug: "__no-news__" }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await safePublicGet<PostResponse | null>(`/posts/${encodeURIComponent(slug)}`, null);
+  const post = await safePublicGet<PostResponse | null>(`/posts/${encodeURIComponent(slug)}`, initialPostBySlug(slug));
   if (!post) return {};
   const path = `/news/${slug}/`;
   const description = post.seoDescriptionBg || post.excerptBg || post.bodyBg;
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function NewsDetailPage({ params }: Props) {
   const { slug } = await params;
-  const post = await safePublicGet<PostResponse | null>(`/posts/${encodeURIComponent(slug)}`, null);
+  const post = await safePublicGet<PostResponse | null>(`/posts/${encodeURIComponent(slug)}`, initialPostBySlug(slug));
   if (!post) notFound();
   const feed = postResponseToFeedPost(post);
   const path = `/news/${slug}/`;
