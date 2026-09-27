@@ -1,13 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import PublicPageHeader from "../../components/PublicPageHeader";
+import PublicStory, { type PublicStoryData } from "../../components/PublicStory";
 import { api, postNumberToType, type PostResponse } from "../../lib/api";
 import useLanguage, { useLocalizedPath } from "../../components/useLanguage";
 
 const labels: Record<string, { bg: string; en: string }> = {
-  news: { bg: "Новина", en: "News" }, report: { bg: "Отчет", en: "Report" }, photos: { bg: "Снимки", en: "Photos" },
-  blog: { bg: "Блог", en: "Blog" }, group: { bg: "Група", en: "Group update" }, schedule: { bg: "График", en: "Schedule" },
+  news: { bg: "Новина", en: "News" },
+  report: { bg: "Отчет", en: "Report" },
+  photos: { bg: "Снимки", en: "Photos" },
+  blog: { bg: "Блог", en: "Blog" },
+  group: { bg: "Група", en: "Group update" },
+  schedule: { bg: "График", en: "Schedule" },
 };
 
 export default function NewsPage() {
@@ -18,28 +23,40 @@ export default function NewsPage() {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
-    api.posts.list().then((items) => { setPosts(items); setState("ready"); }).catch(() => setState("error"));
+    api.posts.list()
+      .then((items) => { setPosts(items); setState("ready"); })
+      .catch(() => setState("error"));
   }, []);
 
-  return <main className="min-h-[70vh] bg-orisia-cream py-16"><div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
-    <header className="border-b border-[#ceb28b] pb-8"><span className="font-sans text-xs font-black uppercase tracking-[.2em] text-orisia-goldDark">{isBg ? "ОРИСИЯ · НОВИНИ" : "ORISIA · NEWS"}</span><h1 className="mt-3 text-4xl font-bold sm:text-5xl">{isBg ? "Новини" : "News"}</h1></header>
-    <div className="py-10">
-      {state === "loading" && <p className="font-sans text-sm">{isBg ? "Зареждане…" : "Loading…"}</p>}
-      {state === "error" && <div className="border border-red-400/50 p-6 font-sans text-sm">{isBg ? "Новините не могат да бъдат заредени." : "News could not be loaded."}</div>}
-      {state === "ready" && (posts.length ? <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{posts.map((post) => {
-        const type = postNumberToType[post.type] ?? "news";
-        const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
-        const body = isBg ? post.excerptBg || post.bodyBg : post.excerptEn || post.bodyEn || post.bodyBg;
-        return <article key={post.id} className="flex flex-col overflow-hidden border border-[#d5c0a1] bg-[#fffaf2]">
-          {post.mediaUrl && <img src={post.mediaUrl} alt={title} className="aspect-[16/9] w-full object-cover" />}
-          <div className="flex flex-1 flex-col p-6">
-          <div className="flex justify-between gap-3 font-sans text-[11px] font-black uppercase text-orisia-goldDark"><span>{labels[type]?.[language] ?? type}</span><time>{new Date(post.publishedAt ?? post.createdOn).toLocaleDateString(isBg ? "bg-BG" : "en-GB")}</time></div>
-          <h2 className="mt-4 text-2xl font-bold"><Link href={href(`/news/${post.slug}/`)}>{title}</Link></h2>
-          <p className="mt-3 line-clamp-5 flex-1 font-sans text-sm leading-7 text-[#6e5540]">{body}</p>
-          <Link href={href(`/news/${post.slug}/`)} className="mt-5 self-start border-b border-orisia-goldDark font-sans text-xs font-black uppercase text-orisia-goldDark">{isBg ? "Прочети" : "Read more"}</Link>
-          </div>
-        </article>;
-      })}</div> : <div className="border border-dashed border-[#c9ad88] p-8 font-sans text-sm">{isBg ? "Все още няма публикувани новини." : "There are no published news items yet."}</div>)}
-    </div>
-  </div></main>;
+  const stories: PublicStoryData[] = posts.map((post) => {
+    const type = postNumberToType[post.type] ?? "news";
+    return {
+      id: post.id,
+      kind: "news",
+      title: isBg ? post.titleBg : post.titleEn || post.titleBg,
+      body: isBg ? post.bodyBg : post.bodyEn || post.bodyBg,
+      date: post.publishedAt ?? post.createdOn,
+      href: href(`/news/${post.slug}/`),
+      label: labels[type]?.[language] ?? type,
+      mediaType: post.mediaUrl ? 1 : 0,
+      mediaUrl: post.mediaUrl,
+    };
+  });
+
+  return (
+    <main className="min-h-[70vh] bg-[#faf8f5] font-sans text-orisia-ink">
+      <PublicPageHeader
+        eyebrow={isBg ? "ОРИСИЯ · РУСЕ" : "ORISIA · RUSE"}
+        title={isBg ? "Новини" : "News"}
+        description={isBg ? "Последни новини, участия и важни моменти от Даскало за фолклор „ОРИСИЯ“." : "Latest news, appearances and important moments from ORISIA Folklore School."}
+      />
+      <div className="mx-auto w-[min(1460px,calc(100%_-_40px))] max-[620px]:w-[min(100%_-_28px,1460px)]">
+        {state === "loading" && <p className="py-12 text-[#6b5847]">{isBg ? "Зареждане…" : "Loading…"}</p>}
+        {state === "error" && <p className="py-12 text-red-700">{isBg ? "Новините не могат да бъдат заредени." : "News could not be loaded."}</p>}
+        {state === "ready" && (stories.length
+          ? stories.map((item, index) => <PublicStory key={item.id} item={item} isBg={isBg} linked reverse={index % 2 === 1} />)
+          : <p className="py-12 text-[#6b5847]">{isBg ? "Все още няма публикувани новини." : "There are no published news items yet."}</p>)}
+      </div>
+    </main>
+  );
 }
