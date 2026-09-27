@@ -16,7 +16,9 @@ function videoEmbedUrl(url: string) {
       const id = parsed.pathname.split("/").filter(Boolean)[0];
       return id ? `https://player.vimeo.com/video/${id}` : url;
     }
-  } catch {}
+  } catch {
+    return url;
+  }
   return url;
 }
 
