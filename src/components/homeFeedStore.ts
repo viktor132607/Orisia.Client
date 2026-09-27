@@ -17,6 +17,9 @@ export type FeedPost = {
   endAt?: string | null;
   allDay?: boolean;
   location?: string | null;
+  mediaType?: number;
+  mediaUrl?: string | null;
+  slideshowUrls?: string[];
 };
 
 export function getFeedPostPath(post: FeedPost) {
@@ -69,5 +72,8 @@ export function eventResponseToFeedPost(event: EventResponse): FeedPost {
     endAt: event.endAt,
     allDay: event.allDay,
     location: event.location,
+    mediaType: event.mediaType,
+    mediaUrl: event.mediaUrl,
+    slideshowUrls: event.slideshowUrls,
   };
 }
