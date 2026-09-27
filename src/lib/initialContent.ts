@@ -43,7 +43,7 @@ export const initialEvents: EventResponse[] = [
     descriptionEn: "On 27 September, different people, talents and worlds come together on one stage for one shared cause — to support Galya.\n\nGalya is a teacher and artist who has shared knowledge, music and creativity with others. Now it is our turn to stand by her.\n\nOn stage: Mihael Lashev with original music; Adriana Vitanova; Veselina Nyagolova with Bulgarian folklore; Sladkite na Svetlozara Savova; ORISIA Folklore School with an open horoteka for children and adults; and BAM-BAM animation agency with a special children’s programme of games and entertainment.\n\nCome with your children, friends and family. Let us turn this Sunday afternoon into a gathering that matters.\n\nOne stage. Many hearts. One cause — for Galya.",
     startAt: "2026-09-27T13:00:00Z", allDay: false, eventType: 1,
     location: "Сцената на Ruse Stage, Русе",
-    mediaType: 1, mediaUrl: "/events/za-galya.png", slideshowUrls: [],
+    mediaType: 1, mediaUrl: "/events/za-galya.webp", slideshowUrls: [],
     featured: true, status: 1, createdOn, modifiedOn: createdOn,
   },
   {
