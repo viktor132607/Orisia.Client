@@ -67,6 +67,9 @@ export type EventResponse = {
   eventType: number;
   location?: string | null;
   coverMediaId?: string | null;
+  mediaType?: number;
+  mediaUrl?: string | null;
+  slideshowUrls?: string[];
   featured: boolean;
   status: PublicationStatus;
   recurrenceRule?: string | null;
