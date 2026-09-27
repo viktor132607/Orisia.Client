@@ -1,36 +1,43 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import useLanguage from "./useLanguage";
+import useLanguage, { useLocalizedPath } from "./useLanguage";
 
 const COOKIE_KEY = "orisia-cookie-consent";
-const ENTERED_KEY = "orisia-site-entered";
+
+type Choice = "necessary" | "all" | "rejected";
 
 const copy = {
-  bg: { title: "Бисквитки", text: "Използваме задължителни бисквитки за основната работа на сайта и, при съгласие, допълнителни бисквитки за бъдещи статистики и подобрения.", necessary: "Само задължителни", accept: "Приемам всички" },
-  en: { title: "Cookies", text: "We use necessary cookies for the core operation of the site and, with your consent, additional cookies for future analytics and improvements.", necessary: "Necessary only", accept: "Accept all" },
+  bg: {
+    title: "Настройки за бисквитки",
+    text: "Изберете дали да разрешите допълнително съхранение за бъдещи статистики и външно съдържание. Задължителното съхранение пази избора ви.",
+    necessary: "Само задължителни",
+    accept: "Приемам всички",
+    reject: "Отказвам всички",
+    policy: "Политика за бисквитки",
+  },
+  en: {
+    title: "Cookie preferences",
+    text: "Choose whether to allow additional storage for future analytics and external content. Essential storage remembers your choice.",
+    necessary: "Essential only",
+    accept: "Accept all",
+    reject: "Reject all",
+    policy: "Cookie policy",
+  },
 };
 
 export default function CookieBanner() {
-  const [visible, setVisible] = useState(false);
   const language = useLanguage();
+  const href = useLocalizedPath();
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const hasConsent = Boolean(window.localStorage.getItem(COOKIE_KEY));
-    const hasEntered = window.localStorage.getItem(ENTERED_KEY) === "true";
-    setVisible(!hasConsent && hasEntered && document.documentElement.dataset.gates === "open");
-
-    const handleGates = (event: Event) => {
-      if (window.localStorage.getItem(COOKIE_KEY)) return;
-      setVisible(Boolean((event as CustomEvent<{ open?: boolean }>).detail?.open));
-    };
-
-    window.addEventListener("orisia-gates-change", handleGates);
-    return () => window.removeEventListener("orisia-gates-change", handleGates);
+    setVisible(!window.localStorage.getItem(COOKIE_KEY));
   }, []);
 
-  const saveConsent = (value: "necessary" | "all") => {
-    window.localStorage.setItem(COOKIE_KEY, value);
+  const save = (choice: Choice) => {
+    window.localStorage.setItem(COOKIE_KEY, choice);
     setVisible(false);
   };
 
@@ -38,14 +45,29 @@ export default function CookieBanner() {
   const text = copy[language];
 
   return (
-    <aside className="fixed bottom-4 left-1/2 z-[9000] flex w-[calc(100%-2rem)] max-w-6xl -translate-x-1/2 flex-col gap-5 border border-orisia-line bg-orisia-paper p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between" role="dialog" aria-live="polite" aria-label={text.title}>
-      <div className="max-w-3xl">
-        <strong className="text-lg text-orisia-brown">{text.title}</strong>
-        <p className="mt-1 font-sans text-xs leading-5 text-[#765f4b]">{text.text}</p>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        <button type="button" className="min-h-10 border border-orisia-line bg-transparent px-4 font-sans text-[11px] font-black uppercase tracking-wide text-orisia-brown" onClick={() => saveConsent("necessary")}>{text.necessary}</button>
-        <button type="button" className="min-h-10 border border-orisia-goldDark bg-orisia-gold px-4 font-sans text-[11px] font-black uppercase tracking-wide text-white hover:bg-orisia-goldDark" onClick={() => saveConsent("all")}>{text.accept}</button>
+    <aside
+      className="fixed inset-x-4 bottom-4 z-[10000] mx-auto max-w-3xl rounded-2xl border border-orisia-line/55 bg-white p-5 font-sans text-orisia-ink shadow-[0_14px_45px_rgba(75,46,27,.22)] sm:p-6"
+      role="dialog"
+      aria-live="polite"
+      aria-label={text.title}
+    >
+      <h2 className="text-xl font-black">{text.title}</h2>
+      <p className="mt-2 text-sm leading-6 text-[#6b5847]">
+        {text.text}{" "}
+        <Link href={href("/cookies/")} className="font-bold text-orisia-goldDark underline">
+          {text.policy}
+        </Link>.
+      </p>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <button type="button" onClick={() => save("necessary")} className="rounded-xl border border-orisia-goldDark px-5 py-3 font-bold text-orisia-goldDark">
+          {text.necessary}
+        </button>
+        <button type="button" onClick={() => save("all")} className="rounded-xl bg-orisia-goldDark px-5 py-3 font-bold text-white transition hover:bg-[#754725]">
+          {text.accept}
+        </button>
+        <button type="button" onClick={() => save("rejected")} className="rounded-xl border border-orisia-goldDark px-5 py-3 font-bold text-orisia-goldDark">
+          {text.reject}
+        </button>
       </div>
     </aside>
   );
