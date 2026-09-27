@@ -46,6 +46,7 @@ export type PostResponse = {
   seoDescriptionBg: string;
   seoDescriptionEn: string;
   coverMediaId?: string | null;
+  mediaUrl?: string | null;
   featured: boolean;
   publishedAt?: string | null;
   authorId?: string | null;
@@ -111,6 +112,7 @@ export type FeedItemResponse = {
   excerptBg?: string | null;
   excerptEn?: string | null;
   coverMediaId?: string | null;
+  mediaUrl?: string | null;
   featured: boolean;
   date: string;
   endAt?: string | null;

@@ -30,11 +30,14 @@ export default function NewsPage() {
         const type = postNumberToType[post.type] ?? "news";
         const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
         const body = isBg ? post.excerptBg || post.bodyBg : post.excerptEn || post.bodyEn || post.bodyBg;
-        return <article key={post.id} className="flex flex-col border border-[#d5c0a1] bg-[#fffaf2] p-6">
+        return <article key={post.id} className="flex flex-col overflow-hidden border border-[#d5c0a1] bg-[#fffaf2]">
+          {post.mediaUrl && <img src={post.mediaUrl} alt={title} className="aspect-[16/9] w-full object-cover" />}
+          <div className="flex flex-1 flex-col p-6">
           <div className="flex justify-between gap-3 font-sans text-[11px] font-black uppercase text-orisia-goldDark"><span>{labels[type]?.[language] ?? type}</span><time>{new Date(post.publishedAt ?? post.createdOn).toLocaleDateString(isBg ? "bg-BG" : "en-GB")}</time></div>
           <h2 className="mt-4 text-2xl font-bold"><Link href={href(`/news/${post.slug}/`)}>{title}</Link></h2>
           <p className="mt-3 line-clamp-5 flex-1 font-sans text-sm leading-7 text-[#6e5540]">{body}</p>
           <Link href={href(`/news/${post.slug}/`)} className="mt-5 self-start border-b border-orisia-goldDark font-sans text-xs font-black uppercase text-orisia-goldDark">{isBg ? "Прочети" : "Read more"}</Link>
+          </div>
         </article>;
       })}</div> : <div className="border border-dashed border-[#c9ad88] p-8 font-sans text-sm">{isBg ? "Все още няма публикувани новини." : "There are no published news items yet."}</div>)}
     </div>

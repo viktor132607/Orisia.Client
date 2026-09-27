@@ -62,7 +62,7 @@ function EventMedia({ post, title }: { post: FeedPost; title: string }) {
     if (slide >= slides.length) setSlide(0);
   }, [slide, slides.length]);
 
-  if (post.mediaType === 1 && post.mediaUrl) {
+  if (post.mediaUrl && (post.mediaType === undefined || post.mediaType === 1)) {
     return (
       <figure className="overflow-hidden bg-[#f3eee7]">
         <img src={post.mediaUrl} alt={title} className="max-h-[720px] w-full object-contain" />
@@ -135,10 +135,9 @@ export default function FeedDetailClient({ post, kind }: { post: FeedPost; kind:
   const href = useLocalizedPath();
   const title = isBg ? post.titleBg : post.titleEn || post.titleBg;
   const body = isBg ? post.bodyBg : post.bodyEn || post.bodyBg;
-  const hasMedia = kind === "event" && Boolean(
-    (post.mediaType === 1 && post.mediaUrl)
-    || (post.mediaType === 2 && post.mediaUrl)
-    || (post.mediaType === 3 && post.slideshowUrls?.length),
+  const hasMedia = Boolean(
+    (post.mediaUrl && (kind === "news" || post.mediaType === 1 || post.mediaType === 2))
+    || (kind === "event" && post.mediaType === 3 && post.slideshowUrls?.length),
   );
 
   return (

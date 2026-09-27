@@ -38,6 +38,7 @@ export function feedItemToPost(item: FeedItemResponse): FeedPost {
     bodyBg: item.bodyBg,
     bodyEn: item.bodyEn,
     date: item.date,
+    mediaUrl: item.mediaUrl,
     featured: item.featured,
     endAt: item.endAt,
     location: item.location,
@@ -54,6 +55,7 @@ export function postResponseToFeedPost(post: PostResponse): FeedPost {
     bodyBg: post.bodyBg,
     bodyEn: post.bodyEn,
     date: post.publishedAt ?? post.createdOn,
+    mediaUrl: post.mediaUrl,
     featured: post.featured,
   };
 }

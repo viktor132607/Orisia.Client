@@ -84,6 +84,7 @@ export default function HomeFeed() {
               <div className="grid gap-7 md:grid-cols-3">
                 {latest.length ? latest.map((item) => (
                   <article className="border-t border-orisia-line pt-5" key={item.id}>
+                    {item.mediaUrl && <img src={item.mediaUrl} alt={isBg ? item.titleBg : item.titleEn || item.titleBg} className="mb-5 aspect-[16/9] w-full object-cover" />}
                     <div className="flex justify-between gap-3 font-sans text-[10px] font-bold uppercase text-[#8c7357]"><span>{typeLabels[item.type]?.[language] ?? item.type}</span><time>{formatDate(item.date, isBg)}</time></div>
                     <h3 className="mt-4 text-xl font-bold sm:text-2xl"><Link href={detailPath(item)}>{isBg ? item.titleBg : item.titleEn || item.titleBg}</Link></h3>
                     <p className="mt-3 line-clamp-3 font-sans text-sm leading-6 text-[#725b47]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
@@ -96,6 +97,7 @@ export default function HomeFeed() {
               <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,.55fr)]">
                 <div className="grid gap-5">
                   {slide && <article className="relative min-h-[330px] overflow-hidden border border-[#6d5039] bg-orisia-ink text-orisia-light shadow-soft">
+                    {slide.mediaUrl && <img src={slide.mediaUrl} alt={isBg ? slide.titleBg : slide.titleEn || slide.titleBg} className="absolute inset-0 h-full w-full object-cover opacity-25" />}
                     <div className="relative z-10 flex min-h-[330px] max-w-3xl flex-col justify-end p-7 sm:p-10">
                       <span className={`${badgeClass} self-start border-[#a5743b] text-[#e7c58f]`}>{typeLabels[slide.type]?.[language] ?? slide.type}</span>
                       <h3 className="mt-4 text-4xl font-bold sm:text-5xl"><Link href={detailPath(slide)}>{isBg ? slide.titleBg : slide.titleEn || slide.titleBg}</Link></h3>
@@ -106,10 +108,13 @@ export default function HomeFeed() {
                   </article>}
 
                   <div className="grid gap-4">
-                    {ordered.map((item) => <article className="border border-orisia-line bg-orisia-paper p-6" key={item.id}>
+                    {ordered.map((item) => <article className="overflow-hidden border border-orisia-line bg-orisia-paper" key={item.id}>
+                      {item.mediaUrl && <img src={item.mediaUrl} alt={isBg ? item.titleBg : item.titleEn || item.titleBg} className="max-h-72 w-full object-cover" />}
+                      <div className="p-6">
                       <div className="flex items-center justify-between gap-4"><span className={`${badgeClass} text-orisia-goldDark`}>{typeLabels[item.type]?.[language] ?? item.type}</span><time className="font-sans text-[11px] text-[#8c7357]">{formatDate(item.date, isBg)}</time></div>
                       <h3 className="mt-4 text-2xl font-bold sm:text-3xl"><Link href={detailPath(item)}>{isBg ? item.titleBg : item.titleEn || item.titleBg}</Link></h3>
                       <p className="mt-3 font-sans text-sm leading-7 text-[#725b47]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
+                      </div>
                     </article>)}
                   </div>
                 </div>

@@ -16,7 +16,7 @@ export const initialPosts: PostResponse[] = [
     bodyBg: "Даскало за фолклор „Орисия“ открива нова група за начинаещи на 12 октомври 2026 г. Занятията са в понеделник и сряда от 19:40 ч. в залата на бул. Родина 80, на гърба на боулинг залата в Русе. За записване и допълнителна информация се свържете с нас чрез страницата ни във Facebook.",
     bodyEn: "ORISIA Folklore School is opening a new beginners' group on 12 October 2026. Classes are on Mondays and Wednesdays at 19:40 at 80 Rodina Boulevard, behind the bowling hall in Ruse. Contact us through our Facebook page for registration and more information.",
     seoTitleBg: "", seoTitleEn: "", seoDescriptionBg: "", seoDescriptionEn: "",
-    featured: true, publishedAt: createdOn, createdOn, modifiedOn: createdOn,
+    mediaUrl: "/events/za-galya.webp", featured: true, publishedAt: createdOn, createdOn, modifiedOn: createdOn,
   },
   {
     id: "initial-sandrovo-news",
@@ -29,7 +29,7 @@ export const initialPosts: PostResponse[] = [
     bodyBg: "На 4 юли 2026 г. в село Сандрово се проведе XIV фолклорен фестивал „Сандрово пее и танцува“. Във вечерната програма Даскало за фолклор „Орисия“ — Русе представи демонстрации на български народни танци.",
     bodyEn: "The 14th Sandrovo Sings and Dances folklore festival took place on 4 July 2026. ORISIA Folklore School from Ruse presented Bulgarian folk dance demonstrations during the evening programme.",
     seoTitleBg: "", seoTitleEn: "", seoDescriptionBg: "", seoDescriptionEn: "",
-    featured: false, publishedAt: createdOn, createdOn, modifiedOn: createdOn,
+    mediaUrl: "/events/za-galya.webp", featured: false, publishedAt: createdOn, createdOn, modifiedOn: createdOn,
   },
 ];
 
@@ -55,6 +55,7 @@ export const initialEvents: EventResponse[] = [
     descriptionEn: "The first class of ORISIA's new beginners' group. Regular classes are every Monday and Wednesday at 19:40. Visit our Facebook page to register.",
     startAt: "2026-10-12T16:40:00Z", allDay: false, eventType: 0,
     location: "гр. Русе, бул. Родина 80 (на гърба на боулинг залата)",
+    mediaType: 1, mediaUrl: "/events/za-galya.webp", slideshowUrls: [],
     featured: true, status: 1, createdOn, modifiedOn: createdOn,
   },
   {
@@ -66,6 +67,7 @@ export const initialEvents: EventResponse[] = [
     descriptionEn: "The 14th folklore festival in Sandrovo, with dance demonstrations by ORISIA Folklore School from Ruse in the evening programme.",
     startAt: "2026-07-04T00:00:00Z", allDay: true, eventType: 3,
     location: "с. Сандрово, община Русе",
+    mediaType: 1, mediaUrl: "/events/za-galya.webp", slideshowUrls: [],
     featured: false, status: 1, createdOn, modifiedOn: createdOn,
   },
 ];
