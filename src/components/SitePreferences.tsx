@@ -44,14 +44,14 @@ export default function SitePreferences() {
     }
   };
 
-  const isBg = language === "bg";
-  const buttonClass = "grid h-9 place-items-center border border-[#5f5550] bg-[#262223] text-orisia-light transition hover:border-orisia-gold hover:bg-[#322d2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orisia-gold";
-
   return (
-    <div className="flex w-11 flex-none items-center" aria-label={isBg ? "Настройки на сайта" : "Site settings"}>
-      <button type="button" className={`${buttonClass} min-w-11 rounded-full px-3 font-sans text-[11px] font-extrabold tracking-wide`} onClick={toggleLanguage} aria-label={isBg ? "Смени на английски" : "Switch to Bulgarian"}>
-        {language.toUpperCase()}
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={toggleLanguage}
+      className="flex h-9 min-w-10 items-center justify-center px-2 font-sans text-xs font-bold tracking-[.08em] text-orisia-light transition-colors hover:text-[#e8c79f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      aria-label={language === "bg" ? "Switch to English" : "Превключи на български"}
+    >
+      {language === "bg" ? "EN" : "BG"}
+    </button>
   );
 }
