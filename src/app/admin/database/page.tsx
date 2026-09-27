@@ -47,7 +47,7 @@ export default function DatabaseBackupPage() {
     <div className="mx-auto max-w-4xl space-y-6 px-4">
       <h1 className="text-3xl font-bold">{isBg ? "Архивиране на базата" : "Database backup"}</h1>
       {error && <p role="alert" className="rounded border border-red-400 p-4 text-red-700">{error}</p>}
-      {message && <p role="status" className="rounded border border-green-500 p-4">{message} {!allowed && <a className="underline" href="/login/">{isBg ? "Вход" : "Sign in"}</a>}</p>}
+      {message && <p role="status" className="rounded border border-green-500 p-4">{message} {!allowed && <a className="underline" href="/adminlogin/">{isBg ? "Вход" : "Sign in"}</a>}</p>}
       {allowed === null ? <p>Loading…</p> : !allowed ? <p>{isBg ? "Достъп само за администратори." : "Administrator access required."}</p> : <>
         <section className="space-y-4 rounded border border-orisia-line bg-orisia-paper p-6">
           <h2 className="text-2xl font-bold">{isBg ? "Пълен експорт" : "Full export"}</h2>

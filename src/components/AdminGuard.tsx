@@ -13,7 +13,7 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
     api.auth.me()
       .then((current) => {
         if (current.role !== "Admin" && current.role !== "Editor") {
-          router.replace("/account/");
+          router.replace("/adminlogin/");
           return;
         }
         setUser(current);
@@ -21,7 +21,7 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
       .catch(() => {
         clearSession();
         setFailed(true);
-        router.replace("/login/");
+        router.replace("/adminlogin/");
       });
   }, [router]);
 

@@ -1,66 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import SitePreferences from "./SitePreferences";
 import { getLocaleFromPathname, localizePath, stripLocale } from "../lib/i18n";
 
-const AUTH_KEY = "orisia-dev-auth";
 const LOGO_SRC = "/orisia-logo.jpg";
-
-type AuthRole = "guest" | "user" | "admin";
-
-function getRole(value: string | null): AuthRole {
-  if (value === "admin") return "admin";
-  if (value === "logged-in" || value === "user") return "user";
-  return "guest";
-}
 
 export default function Navbar() {
   const pathname = usePathname() ?? "/";
   const routeLocale = getLocaleFromPathname(pathname);
   const isBg = (routeLocale ?? "bg") === "bg";
-  const [role, setRole] = useState<AuthRole>("guest");
   const [open, setOpen] = useState(false);
 
   const href = (path: string) => routeLocale ? localizePath(path, routeLocale) : path;
   const plainPath = stripLocale(pathname);
   const closeMenu = () => setOpen(false);
 
-  useEffect(() => {
-    const readRole = () => setRole(getRole(window.localStorage.getItem(AUTH_KEY)));
-    const onAuth = (event: Event) => {
-      const detail = (event as CustomEvent<{ role?: AuthRole; loggedIn?: boolean; isAdmin?: boolean }>).detail;
-      if (detail?.role) setRole(detail.role);
-      else if (detail?.isAdmin) setRole("admin");
-      else setRole(detail?.loggedIn ? "user" : "guest");
-    };
-    const onStorage = (event: StorageEvent) => { if (event.key === AUTH_KEY) readRole(); };
-    readRole();
-    window.addEventListener("orisia-auth-change", onAuth);
-    window.addEventListener("storage", onStorage);
-    return () => {
-      window.removeEventListener("orisia-auth-change", onAuth);
-      window.removeEventListener("storage", onStorage);
-    };
-  }, []);
-
-  const logout = () => {
-    window.localStorage.setItem(AUTH_KEY, "logged-out");
-    setRole("guest");
-    setOpen(false);
-    window.dispatchEvent(new CustomEvent("orisia-auth-change", { detail: { role: "guest", loggedIn: false, isAdmin: false } }));
-  };
-
   const text = isBg ? {
     home: "Начало", news: "Новини", events: "Събития", calendar: "Календар", groups: "Групи",
     gallery: "Галерия", horoteka: "Хоротека", about: "За нас", contact: "Контакти",
-    admin: "Админ", profile: "Профил", login: "Вход", logout: "Изход", menu: "Меню",
+    menu: "Меню",
   } : {
     home: "Home", news: "News", events: "Events", calendar: "Calendar", groups: "Groups",
     gallery: "Gallery", horoteka: "Dance library", about: "About us", contact: "Contacts",
-    admin: "Admin", profile: "Profile", login: "Login", logout: "Logout", menu: "Menu",
+    menu: "Menu",
   };
 
   const nav = [
@@ -122,13 +87,6 @@ export default function Navbar() {
 
         <div className="flex shrink-0 items-center gap-2.5">
           <SitePreferences />
-          {role === "admin" && <Link href="/admin/" className="hidden text-[11px] font-bold uppercase tracking-[.08em] text-orisia-light hover:text-[#e8c79f] xl:inline-flex">{text.admin}</Link>}
-          {role !== "guest" && <Link href="/account/" className="hidden text-[11px] font-bold uppercase tracking-[.08em] text-orisia-light hover:text-[#e8c79f] xl:inline-flex">{text.profile}</Link>}
-          {role === "guest" ? (
-            <Link href="/login/" className="hidden rounded-xl bg-orisia-goldDark px-4 py-2.5 text-[11px] font-bold uppercase tracking-[.08em] text-white transition hover:bg-[#a96b38] sm:inline-flex">{text.login}</Link>
-          ) : (
-            <button type="button" onClick={logout} className="hidden rounded-xl bg-orisia-goldDark px-4 py-2.5 text-[11px] font-bold uppercase tracking-[.08em] text-white transition hover:bg-[#a96b38] sm:inline-flex">{text.logout}</button>
-          )}
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -158,13 +116,6 @@ export default function Navbar() {
               ))}
             </div>
           ))}
-          <div className="mt-4 flex flex-wrap gap-3">
-            {role === "admin" && <Link href="/admin/" onClick={closeMenu} className="rounded-xl border border-orisia-line px-4 py-2.5 text-xs font-bold uppercase">{text.admin}</Link>}
-            {role !== "guest" && <Link href="/account/" onClick={closeMenu} className="rounded-xl border border-orisia-line px-4 py-2.5 text-xs font-bold uppercase">{text.profile}</Link>}
-            {role === "guest"
-              ? <Link href="/login/" onClick={closeMenu} className="rounded-xl bg-orisia-goldDark px-4 py-2.5 text-xs font-bold uppercase text-white">{text.login}</Link>
-              : <button type="button" onClick={logout} className="rounded-xl bg-orisia-goldDark px-4 py-2.5 text-xs font-bold uppercase text-white">{text.logout}</button>}
-          </div>
         </nav>
       )}
     </header>

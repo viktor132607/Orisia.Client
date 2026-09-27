@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import DevVariantMenu from "../components/DevVariantMenu";
 import CookieBanner from "../components/CookieBanner";
 import JsonLd from "../components/JsonLd";
 import { defaultMetadata } from "../lib/seo";
@@ -23,7 +22,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="flex min-h-screen flex-col bg-orisia-cream">
           <Navbar />
-          {process.env.NODE_ENV !== "production" ? <DevVariantMenu /> : null}
           <div className="flex-1">{children}</div>
           <Footer />
           <CookieBanner />

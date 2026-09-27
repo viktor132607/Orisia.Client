@@ -15,7 +15,13 @@ export default function Page() {
   const input = "min-h-11 w-full rounded-xl border border-orisia-line/55 bg-white px-4 font-sans text-sm text-orisia-ink outline-none transition focus:border-orisia-goldDark";
 
   useEffect(() => {
-    api.auth.me().then(setUser).catch(() => { clearSession(); router.replace("/login/"); });
+    api.auth.me().then((current) => {
+      if (current.role !== "Admin" && current.role !== "Editor") {
+        router.replace("/adminlogin/");
+        return;
+      }
+      setUser(current);
+    }).catch(() => { clearSession(); router.replace("/adminlogin/"); });
   }, [router]);
 
   async function profile(event: FormEvent<HTMLFormElement>) {
@@ -45,7 +51,7 @@ export default function Page() {
       });
       setMessage(isBg ? "Паролата е сменена. Влезте отново." : "Password changed. Sign in again.");
       clearSession();
-      setTimeout(() => router.push("/login/"), 500);
+      setTimeout(() => router.push("/adminlogin/"), 500);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error");
     }
