@@ -43,19 +43,19 @@ export default function DatabaseBackupPage() {
   }
 
   const button = "rounded border border-orisia-goldDark bg-orisia-gold px-5 py-3 font-sans text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50";
-  return <main className="min-h-[60vh] bg-orisia-cream py-10 dark:bg-orisia-dark">
+  return <main className="min-h-[60vh] bg-orisia-cream py-10">
     <div className="mx-auto max-w-4xl space-y-6 px-4">
       <h1 className="text-3xl font-bold">{isBg ? "Архивиране на базата" : "Database backup"}</h1>
-      {error && <p role="alert" className="rounded border border-red-400 p-4 text-red-700 dark:text-red-300">{error}</p>}
+      {error && <p role="alert" className="rounded border border-red-400 p-4 text-red-700">{error}</p>}
       {message && <p role="status" className="rounded border border-green-500 p-4">{message} {!allowed && <a className="underline" href="/login/">{isBg ? "Вход" : "Sign in"}</a>}</p>}
       {allowed === null ? <p>Loading…</p> : !allowed ? <p>{isBg ? "Достъп само за администратори." : "Administrator access required."}</p> : <>
-        <section className="space-y-4 rounded border border-orisia-line bg-orisia-paper p-6 dark:bg-orisia-panel">
+        <section className="space-y-4 rounded border border-orisia-line bg-orisia-paper p-6">
           <h2 className="text-2xl font-bold">{isBg ? "Пълен експорт" : "Full export"}</h2>
           <p className="font-sans text-sm">{isBg ? "Всички таблици, записи, потребители, връзки и история на миграциите в PostgreSQL .dump архив. Архивът съдържа чувствителни данни — пазете го на сигурно място." : "All tables, rows, users, relationships and migration history in a PostgreSQL .dump archive. The backup contains sensitive data — store it securely."}</p>
           <p className="font-sans text-sm">{isBg ? "Файловете на качените снимки не са част от базата и се архивират отделно." : "Uploaded image files are outside the database and must be backed up separately."}</p>
           <button type="button" disabled={!!busy} onClick={exportDatabase} className={button}>{busy === "export" ? (isBg ? "Архивиране…" : "Exporting…") : (isBg ? "Изтегли пълен архив" : "Download full backup")}</button>
         </section>
-        <form onSubmit={restoreDatabase} className="space-y-4 rounded border border-red-400 bg-orisia-paper p-6 dark:bg-orisia-panel">
+        <form onSubmit={restoreDatabase} className="space-y-4 rounded border border-red-400 bg-orisia-paper p-6">
           <h2 className="text-2xl font-bold">{isBg ? "Възстановяване" : "Restore"}</h2>
           <p className="font-sans text-sm">{isBg ? "Възстановяването заменя данните в таблиците от архива. Първо изтеглете текущ архив и спрете редакциите. Използвайте само доверен архив от Orisia със съвместима версия на схемата. До 512 MB." : "Restore replaces the data in the archived tables. Download a current backup first and pause edits. Use only a trusted Orisia backup with a compatible schema version. Up to 512 MB."}</p>
           <label className="block font-sans text-sm">{isBg ? "PostgreSQL архив" : "PostgreSQL backup"}

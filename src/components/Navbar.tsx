@@ -125,7 +125,7 @@ export default function Navbar() {
           </nav>
         </div>
 
-        <div className="ml-auto hidden w-[300px] flex-none grid-cols-[90px_96px_96px] items-center gap-2 whitespace-nowrap pl-6 xl:grid">
+        <div className="ml-auto hidden w-[254px] flex-none grid-cols-[44px_96px_96px] items-center gap-2 whitespace-nowrap pl-6 xl:grid">
           <SitePreferences />
           <span className="flex w-full items-center justify-center">
             {loggedIn ? <Link href="/account/" className="flex min-h-11 w-full items-center justify-center px-2 font-sans text-[10px] font-extrabold uppercase tracking-[.06em] text-orisia-light hover:text-white 2xl:text-[12px]">{text.profile}</Link> : null}

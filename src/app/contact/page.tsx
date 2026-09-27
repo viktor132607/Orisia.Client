@@ -7,7 +7,7 @@ import useLanguage from "../../components/useLanguage";
 export default function ContactPage() {
   const isBg = useLanguage() === "bg";
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const input = "min-h-12 w-full border border-orisia-line bg-[#fffaf3] px-4 font-sans text-sm text-orisia-brown placeholder:text-[#9a806b] outline-none transition focus:border-orisia-goldDark dark:border-[#604a39] dark:bg-[#130b07] dark:text-orisia-light dark:placeholder:text-[#8f7d6e]";
+  const input = "min-h-12 w-full border border-orisia-line bg-[#fffaf3] px-4 font-sans text-sm text-orisia-brown placeholder:text-[#9a806b] outline-none transition focus:border-orisia-goldDark";
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -30,21 +30,21 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="bg-orisia-cream dark:bg-orisia-dark">
-      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:bg-[#1a100a]">
+    <main className="bg-orisia-cream">
+      <header className="border-b border-orisia-line bg-[#f6f0e7] py-14">
         <div className="mx-auto max-w-7xl px-4 text-center">
           <p className="font-sans text-xs font-black uppercase tracking-[.18em] text-orisia-goldDark">ОРИСИЯ</p>
           <h1 className="mt-2 text-5xl font-bold uppercase sm:text-6xl">{isBg ? "Контакти" : "Contacts"}</h1>
-          <p className="mt-3 font-sans text-sm text-[#725b47] dark:text-[#c9b8a8]">{isBg ? "Свържете се с нас" : "Get in touch with us"}</p>
+          <p className="mt-3 font-sans text-sm text-[#725b47]">{isBg ? "Свържете се с нас" : "Get in touch with us"}</p>
         </div>
       </header>
 
       <section className="py-12">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-2">
-          <section className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel">
+          <section className="border border-orisia-line bg-orisia-paper p-7">
             <span className="font-sans text-[10px] font-black uppercase tracking-[.16em] text-orisia-goldDark">{isBg ? "Адрес" : "Address"}</span>
             <h2 className="mt-2 text-3xl font-bold">{isBg ? "Къде да ни намерите" : "Where to find us"}</h2>
-            <address className="mt-4 not-italic font-sans text-sm leading-6 text-[#725b47] dark:text-[#c9b8a8]">
+            <address className="mt-4 not-italic font-sans text-sm leading-6 text-[#725b47]">
               {isBg ? "гр. Русе, ул. Родина 80, на гърба на боулинг залата, Русе, България, 7000" : "80 Rodina St., behind the bowling hall, Ruse, Bulgaria, 7000"}
             </address>
             <iframe
@@ -55,7 +55,7 @@ export default function ContactPage() {
             />
           </section>
 
-          <form onSubmit={submit} className="border border-orisia-line bg-orisia-paper p-7 dark:border-[#604a39] dark:bg-orisia-panel">
+          <form onSubmit={submit} className="border border-orisia-line bg-orisia-paper p-7">
             <span className="font-sans text-[10px] font-black uppercase tracking-[.16em] text-orisia-goldDark">{isBg ? "Пишете ни" : "Message us"}</span>
             <h2 className="mt-2 text-3xl font-bold">{isBg ? "Изпрати запитване" : "Send an inquiry"}</h2>
 
@@ -70,8 +70,8 @@ export default function ContactPage() {
               <button disabled={status === "sending"} className="bg-orisia-gold px-5 py-3 font-sans text-xs font-black uppercase text-white transition hover:bg-orisia-goldDark disabled:opacity-60">
                 {status === "sending" ? (isBg ? "Изпращане…" : "Sending…") : (isBg ? "Изпрати" : "Send")}
               </button>
-              {status === "sent" && <p className="border border-green-700/30 bg-green-50 px-4 py-3 font-sans text-sm text-green-800 dark:bg-green-950/20 dark:text-green-300">{isBg ? "Запитването е изпратено." : "Your inquiry has been sent."}</p>}
-              {status === "error" && <p className="border border-red-700/30 bg-red-50 px-4 py-3 font-sans text-sm text-red-800 dark:bg-red-950/20 dark:text-red-300">{isBg ? "Възникна грешка." : "Something went wrong."}</p>}
+              {status === "sent" && <p className="border border-green-700/30 bg-green-50 px-4 py-3 font-sans text-sm text-green-800">{isBg ? "Запитването е изпратено." : "Your inquiry has been sent."}</p>}
+              {status === "error" && <p className="border border-red-700/30 bg-red-50 px-4 py-3 font-sans text-sm text-red-800">{isBg ? "Възникна грешка." : "Something went wrong."}</p>}
             </div>
           </form>
         </div>

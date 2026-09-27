@@ -9,16 +9,16 @@ export default function AboutPage() {
   const isBg = language === "bg";
 
   return (
-    <main className="bg-orisia-cream text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light">
-      <header className="border-b border-orisia-line bg-[#e8d5bb] py-16 dark:border-[#574333] dark:bg-[#1a100a]">
+    <main className="bg-orisia-cream text-orisia-brown">
+      <header className="border-b border-orisia-line bg-[#f6f0e7] py-16">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c79551]">
+          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark">
             {isBg ? "ОРИСИЯ · ЗА НАС" : "ORISIA · ABOUT US"}
           </span>
           <h1 className="mt-3 text-5xl font-bold sm:text-7xl">
             {isBg ? "За ОРИСИЯ" : "About ORISIA"}
           </h1>
-          <p className="mt-4 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#c6a77d]">
+          <p className="mt-4 max-w-3xl font-sans text-base leading-7 text-[#725b47]">
             {isBg
               ? "Даскало за фолклор „ОРИСИЯ“ — място за народни танци и за хора, които искат да пазят традицията жива."
               : "ORISIA Folklore School — a place for folk dance and people who want to keep tradition alive."}
@@ -28,31 +28,31 @@ export default function AboutPage() {
 
       <div className="py-14">
         <div className="mx-auto grid w-full max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <article className="border border-orisia-line bg-orisia-paper p-8 shadow-sm dark:border-[#604a39] dark:bg-orisia-panel">
-            <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark dark:text-[#c79551]">
+          <article className="border border-orisia-line bg-orisia-paper p-8 shadow-sm">
+            <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">
               {isBg ? "КОИ СМЕ НИЕ" : "WHO WE ARE"}
             </span>
             <h2 className="mt-3 text-3xl font-bold">
               {isBg ? "Даскало за фолклор „ОРИСИЯ“" : "ORISIA Folklore School"}
             </h2>
-            <p className="mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]">
+            <p className="mt-3 font-sans text-sm leading-7 text-[#725b47]">
               {isBg
                 ? "В даскалото учим български народни танци, репетираме и участваме във фолклорни събития. Тази страница ще се развива с историята, целите и важните моменти на „ОРИСИЯ“."
                 : "At our folklore school, we learn Bulgarian folk dances, rehearse and take part in folklore events. This page will grow with ORISIA's history, goals and important moments."}
             </p>
           </article>
 
-          <article className="border border-orisia-line bg-orisia-paper p-8 shadow-sm dark:border-[#604a39] dark:bg-orisia-panel">
-            <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark dark:text-[#c79551]">
+          <article className="border border-orisia-line bg-orisia-paper p-8 shadow-sm">
+            <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">
               {isBg ? "КЪДЕ СМЕ" : "WHERE WE ARE"}
             </span>
             <h2 className="mt-3 text-3xl font-bold">{isBg ? "Русе" : "Ruse"}</h2>
-            <address className="mt-3 font-sans text-sm not-italic leading-7 text-[#725b47] dark:text-[#bfa27a]">
+            <address className="mt-3 font-sans text-sm not-italic leading-7 text-[#725b47]">
               {isBg
                 ? "гр. Русе, ул. Родина 80, на гърба на боулинг залата."
                 : "80 Rodina St., behind the bowling hall, Ruse."}
             </address>
-            <p className="mt-2 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]">
+            <p className="mt-2 font-sans text-sm leading-7 text-[#725b47]">
               {isBg
                 ? "Тук се срещаме, репетираме и подготвяме следващите си участия."
                 : "This is where we meet, rehearse and prepare for our next performances."}
@@ -65,14 +65,14 @@ export default function AboutPage() {
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark dark:text-[#c79551]">
+              <span className="font-sans text-[10px] font-black uppercase tracking-[.18em] text-orisia-goldDark">
                 {isBg ? "ЕКИП" : "TEAM"}
               </span>
               <h2 id="lecturers-title" className="mt-2 text-4xl font-bold sm:text-5xl">
                 {isBg ? "Нашите лектори" : "Our instructors"}
               </h2>
             </div>
-            <p className="max-w-xl font-sans text-sm leading-6 text-[#725b47] dark:text-[#a98c69]">
+            <p className="max-w-xl font-sans text-sm leading-6 text-[#725b47]">
               {isBg
                 ? "Хората, които водят заниманията, показват стъпките и предават характера на българските хора."
                 : "The people who lead the sessions, teach the steps and pass on the character of Bulgarian horo dances."}
@@ -82,10 +82,10 @@ export default function AboutPage() {
           <div className="grid gap-5 md:grid-cols-3">
             {lecturers.map((index) => (
               <article
-                className="overflow-hidden border border-orisia-line bg-orisia-paper dark:border-[#604a39] dark:bg-orisia-panel"
+                className="overflow-hidden border border-orisia-line bg-orisia-paper"
                 key={index}
               >
-                <div className="grid aspect-[4/3] place-items-center border-b border-orisia-line bg-[#e5d2b7] font-sans text-xs font-bold uppercase tracking-wide text-[#8a6c4c] dark:border-[#604a39] dark:bg-[#28180f]">
+                <div className="grid aspect-[4/3] place-items-center border-b border-orisia-line bg-[#e5d2b7] font-sans text-xs font-bold uppercase tracking-wide text-[#8a6c4c]">
                   {isBg ? "Снимка на лектор" : "Instructor photo"}
                 </div>
                 <div className="p-6">
@@ -95,7 +95,7 @@ export default function AboutPage() {
                   <h3 className="mt-2 text-2xl font-bold">
                     {isBg ? "Име на лектор" : "Instructor name"}
                   </h3>
-                  <p className="mt-2 font-sans text-sm leading-6 text-[#725b47] dark:text-[#ab906c]">
+                  <p className="mt-2 font-sans text-sm leading-6 text-[#725b47]">
                     {isBg
                       ? "Кратко представяне на лектора, опита му и фолклорните области или хора, с които работи."
                       : "A short introduction to the instructor, their experience and the folklore regions or dances they work with."}
@@ -105,7 +105,7 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="mt-5 border border-dashed border-orisia-line p-4 font-sans text-xs text-[#806a55] dark:border-[#604a39] dark:text-[#8f7658]">
+          <div className="mt-5 border border-dashed border-orisia-line p-4 font-sans text-xs text-[#806a55]">
             {isBg
               ? "Имената, снимките и точните представяния са оставени като placeholder-и, защото в проекта няма записани данни за лекторите."
               : "Names, photos and exact bios are left as placeholders because the project does not yet contain instructor details."}

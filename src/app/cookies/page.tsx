@@ -7,17 +7,17 @@ export default function CookiesPage() {
   const language = useLanguage();
   const isBg = language === "bg";
   const href = useLocalizedPath();
-  const sectionClass = "border-t border-orisia-line pt-7 dark:border-[#5a4637]";
+  const sectionClass = "border-t border-orisia-line pt-7";
   const headingClass = "text-2xl font-bold sm:text-3xl";
-  const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]";
+  const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47]";
 
   return (
-    <main className="min-h-screen bg-orisia-cream text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light">
-      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
+    <main className="min-h-screen bg-orisia-cream text-orisia-brown">
+      <header className="border-b border-orisia-line bg-[#f6f0e7] py-14">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
+          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
           <h1 className="mt-3 text-4xl font-bold sm:text-6xl">{isBg ? "Политика за бисквитки" : "Cookie Policy"}</h1>
-          <p className="mt-4 max-w-3xl font-sans text-sm leading-7 text-[#725b47] dark:text-[#c6a77d]">{isBg ? "Тук е описано как сайтът използва бисквитки и локално съхранение в браузъра за технически настройки и предпочитания." : "This page explains how the website uses cookies and browser local storage for technical settings and preferences."}</p>
+          <p className="mt-4 max-w-3xl font-sans text-sm leading-7 text-[#725b47]">{isBg ? "Тук е описано как сайтът използва бисквитки и локално съхранение в браузъра за технически настройки и предпочитания." : "This page explains how the website uses cookies and browser local storage for technical settings and preferences."}</p>
         </div>
       </header>
 
@@ -25,7 +25,7 @@ export default function CookiesPage() {
         <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 sm:px-6 lg:px-8">
           <section>
             <h2 className={headingClass}>{isBg ? "1. Какво използва сайтът в момента" : "1. What the website currently uses"}</h2>
-            <p className={textClass}>{isBg ? "Текущият frontend използва локално съхранение в браузъра за запазване на технически предпочитания като избран език, светла или тъмна тема и избора, направен в банера за бисквитки. Това позволява тези настройки да се запазят при следващо посещение." : "The current frontend uses browser local storage to remember technical preferences such as selected language, light or dark theme, and the choice made in the cookie banner. This allows those settings to persist on future visits."}</p>
+            <p className={textClass}>{isBg ? "Сайтът използва локално съхранение в браузъра за запазване на избрания език и избора, направен в банера за бисквитки. Това позволява тези настройки да се запазят при следващо посещение." : "The website uses browser local storage to remember the selected language and the choice made in the cookie banner. This allows those settings to persist on future visits."}</p>
           </section>
 
           <section className={sectionClass}>
@@ -40,7 +40,7 @@ export default function CookiesPage() {
 
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "4. Как да изтриете запазените данни" : "4. How to delete stored data"}</h2>
-            <p className={textClass}>{isBg ? "Можете да изтриете локално съхранените настройки от настройките на браузъра си чрез изчистване на данните за сайта. След изтриване езикът, темата и други локални предпочитания могат да се върнат към стойностите по подразбиране." : "You can remove locally stored settings from your browser by clearing website data. After deletion, language, theme and other local preferences may return to their defaults."}</p>
+            <p className={textClass}>{isBg ? "Можете да изтриете локално съхранените настройки чрез изчистване на данните за сайта в браузъра си. След изтриване езикът и изборът за бисквитки могат да се върнат към стойностите по подразбиране." : "You can remove locally stored settings by clearing website data in your browser. After deletion, the language and cookie choice may return to their defaults."}</p>
           </section>
 
           <section className={sectionClass}>
@@ -51,7 +51,7 @@ export default function CookiesPage() {
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "6. Връзка с поверителността" : "6. Relation to privacy"}</h2>
             <p className={textClass}>{isBg ? "За повече информация относно личните данни, целите на обработването и вашите права вижте политиката за поверителност." : "For more information about personal data, processing purposes and your rights, see the Privacy Policy."}</p>
-            <Link href={href("/privacy/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
+            <Link href={href("/privacy/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
           </section>
         </div>
       </div>

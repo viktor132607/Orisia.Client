@@ -7,17 +7,17 @@ export default function PrivacyPage() {
   const language = useLanguage();
   const isBg = language === "bg";
   const href = useLocalizedPath();
-  const sectionClass = "border-t border-orisia-line pt-7 dark:border-[#5a4637]";
+  const sectionClass = "border-t border-orisia-line pt-7";
   const headingClass = "text-2xl font-bold sm:text-3xl";
-  const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#bfa27a]";
+  const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47]";
 
   return (
-    <main className="min-h-screen bg-orisia-cream text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light">
-      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:border-[#574333] dark:bg-[#1a100a]">
+    <main className="min-h-screen bg-orisia-cream text-orisia-brown">
+      <header className="border-b border-orisia-line bg-[#f6f0e7] py-14">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c79551]">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
+          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
           <h1 className="mt-3 text-4xl font-bold sm:text-6xl">{isBg ? "Политика за поверителност" : "Privacy Policy"}</h1>
-          <p className="mt-4 max-w-3xl font-sans text-sm leading-7 text-[#725b47] dark:text-[#c6a77d]">{isBg ? "Тази страница обяснява какви лични данни могат да бъдат обработвани при използване на сайта на ОРИСИЯ и какви права имате." : "This page explains what personal data may be processed when using the ORISIA website and what rights you have."}</p>
+          <p className="mt-4 max-w-3xl font-sans text-sm leading-7 text-[#725b47]">{isBg ? "Тази страница обяснява какви лични данни могат да бъдат обработвани при използване на сайта на ОРИСИЯ и какви права имате." : "This page explains what personal data may be processed when using the ORISIA website and what rights you have."}</p>
         </div>
       </header>
 
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
 
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "2. Какви данни могат да се обработват" : "2. Data that may be processed"}</h2>
-            <p className={textClass}>{isBg ? "Когато използвате функционалности за контакт, могат да бъдат обработвани данните, които доброволно предоставите, например име, имейл адрес, телефон и съдържание на съобщението. Сайтът може също да съхранява технически предпочитания в браузъра, като избран език, тема и избор относно бисквитките." : "When you use contact functionality, data you voluntarily provide may be processed, such as your name, email address, phone number and message content. The website may also store technical preferences in your browser, such as language, theme and cookie choices."}</p>
+            <p className={textClass}>{isBg ? "Когато използвате функционалности за контакт, могат да бъдат обработвани данните, които доброволно предоставите, например име, имейл адрес, телефон и съдържание на съобщението. Сайтът може също да съхранява избрания език и избора относно бисквитките в браузъра." : "When you use contact functionality, data you voluntarily provide may be processed, such as your name, email address, phone number and message content. The website may also store the selected language and cookie choice in your browser."}</p>
           </section>
 
           <section className={sectionClass}>
@@ -61,7 +61,7 @@ export default function PrivacyPage() {
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "8. Бисквитки и локално съхранение" : "8. Cookies and local storage"}</h2>
             <p className={textClass}>{isBg ? "Подробности за използваните технически настройки и съхранение в браузъра са описани в отделната политика за бисквитки." : "Details about technical settings and browser storage are described in the separate Cookie Policy."}</p>
-            <Link href={href("/cookies/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline dark:text-[#d0a15e]">{isBg ? "Виж политиката за бисквитки" : "View Cookie Policy"}</Link>
+            <Link href={href("/cookies/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline">{isBg ? "Виж политиката за бисквитки" : "View Cookie Policy"}</Link>
           </section>
         </div>
       </div>

@@ -1,20 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
         orisia: {
           ink: "#1B191A",
-          cream: "#efe3d1",
-          paper: "#fffaf2",
+          cream: "#faf8f3",
+          paper: "#fffdfa",
           brown: "#4b2e1b",
           gold: "#c5894d",
           goldDark: "#8e5b32",
           line: "#c9a578",
-          dark: "#140c08",
-          panel: "#1d110b",
           muted: "#a98c69",
           light: "#f3e9df",
         },

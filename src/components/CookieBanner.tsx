@@ -38,13 +38,13 @@ export default function CookieBanner() {
   const text = copy[language];
 
   return (
-    <aside className="fixed bottom-4 left-1/2 z-[9000] flex w-[calc(100%-2rem)] max-w-6xl -translate-x-1/2 flex-col gap-5 border border-orisia-line bg-orisia-paper p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between dark:border-[#76502c] dark:bg-[#21140c]" role="dialog" aria-live="polite" aria-label={text.title}>
+    <aside className="fixed bottom-4 left-1/2 z-[9000] flex w-[calc(100%-2rem)] max-w-6xl -translate-x-1/2 flex-col gap-5 border border-orisia-line bg-orisia-paper p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between" role="dialog" aria-live="polite" aria-label={text.title}>
       <div className="max-w-3xl">
-        <strong className="text-lg text-orisia-brown dark:text-[#efd2a0]">{text.title}</strong>
-        <p className="mt-1 font-sans text-xs leading-5 text-[#765f4b] dark:text-[#b19873]">{text.text}</p>
+        <strong className="text-lg text-orisia-brown">{text.title}</strong>
+        <p className="mt-1 font-sans text-xs leading-5 text-[#765f4b]">{text.text}</p>
       </div>
       <div className="flex flex-wrap gap-2">
-        <button type="button" className="min-h-10 border border-orisia-line bg-transparent px-4 font-sans text-[11px] font-black uppercase tracking-wide text-orisia-brown dark:border-[#79532f] dark:text-orisia-light" onClick={() => saveConsent("necessary")}>{text.necessary}</button>
+        <button type="button" className="min-h-10 border border-orisia-line bg-transparent px-4 font-sans text-[11px] font-black uppercase tracking-wide text-orisia-brown" onClick={() => saveConsent("necessary")}>{text.necessary}</button>
         <button type="button" className="min-h-10 border border-orisia-goldDark bg-orisia-gold px-4 font-sans text-[11px] font-black uppercase tracking-wide text-white hover:bg-orisia-goldDark" onClick={() => saveConsent("all")}>{text.accept}</button>
       </div>
     </aside>

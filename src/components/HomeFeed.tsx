@@ -58,12 +58,12 @@ export default function HomeFeed() {
   const badgeClass = "inline-flex min-h-6 items-center rounded-full border border-orisia-goldDark px-2.5 font-sans text-[10px] font-black uppercase tracking-wide";
 
   return (
-    <section className="bg-orisia-cream py-12 text-orisia-brown dark:bg-orisia-dark dark:text-orisia-light" id="programa">
+    <section className="bg-orisia-cream py-12 text-orisia-brown" id="programa">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-12 border-b border-orisia-line pb-10 dark:border-[#574333]">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark dark:text-[#c28a48]">{isBg ? "ДАСКАЛО ЗА ФОЛКЛОР · РУСЕ" : "FOLKLORE SCHOOL · RUSE"}</span>
+        <header className="mb-12 border-b border-orisia-line pb-10">
+          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark">{isBg ? "ДАСКАЛО ЗА ФОЛКЛОР · РУСЕ" : "FOLKLORE SCHOOL · RUSE"}</span>
           <h1 className="mt-3 max-w-5xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}</h1>
-          <p className="mt-5 max-w-3xl font-sans text-base leading-7 text-[#725b47] dark:text-[#b19873]">{isBg ? "ОРИСИЯ събира хора с интерес към българските народни танци, хората и фолклорните традиции в Русе." : "ORISIA brings together people interested in Bulgarian folk dances and folklore traditions in Ruse."}</p>
+          <p className="mt-5 max-w-3xl font-sans text-base leading-7 text-[#725b47]">{isBg ? "ОРИСИЯ събира хора с интерес към българските народни танци, хората и фолклорните традиции в Русе." : "ORISIA brings together people interested in Bulgarian folk dances and folklore traditions in Ruse."}</p>
           <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
             {[["/about/", isBg ? "За ОРИСИЯ" : "About ORISIA"], ["/horoteka/", isBg ? "Хоротека" : "Dance library"], ["/events/", isBg ? "Събития" : "Events"], ["/contact/", isBg ? "Контакти" : "Contacts"]].map(([path, label]) => (
               <Link key={path} className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-black uppercase tracking-wide text-orisia-goldDark" href={href(path)}>{label}</Link>
@@ -72,21 +72,21 @@ export default function HomeFeed() {
         </header>
 
         {loading && <div className="border border-dashed border-orisia-line p-8 text-center font-sans text-sm">{isBg ? "Зареждане…" : "Loading…"}</div>}
-        {error && <div className="border border-red-400/50 bg-red-50 p-5 font-sans text-sm text-red-800 dark:bg-red-950/30 dark:text-red-200">{isBg ? "Съдържанието не може да бъде заредено." : "Content could not be loaded."} {error}</div>}
+        {error && <div className="border border-red-400/50 bg-red-50 p-5 font-sans text-sm text-red-800">{isBg ? "Съдържанието не може да бъде заредено." : "Content could not be loaded."} {error}</div>}
 
         {!loading && !error && (
           <>
-            <section className="border-b border-orisia-line pb-10 dark:border-[#574333]">
+            <section className="border-b border-orisia-line pb-10">
               <div className="mb-7 flex items-end justify-between gap-5">
                 <h2 className="text-4xl font-bold sm:text-5xl">{isBg ? "Последни новини" : "Latest news"}</h2>
                 <Link href={href("/news/")} className="border-b border-orisia-goldDark pb-1 font-sans text-xs font-bold text-orisia-goldDark">{isBg ? "Виж всички" : "View all"}</Link>
               </div>
               <div className="grid gap-7 md:grid-cols-3">
                 {latest.length ? latest.map((item) => (
-                  <article className="border-t border-orisia-line pt-5 dark:border-[#604a39]" key={item.id}>
+                  <article className="border-t border-orisia-line pt-5" key={item.id}>
                     <div className="flex justify-between gap-3 font-sans text-[10px] font-bold uppercase text-[#8c7357]"><span>{typeLabels[item.type]?.[language] ?? item.type}</span><time>{formatDate(item.date, isBg)}</time></div>
                     <h3 className="mt-4 text-xl font-bold sm:text-2xl"><Link href={detailPath(item)}>{isBg ? item.titleBg : item.titleEn || item.titleBg}</Link></h3>
-                    <p className="mt-3 line-clamp-3 font-sans text-sm leading-6 text-[#725b47] dark:text-[#b19873]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
+                    <p className="mt-3 line-clamp-3 font-sans text-sm leading-6 text-[#725b47]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
                   </article>
                 )) : <div className="md:col-span-3 border border-dashed border-orisia-line p-6 text-center font-sans text-sm">{isBg ? "Все още няма публикувано съдържание." : "There is no published content yet."}</div>}
               </div>
@@ -106,16 +106,16 @@ export default function HomeFeed() {
                   </article>}
 
                   <div className="grid gap-4">
-                    {ordered.map((item) => <article className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel" key={item.id}>
+                    {ordered.map((item) => <article className="border border-orisia-line bg-orisia-paper p-6" key={item.id}>
                       <div className="flex items-center justify-between gap-4"><span className={`${badgeClass} text-orisia-goldDark`}>{typeLabels[item.type]?.[language] ?? item.type}</span><time className="font-sans text-[11px] text-[#8c7357]">{formatDate(item.date, isBg)}</time></div>
                       <h3 className="mt-4 text-2xl font-bold sm:text-3xl"><Link href={detailPath(item)}>{isBg ? item.titleBg : item.titleEn || item.titleBg}</Link></h3>
-                      <p className="mt-3 font-sans text-sm leading-7 text-[#725b47] dark:text-[#b19873]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
+                      <p className="mt-3 font-sans text-sm leading-7 text-[#725b47]">{isBg ? item.bodyBg : item.bodyEn || item.bodyBg}</p>
                     </article>)}
                   </div>
                 </div>
                 <aside className="grid gap-4 lg:sticky lg:top-24">
-                  <div className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel"><h3 className="text-2xl font-bold">{isBg ? "Предстоящи събития" : "Upcoming events"}</h3><Link className="mt-4 inline-block font-sans text-xs font-black uppercase text-orisia-goldDark" href={href("/calendar/")}>{isBg ? "Към календара" : "Open calendar"}</Link></div>
-                  <div className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel"><h3 className="text-2xl font-bold">{isBg ? "Хоротека" : "Dance library"}</h3><Link className="mt-4 inline-block font-sans text-xs font-black uppercase text-orisia-goldDark" href={href("/horoteka/")}>{isBg ? "Разгледай" : "Explore"}</Link></div>
+                  <div className="border border-orisia-line bg-orisia-paper p-6"><h3 className="text-2xl font-bold">{isBg ? "Предстоящи събития" : "Upcoming events"}</h3><Link className="mt-4 inline-block font-sans text-xs font-black uppercase text-orisia-goldDark" href={href("/calendar/")}>{isBg ? "Към календара" : "Open calendar"}</Link></div>
+                  <div className="border border-orisia-line bg-orisia-paper p-6"><h3 className="text-2xl font-bold">{isBg ? "Хоротека" : "Dance library"}</h3><Link className="mt-4 inline-block font-sans text-xs font-black uppercase text-orisia-goldDark" href={href("/horoteka/")}>{isBg ? "Разгледай" : "Explore"}</Link></div>
                 </aside>
               </div>
             </section>

@@ -56,27 +56,27 @@ export default function CalendarPage() {
   const days = isBg ? bgDays : enDays;
 
   return (
-    <main className="bg-orisia-cream dark:bg-orisia-dark">
-      <header className="border-b border-orisia-line bg-[#e8d5bb] py-14 dark:bg-[#1a100a]">
+    <main className="bg-orisia-cream">
+      <header className="border-b border-orisia-line bg-[#f6f0e7] py-14">
         <div className="mx-auto max-w-7xl px-4">
           <h1 className="text-5xl font-bold">{isBg ? "Календар" : "Calendar"}</h1>
-          <p className="mt-3 font-sans text-sm text-[#725b47] dark:text-[#c9b8a8]">{isBg ? "Събития и редовни репетиции на групите." : "Events and recurring group rehearsals."}</p>
+          <p className="mt-3 font-sans text-sm text-[#725b47]">{isBg ? "Събития и редовни репетиции на групите." : "Events and recurring group rehearsals."}</p>
         </div>
       </header>
 
       <section className="py-12">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 lg:grid-cols-[1.5fr_.5fr]">
-          <div className="border border-orisia-line bg-orisia-paper p-4 dark:border-[#604a39] dark:bg-orisia-panel">
+          <div className="border border-orisia-line bg-orisia-paper p-4">
             <div className="mb-5 flex items-center justify-between gap-3">
-              <button className="border border-orisia-line px-3 py-2 dark:border-[#604a39]" onClick={() => setCursor(new Date(year, month - 2, 1))}>←</button>
+              <button className="border border-orisia-line px-3 py-2" onClick={() => setCursor(new Date(year, month - 2, 1))}>←</button>
               <h2 className="text-3xl font-bold capitalize">{monthTitle}</h2>
-              <button className="border border-orisia-line px-3 py-2 dark:border-[#604a39]" onClick={() => setCursor(new Date(year, month, 1))}>→</button>
+              <button className="border border-orisia-line px-3 py-2" onClick={() => setCursor(new Date(year, month, 1))}>→</button>
             </div>
 
             <div className="grid grid-cols-7">
-              {weekdays.map(day => <span key={day} className="border border-orisia-line py-2 text-center font-sans text-[10px] font-black dark:border-[#604a39]">{day}</span>)}
+              {weekdays.map(day => <span key={day} className="border border-orisia-line py-2 text-center font-sans text-[10px] font-black">{day}</span>)}
               {cells.map((day, i) => (
-                <div key={i} className="min-h-28 border border-orisia-line p-2 dark:border-[#604a39]">
+                <div key={i} className="min-h-28 border border-orisia-line p-2">
                   {day && (
                     <>
                       <span className="font-sans text-xs font-bold">{day}</span>
@@ -97,26 +97,26 @@ export default function CalendarPage() {
           </div>
 
           <aside className="grid content-start gap-6">
-            <section className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel">
+            <section className="border border-orisia-line bg-orisia-paper p-6">
               <h2 className="text-3xl font-bold">{isBg ? "Предстоящи" : "Upcoming"}</h2>
               <div className="mt-5 grid gap-3">
                 {upcoming.length ? upcoming.map(item => (
-                  <article key={item.occurrenceId} className="border border-orisia-line p-4 dark:border-[#604a39]">
+                  <article key={item.occurrenceId} className="border border-orisia-line p-4">
                     <span className="font-sans text-[9px] font-black uppercase tracking-[.1em] text-orisia-goldDark">{item.source === "group" ? (isBg ? "Репетиция" : "Rehearsal") : (isBg ? "Събитие" : "Event")}</span>
-                    <time className="mt-1 block font-sans text-[10px] text-[#725b47] dark:text-[#c9b8a8]">{new Date(item.startAt).toLocaleString(isBg ? "bg-BG" : "en-GB")}</time>
+                    <time className="mt-1 block font-sans text-[10px] text-[#725b47]">{new Date(item.startAt).toLocaleString(isBg ? "bg-BG" : "en-GB")}</time>
                     <h3 className="mt-1 text-lg font-bold">{isBg ? item.titleBg : item.titleEn || item.titleBg}</h3>
                   </article>
                 )) : <p className="font-sans text-sm">{isBg ? "Няма предстоящи събития." : "No upcoming events."}</p>}
               </div>
             </section>
 
-            <section className="border border-orisia-line bg-orisia-paper p-6 dark:border-[#604a39] dark:bg-orisia-panel">
+            <section className="border border-orisia-line bg-orisia-paper p-6">
               <h2 className="text-2xl font-bold">{isBg ? "Седмичен график" : "Weekly schedule"}</h2>
               <div className="mt-4 grid gap-4">
                 {groups.map(group => (
                   <div key={group.id}>
                     <strong className="block">{isBg ? group.nameBg : group.nameEn || group.nameBg}</strong>
-                    <div className="mt-2 grid gap-1 font-sans text-xs text-[#725b47] dark:text-[#c9b8a8]">
+                    <div className="mt-2 grid gap-1 font-sans text-xs text-[#725b47]">
                       {group.schedules.map(schedule => (
                         <span key={schedule.id}>{days[schedule.dayOfWeek]} · {schedule.startTime.slice(0, 5)}</span>
                       ))}

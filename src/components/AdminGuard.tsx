@@ -26,7 +26,7 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
   }, [router]);
 
   if (!user) {
-    return <main className="grid min-h-[60vh] place-items-center bg-orisia-cream dark:bg-orisia-dark"><p className="font-sans text-sm">{failed ? "Unauthorized" : "Loading…"}</p></main>;
+    return <main className="grid min-h-[60vh] place-items-center bg-orisia-cream"><p className="font-sans text-sm">{failed ? "Unauthorized" : "Loading…"}</p></main>;
   }
 
   return <>{children}</>;
