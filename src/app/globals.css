@@ -6,7 +6,6 @@
   * { @apply box-border; }
   html { @apply scroll-smooth; }
   body { @apply m-0 min-h-screen bg-orisia-cream font-serif text-orisia-brown antialiased; }
-  body.entrance-locked { @apply overflow-hidden; }
   a { @apply text-inherit no-underline; }
   button, input, textarea, select { font: inherit; }
   button { @apply cursor-pointer; }
@@ -16,4 +15,31 @@
 @layer utilities {
   .scrollbar-none { scrollbar-width: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
+  .deferred-render {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+  }
+}
+
+@keyframes hero-copy-appear {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-page-next {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes hero-page-previous {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.hero-copy-fade { animation: hero-copy-appear 450ms ease-out both; }
+.hero-photo-next { animation: hero-page-next 550ms cubic-bezier(.2,.75,.25,1) both; }
+.hero-photo-previous { animation: hero-page-previous 550ms cubic-bezier(.2,.75,.25,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy-fade, .hero-photo-next, .hero-photo-previous { animation: none; }
 }
