@@ -7,22 +7,22 @@ export default function CookiesPage() {
   const language = useLanguage();
   const isBg = language === "bg";
   const href = useLocalizedPath();
-  const sectionClass = "border-t border-orisia-line pt-7";
-  const headingClass = "text-2xl font-bold sm:text-3xl";
-  const textClass = "mt-3 font-sans text-sm leading-7 text-[#725b47]";
+  const sectionClass = "border-t border-orisia-line/45 pt-8";
+  const headingClass = "text-2xl font-black tracking-[-.01em] sm:text-3xl";
+  const textClass = "mt-3 text-[16px] leading-8 text-[#6b5847]";
 
   return (
-    <main className="min-h-screen bg-orisia-cream text-orisia-brown">
-      <header className="border-b border-orisia-line bg-[#f6f0e7] py-14">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[.22em] text-orisia-goldDark">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
-          <h1 className="mt-3 text-4xl font-bold sm:text-6xl">{isBg ? "Политика за бисквитки" : "Cookie Policy"}</h1>
-          <p className="mt-4 max-w-3xl font-sans text-sm leading-7 text-[#725b47]">{isBg ? "Тук е описано как сайтът използва бисквитки и локално съхранение в браузъра за технически настройки и предпочитания." : "This page explains how the website uses cookies and browser local storage for technical settings and preferences."}</p>
+    <main className="min-h-screen bg-white font-sans text-orisia-ink">
+      <header className="border-b border-orisia-line/45 bg-[#f6f3ef] py-16 max-[620px]:py-12">
+        <div className="mx-auto w-[min(1460px,calc(100%_-_40px))] max-[620px]:w-[min(100%_-_28px,1460px)]">
+          <span className="text-[11px] font-black uppercase tracking-[.16em] text-orisia-goldDark">{isBg ? "ОРИСИЯ · ИНФОРМАЦИЯ" : "ORISIA · INFORMATION"}</span>
+          <h1 className="mt-3 text-[clamp(38px,6vw,64px)] font-black uppercase leading-[.95] tracking-[-.02em]">{isBg ? "Политика за бисквитки" : "Cookie Policy"}</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-[#665c55]">{isBg ? "Тук е описано как сайтът използва бисквитки и локално съхранение в браузъра за технически настройки и предпочитания." : "This page explains how the website uses cookies and browser local storage for technical settings and preferences."}</p>
         </div>
       </header>
 
-      <div className="py-14">
-        <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 sm:px-6 lg:px-8">
+      <div className="py-16 max-[620px]:py-12">
+        <div className="mx-auto grid w-[min(1460px,calc(100%_-_40px))] gap-8 max-[620px]:w-[min(100%_-_28px,1460px)]">
           <section>
             <h2 className={headingClass}>{isBg ? "1. Какво използва сайтът в момента" : "1. What the website currently uses"}</h2>
             <p className={textClass}>{isBg ? "Сайтът използва локално съхранение в браузъра за запазване на избрания език и избора, направен в банера за бисквитки. Това позволява тези настройки да се запазят при следващо посещение." : "The website uses browser local storage to remember the selected language and the choice made in the cookie banner. This allows those settings to persist on future visits."}</p>
@@ -51,7 +51,7 @@ export default function CookiesPage() {
           <section className={sectionClass}>
             <h2 className={headingClass}>{isBg ? "6. Връзка с поверителността" : "6. Relation to privacy"}</h2>
             <p className={textClass}>{isBg ? "За повече информация относно личните данни, целите на обработването и вашите права вижте политиката за поверителност." : "For more information about personal data, processing purposes and your rights, see the Privacy Policy."}</p>
-            <Link href={href("/privacy/")} className="mt-4 inline-flex font-sans text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
+            <Link href={href("/privacy/")} className="mt-4 inline-flex text-sm font-bold text-orisia-goldDark underline-offset-4 hover:underline">{isBg ? "Политика за поверителност" : "Privacy Policy"}</Link>
           </section>
         </div>
       </div>
