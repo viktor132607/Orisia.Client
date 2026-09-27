@@ -4,19 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import SitePreferences from "./SitePreferences";
-import { getLocaleFromPathname, localizePath } from "../lib/i18n";
+import { getLocaleFromPathname, localizePath, stripLocale } from "../lib/i18n";
 
 const AUTH_KEY = "orisia-dev-auth";
-const LANGUAGE_KEY = "orisia-language";
 const LOGO_SRC = "/orisia-logo.jpg";
 
-type Language = "bg" | "en";
 type AuthRole = "guest" | "user" | "admin";
-
-const labels = {
-  bg: { home: "Начало", news: "Новини", events: "Събития", calendar: "Календар", groups: "Групи", gallery: "Галерия", horoteka: "Хоротека", about: "За ОРИСИЯ", contacts: "Контакти", admin: "Админ", profile: "Профил", logout: "Изход", login: "Вход", menu: "Меню", close: "Затвори менюто" },
-  en: { home: "Home", news: "News", events: "Events", calendar: "Calendar", groups: "Groups", gallery: "Gallery", horoteka: "Dance Library", about: "About ORISIA", contacts: "Contacts", admin: "Admin", profile: "Profile", logout: "Logout", login: "Login", menu: "Menu", close: "Close menu" },
-};
 
 function getRole(value: string | null): AuthRole {
   if (value === "admin") return "admin";
@@ -25,161 +18,155 @@ function getRole(value: string | null): AuthRole {
 }
 
 export default function Navbar() {
+  const pathname = usePathname() ?? "/";
+  const routeLocale = getLocaleFromPathname(pathname);
+  const isBg = (routeLocale ?? "bg") === "bg";
   const [role, setRole] = useState<AuthRole>("guest");
-  const [language, setLanguage] = useState<Language>("bg");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
-  const routeLocale = getLocaleFromPathname(pathname ?? "/");
-  const publicHref = (path: string) => routeLocale ? localizePath(path, routeLocale) : path;
+  const [open, setOpen] = useState(false);
+
+  const href = (path: string) => routeLocale ? localizePath(path, routeLocale) : path;
+  const plainPath = stripLocale(pathname);
+  const closeMenu = () => setOpen(false);
 
   useEffect(() => {
-    const readVariant = () => setRole(getRole(window.localStorage.getItem(AUTH_KEY)));
-    const handleVariantChange = (event: Event) => {
+    const readRole = () => setRole(getRole(window.localStorage.getItem(AUTH_KEY)));
+    const onAuth = (event: Event) => {
       const detail = (event as CustomEvent<{ role?: AuthRole; loggedIn?: boolean; isAdmin?: boolean }>).detail;
       if (detail?.role) setRole(detail.role);
       else if (detail?.isAdmin) setRole("admin");
       else setRole(detail?.loggedIn ? "user" : "guest");
     };
-    const handleStorage = (event: StorageEvent) => {
-      if (event.key === AUTH_KEY) readVariant();
-      if (event.key === LANGUAGE_KEY) setLanguage(event.newValue === "en" ? "en" : "bg");
-    };
-    const handleLanguage = (event: Event) => {
-      const detail = (event as CustomEvent<{ language?: Language }>).detail;
-      if (detail?.language) setLanguage(detail.language);
-    };
-
-    readVariant();
-    setLanguage(window.localStorage.getItem(LANGUAGE_KEY) === "en" ? "en" : "bg");
-    window.addEventListener("orisia-auth-change", handleVariantChange);
-    window.addEventListener("orisia-language-change", handleLanguage);
-    window.addEventListener("storage", handleStorage);
+    const onStorage = (event: StorageEvent) => { if (event.key === AUTH_KEY) readRole(); };
+    readRole();
+    window.addEventListener("orisia-auth-change", onAuth);
+    window.addEventListener("storage", onStorage);
     return () => {
-      window.removeEventListener("orisia-auth-change", handleVariantChange);
-      window.removeEventListener("orisia-language-change", handleLanguage);
-      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("orisia-auth-change", onAuth);
+      window.removeEventListener("storage", onStorage);
     };
   }, []);
 
   const logout = () => {
     window.localStorage.setItem(AUTH_KEY, "logged-out");
     setRole("guest");
-    setMenuOpen(false);
+    setOpen(false);
     window.dispatchEvent(new CustomEvent("orisia-auth-change", { detail: { role: "guest", loggedIn: false, isAdmin: false } }));
   };
 
-  const activeLanguage = routeLocale ?? language;
-  const text = labels[activeLanguage];
-  const loggedIn = role !== "guest";
-  const isAdmin = role === "admin";
-  const isBg = activeLanguage === "bg";
-  const navLink = "inline-flex h-12 flex-none items-center justify-center px-2 font-sans text-[10px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:text-white 2xl:px-2.5 2xl:text-[11px]";
-  const mobileLink = "flex min-h-14 items-center border-b border-[#403a38] px-7 font-sans text-[15px] font-black uppercase tracking-[.08em] text-orisia-light transition hover:bg-[#272324] hover:text-white";
+  const text = isBg ? {
+    home: "Начало", news: "Новини", events: "Събития", calendar: "Календар", groups: "Групи",
+    gallery: "Галерия", horoteka: "Хоротека", about: "За нас", contact: "Контакти",
+    admin: "Админ", profile: "Профил", login: "Вход", logout: "Изход", menu: "Меню",
+  } : {
+    home: "Home", news: "News", events: "Events", calendar: "Calendar", groups: "Groups",
+    gallery: "Gallery", horoteka: "Dance library", about: "About us", contact: "Contacts",
+    admin: "Admin", profile: "Profile", login: "Login", logout: "Logout", menu: "Menu",
+  };
 
-  const navItems = [
-    { href: publicHref("/"), label: text.home },
-    { href: publicHref("/news/"), label: text.news },
-    { href: publicHref("/events/"), label: text.events },
-    { href: publicHref("/calendar/"), label: text.calendar },
-    { href: publicHref("/groups/"), label: text.groups },
-    { href: publicHref("/gallery/"), label: text.gallery },
-    { href: publicHref("/horoteka/"), label: text.horoteka },
-    { href: publicHref("/about/"), label: text.about },
-    { href: publicHref("/contact/"), label: text.contacts },
+  const nav = [
+    { href: "/", label: text.home },
+    { href: "/news/", label: text.news },
+    {
+      href: "/events/",
+      label: text.events,
+      children: [
+        { href: "/events/", label: text.events },
+        { href: "/calendar/", label: text.calendar },
+        { href: "/groups/", label: text.groups },
+      ],
+    },
+    { href: "/horoteka/", label: text.horoteka },
+    { href: "/gallery/", label: text.gallery },
+    { href: "/about/", label: text.about },
+    { href: "/contact/", label: text.contact },
   ];
 
-  if (isAdmin) navItems.push({ href: "/admin/", label: text.admin });
+  const active = (item: (typeof nav)[number]) => {
+    if (item.children) return item.children.some((child) => plainPath === child.href || plainPath.startsWith(child.href));
+    return plainPath === item.href || (item.href !== "/" && plainPath.startsWith(item.href));
+  };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[9999] h-20 border-b border-[#554b47] bg-[#1B191A] text-orisia-light shadow-sm">
-      <div className="relative mx-auto flex h-full w-full items-center px-3 sm:px-4 lg:px-6">
-        <Link href={publicHref("/")} className="flex-none leading-none xl:hidden" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"} onClick={() => setMenuOpen(false)}>
-          <img
-            className="h-12 w-12 object-contain sm:h-[54px] sm:w-[54px]"
-            src={LOGO_SRC}
-            alt={isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}
-            width={54}
-            height={54}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
+    <header className="sticky top-0 z-[9999] border-b border-[#6d4c34] bg-orisia-ink font-sans text-white shadow-[0_5px_20px_rgba(75,46,27,.18)]">
+      <div className="mx-auto flex h-[84px] max-w-[1460px] items-center justify-between gap-5 px-6 max-[640px]:h-[70px] max-[640px]:px-4">
+        <Link href={href("/")} onClick={closeMenu} className="flex min-w-0 shrink-0 items-center gap-3.5 max-[640px]:gap-2.5" aria-label={isBg ? "ОРИСИЯ — начало" : "ORISIA — home"}>
+          <img src={LOGO_SRC} alt="" width={62} height={62} className="h-[62px] w-[62px] rounded-full border-2 border-orisia-line bg-white object-cover max-[640px]:h-[50px] max-[640px]:w-[50px]" />
+          <span className="flex flex-col font-serif text-[19px] font-bold uppercase leading-[1.04] tracking-[.055em] text-orisia-light max-[640px]:text-[14px]">
+            <span>ОРИСИЯ</span>
+            <span className="text-[11px] tracking-[.1em] text-[#d8c1aa] max-[640px]:text-[9px]">{isBg ? "Даскало за фолклор" : "Folklore school"}</span>
+          </span>
         </Link>
 
-        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-4 whitespace-nowrap xl:flex 2xl:gap-6">
-          <Link href={publicHref("/")} className="flex-none leading-none" aria-label={isBg ? "ОРИСИЯ - Начало" : "ORISIA - Home"}>
-            <img
-              className="h-[54px] w-[54px] object-contain"
-              src={LOGO_SRC}
-              alt={isBg ? "Даскало за фолклор „ОРИСИЯ“ — Русе" : "ORISIA Folklore School — Ruse"}
-              width={54}
-              height={54}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-          </Link>
+        <nav className="flex h-full items-center gap-6 max-[1180px]:gap-4 max-[1030px]:hidden" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
+          {nav.map((item) => (
+            <div key={item.href} className="group relative flex h-full items-center">
+              <Link
+                href={href(item.href)}
+                aria-current={active(item) ? "page" : undefined}
+                className={`relative flex h-full items-center whitespace-nowrap text-[12px] font-semibold uppercase tracking-[.095em] transition-colors hover:text-[#e8c79f] after:absolute after:bottom-[19px] after:left-0 after:h-[2px] after:w-full after:bg-orisia-gold after:transition-opacity ${active(item) ? "text-[#e8c79f] after:opacity-100" : "text-orisia-light after:opacity-0 group-hover:after:opacity-100"}`}
+              >
+                {item.label}
+              </Link>
+              {item.children && (
+                <div className="invisible absolute left-[-16px] top-[calc(100%-3px)] min-w-[220px] border-t-2 border-orisia-gold bg-[#2a2421] py-2 opacity-0 shadow-xl transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                  {item.children.map((child) => (
+                    <Link key={child.href} href={href(child.href)} className="block px-4 py-2.5 text-[13px] text-orisia-light transition hover:bg-[#3a302b] hover:text-white">
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </nav>
 
-          <nav className="flex items-center justify-center gap-1 whitespace-nowrap 2xl:gap-2" aria-label={isBg ? "Основна навигация" : "Main navigation"}>
-            {navItems.map((item) => <Link key={item.href} className={navLink} href={item.href}>{item.label}</Link>)}
-          </nav>
-        </div>
-
-        <div className="ml-auto hidden w-[254px] flex-none grid-cols-[44px_96px_96px] items-center gap-2 whitespace-nowrap pl-6 xl:grid">
+        <div className="flex shrink-0 items-center gap-2.5">
           <SitePreferences />
-          <span className="flex w-full items-center justify-center">
-            {loggedIn ? <Link href="/account/" className="flex min-h-11 w-full items-center justify-center px-2 font-sans text-[10px] font-extrabold uppercase tracking-[.06em] text-orisia-light hover:text-white 2xl:text-[12px]">{text.profile}</Link> : null}
-          </span>
-          <span className="flex w-full items-center justify-center">
-            {loggedIn ? (
-              <Link href={publicHref("/")} className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]" onClick={logout}>{text.logout}</Link>
-            ) : (
-              <Link href="/login/" className="flex min-h-11 w-full items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-2 font-sans text-[10px] font-black uppercase tracking-[.06em] text-white transition hover:bg-[#a96b38] 2xl:text-[12px]">{text.login}</Link>
-            )}
-          </span>
-        </div>
-
-        <div className="ml-auto flex items-center gap-2 xl:hidden">
-          <SitePreferences />
+          {role === "admin" && <Link href="/admin/" className="hidden text-[11px] font-bold uppercase tracking-[.08em] text-orisia-light hover:text-[#e8c79f] xl:inline-flex">{text.admin}</Link>}
+          {role !== "guest" && <Link href="/account/" className="hidden text-[11px] font-bold uppercase tracking-[.08em] text-orisia-light hover:text-[#e8c79f] xl:inline-flex">{text.profile}</Link>}
+          {role === "guest" ? (
+            <Link href="/login/" className="hidden rounded-xl bg-orisia-goldDark px-4 py-2.5 text-[11px] font-bold uppercase tracking-[.08em] text-white transition hover:bg-[#a96b38] sm:inline-flex">{text.login}</Link>
+          ) : (
+            <button type="button" onClick={logout} className="hidden rounded-xl bg-orisia-goldDark px-4 py-2.5 text-[11px] font-bold uppercase tracking-[.08em] text-white transition hover:bg-[#a96b38] sm:inline-flex">{text.logout}</button>
+          )}
           <button
             type="button"
-            className="grid h-11 w-11 flex-none place-items-center rounded-full border border-[#5f5550] bg-[#262223] text-orisia-light transition hover:border-orisia-gold hover:bg-[#322d2e]"
-            onClick={() => setMenuOpen((current) => !current)}
-            aria-label={menuOpen ? text.close : text.menu}
-            aria-expanded={menuOpen}
+            onClick={() => setOpen((value) => !value)}
+            className="hidden h-9 w-10 flex-col items-center justify-center gap-[5px] border border-white/55 max-[1030px]:flex"
+            aria-expanded={open}
             aria-controls="mobile-navigation"
+            aria-label={text.menu}
           >
-            {menuOpen ? (
-              <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
-            ) : (
-              <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
-            )}
+            <span className="h-[2px] w-5 bg-orisia-light" />
+            <span className="h-[2px] w-5 bg-orisia-light" />
+            <span className="h-[2px] w-5 bg-orisia-light" />
           </button>
         </div>
       </div>
 
-      <div className={`${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"} fixed inset-x-0 bottom-0 top-20 z-[9998] bg-black/55 transition-opacity xl:hidden`} onClick={() => setMenuOpen(false)} aria-hidden={!menuOpen} />
-
-      <aside
-        id="mobile-navigation"
-        className={`${menuOpen ? "translate-x-0" : "translate-x-full"} fixed bottom-0 right-0 top-20 z-[9999] flex w-[min(88vw,360px)] flex-col border-l border-[#554b47] bg-[#1B191A] shadow-2xl transition-transform duration-300 xl:hidden`}
-        aria-label={text.menu}
-      >
-        <nav className="min-h-0 flex-1 overflow-y-auto" aria-label={isBg ? "Мобилна навигация" : "Mobile navigation"}>
-          {navItems.map((item) => <Link key={item.href} className={mobileLink} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</Link>)}
-        </nav>
-
-        <div className="border-t border-[#554b47] p-5">
-          {loggedIn ? (
-            <div className="grid gap-3">
-              <Link href="/account/" className="flex min-h-12 items-center justify-center rounded-sm border border-[#5f5550] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-orisia-light" onClick={() => setMenuOpen(false)}>{text.profile}</Link>
-              <Link href={publicHref("/")} className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={logout}>{text.logout}</Link>
+      {open && (
+        <nav id="mobile-navigation" className="hidden border-t border-white/15 bg-[#2a2421] px-4 pb-4 max-[1030px]:block" aria-label={text.menu}>
+          {nav.map((item) => (
+            <div key={item.href}>
+              <Link href={href(item.href)} onClick={closeMenu} className={`block border-b border-white/15 py-3 text-[14px] font-semibold uppercase tracking-[.08em] ${active(item) ? "text-[#e8c79f]" : "text-white"}`}>
+                {item.label}
+              </Link>
+              {item.children?.map((child) => (
+                <Link key={child.href} href={href(child.href)} onClick={closeMenu} className="block border-b border-white/10 py-2.5 pl-5 text-[13px] text-orisia-light">
+                  {child.label}
+                </Link>
+              ))}
             </div>
-          ) : (
-            <Link href="/login/" className="flex min-h-12 items-center justify-center rounded-sm border border-[#9b693d] bg-[#8e5b32] px-4 font-sans text-xs font-black uppercase tracking-[.08em] text-white" onClick={() => setMenuOpen(false)}>{text.login}</Link>
-          )}
-        </div>
-      </aside>
+          ))}
+          <div className="mt-4 flex flex-wrap gap-3">
+            {role === "admin" && <Link href="/admin/" onClick={closeMenu} className="rounded-xl border border-orisia-line px-4 py-2.5 text-xs font-bold uppercase">{text.admin}</Link>}
+            {role !== "guest" && <Link href="/account/" onClick={closeMenu} className="rounded-xl border border-orisia-line px-4 py-2.5 text-xs font-bold uppercase">{text.profile}</Link>}
+            {role === "guest"
+              ? <Link href="/login/" onClick={closeMenu} className="rounded-xl bg-orisia-goldDark px-4 py-2.5 text-xs font-bold uppercase text-white">{text.login}</Link>
+              : <button type="button" onClick={logout} className="rounded-xl bg-orisia-goldDark px-4 py-2.5 text-xs font-bold uppercase text-white">{text.logout}</button>}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
