@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import DevVariantMenu from "../components/DevVariantMenu";
 import CookieBanner from "../components/CookieBanner";
-import SiteEntranceGate from "../components/SiteEntranceGate";
 import JsonLd from "../components/JsonLd";
 import { defaultMetadata } from "../lib/seo";
 import {
@@ -22,8 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd id="website-structured-data" data={websiteStructuredData} />
       </head>
       <body>
-        <SiteEntranceGate />
-        <div className="flex min-h-screen flex-col bg-orisia-cream pt-20">
+        <div className="flex min-h-screen flex-col bg-orisia-cream">
           <Navbar />
           {process.env.NODE_ENV !== "production" ? <DevVariantMenu /> : null}
           <div className="flex-1">{children}</div>
